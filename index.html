@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daniel Ho - Portfolio</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="./static/style.css">
+
+  <!-- Script -->
+  <script src="./static/script.js" defer></script>
+
+</head>
+<body>
+
+
+<div id="cur"></div>
+
+
+<!-- ══════════════════════════════════════════
+     NAVIGATION
+══════════════════════════════════════════ -->
+<nav>
+  <a href="#" class="n-logo" id="n-home">Daniel Ho</a>
+
+  <div class="n-links">
+    <a href="#about"      class="n-link n-hm" data-s="about">About</a>
+    <a href="#experience" class="n-link n-hm" data-s="experience">Experience</a>
+    <a href="#projects"   class="n-link n-hm" data-s="projects">Projects</a>
+    <a href="./static/files/resume.pdf"  class="n-link n-resume" target="_blank">Resume ↗</a>
+    <a href="#contact"    class="n-link n-hm" data-s="contact">Contact</a>
+
+    <button class="n-burger" id="burger" aria-label="Open menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════════════════════════
+     MOBILE MENU OVERLAY
+══════════════════════════════════════════ -->
+<div id="mob-menu">
+  <nav class="mob-links">
+    <a class="mob-link" data-s="about"      href="#about">About <span class="mob-arr">↗</span></a>
+    <a class="mob-link" data-s="experience" href="#experience">Experience <span class="mob-arr">↗</span></a>
+    <a class="mob-link" data-s="projects"   href="#projects">Projects <span class="mob-arr">↗</span></a>
+    <a class="mob-link" data-s="contact"    href="#contact">Contact <span class="mob-arr">↗</span></a>
+  </nav>
+  <div class="mob-resume-row">
+    <a href="./static/files/resume.pdf" target="_blank" class="btn btn-fill">View Resume ↗</a>
+    <a href="mailto:danmicah12@gmail.com" class="btn btn-out">Email me</a>
+  </div>
+  <p class="mob-foot">Carnegie Mellon University · IS & Policy Management · 2029</p>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE CONTAINER
+══════════════════════════════════════════ -->
+<div id="app">
+
+
+  <!-- ════════════════════════════════════════
+       HOME PAGE
+  ════════════════════════════════════════ -->
+  <div id="page-home" class="page">
+
+
+    <!-- HERO -->
+    <section id="hero-s">
+      <div id="hero">
+        <div>
+          <div class="h-eye">
+            <span class="h-rule"></span>
+            Carnegie Mellon University · Class of 2029
+          </div>
+
+          <h1 class="h-name">Daniel<br><em>Ho</em></h1>
+
+          <div class="h-bot">
+            <p class="h-desc">
+              Information Systems & Policy Management student exploring how technology
+              shapes organizations, education, and everyday communities.
+            </p>
+            <div class="h-cta">
+              <a href="mailto:danmicah12@gmail.com" class="btn btn-fill">Get in touch</a>
+              <a href="#" class="btn btn-out" data-s="projects">View work</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- MARQUEE -->
+    <div class="mq">
+      <div class="mq-t">
+        <span>EdTech</span><span class="dot">·</span>
+        <span>Civic Tech</span><span class="dot">·</span>
+        <span>Policy & Management</span><span class="dot">·</span>
+        <span>Data Systems</span><span class="dot">·</span>
+        <span>Education</span><span class="dot">·</span>
+        <span>Nonprofit</span><span class="dot">·</span>
+        <span>Information Systems</span><span class="dot">·</span>
+        <span>Social Impact</span><span class="dot">·</span>
+        <!-- Repeated for seamless loop -->
+        <span>EdTech</span><span class="dot">·</span>
+        <span>Civic Tech</span><span class="dot">·</span>
+        <span>Policy & Management</span><span class="dot">·</span>
+        <span>Data Systems</span><span class="dot">·</span>
+        <span>Education</span><span class="dot">·</span>
+        <span>Nonprofit</span><span class="dot">·</span>
+        <span>Information Systems</span><span class="dot">·</span>
+        <span>Social Impact</span><span class="dot">·</span>
+      </div>
+    </div>
+
+
+    <!-- ABOUT -->
+    <section id="about" class="sec">
+      <div class="w">
+
+        <div class="sec-hd rv">
+          <span class="sec-n">01</span>
+          <h2 class="sec-title">About</h2>
+        </div>
+
+        <div class="ab-g">
+
+          <!-- Bio text -->
+          <div class="ab-body rv">
+            <p>I'm a rising sophomore at Carnegie Mellon University studying Information Systems
+            and Policy & Management with the intention to learn not only
+            about how technology works, but also about how it can be effectively adopted and used
+            by organizations.</p>
+
+            <p>My background spans nonprofit database work, literacy education, and community-focused projects.
+              I'm especially interested in building tools and systems that help organizations work more effectively.</p>
+
+            <p>Outside of academics, I produce music and co-founded Ottoman Empire, a student band that has performed
+              at campus events and accumulated over 700k views on Instagram.</p>
+          </div>
+
+          <!-- Photo -->
+          <div class="ab-photo rv d1">
+            <div class="photo-circle">
+              <img src="./static/files/headshot.jpeg" alt="Daniel Ho">
+            </div>
+            <p class="photo-note">Daniel Ho</p>
+          </div>
+
+          <!-- Stats -->
+          <div class="ab-stats rv d2">
+            <div>
+              <div class="st-v">CMU</div>
+              <div class="st-l">Pittsburgh, PA · Class of 2029</div>
+            </div>
+            <div class="st-div"></div>
+            <div>
+              <div class="st-v">IS + PM</div>
+              <div class="st-l">Information Systems &<br>Policy & Management</div>
+            </div>
+            <div class="st-div"></div>
+            <div>
+              <div class="st-v">4.0</div>
+              <div class="st-l">GPA</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="sec">
+      <div class="w">
+
+        <div class="sec-hd rv">
+          <span class="sec-n">02</span>
+          <h2 class="sec-title">Experience</h2>
+        </div>
+
+        <div class="exp-list">
+
+          <div class="exp-row rv">
+            <span class="exp-i">01</span>
+            <div>
+              <div class="exp-role">Literacy Tutor</div>
+              <div class="exp-org">AmeriCorps Literacy Corps</div>
+              <p class="exp-desc">Provided one-on-one and small-group literacy instruction to elementary students through AmeriCorps, 
+                helping students improve reading skills through consistent, relationship-driven support, contributing to a 13%
+                average improvement in reading assessments</p>
+            </div>
+            <span class="exp-yr">2024-2025</span>
+          </div>
+
+          <div class="exp-row rv">
+            <span class="exp-i">02</span>
+            <div>
+              <div class="exp-role">Data & Media Intern</div>
+              <div class="exp-org">Pamoza International</div>
+              <p class="exp-desc">Built and maintained a searchable media database for a Malawi-based nonprofit, 
+                  helping organize photos, videos, and communications materials used across international teams.</p>
+            </div>
+            <span class="exp-yr">2023</span>
+          </div>
+
+          <div class="exp-row rv">
+            <span class="exp-i">03</span>
+            <div>
+              <div class="exp-role">Founder & Fund Manager</div>
+              <div class="exp-org">Student Investment Fund</div>
+              <p class="exp-desc">Founded and managed a student-run investment fund overseeing equity research, 
+                portfolio decisions, and analyst operations across a team of student members.</p>
+            </div>
+            <span class="exp-yr">2023-2025</span>
+          </div>
+
+          <div class="exp-row rv">
+            <span class="exp-i">04</span>
+            <div>
+              <div class="exp-role">Design For America — MCG Youth</div>
+              <div class="exp-org">Community Design Project</div>
+              <p class="exp-desc">Worked on a community design project focused on improving youth engagement and attendance, 
+                conducting research and prototyping solutions alongside local stakeholders.</p>
+            </div>
+            <span class="exp-yr">2025-2026</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- PROJECTS -->
+    <!-- To add a project: duplicate an <a class="proj-a"> block and add a matching
+         entry in main.js PROJECTS with the same slug used in href="#/project/SLUG" -->
+    <section id="projects" class="sec">
+      <div class="w">
+
+        <div class="sec-hd rv">
+          <span class="sec-n">03</span>
+          <h2 class="sec-title">Projects</h2>
+        </div>
+
+        <div class="proj-grid">
+
+          <a class="proj-a rv" href="#/project/swe-life">
+            <span class="proj-n">01</span>
+            <div class="proj-title">SWE Life</div>
+            <p class="proj-desc">A Python minigame collection for CMU 15-112 featuring stat systems,
+            upgrade mechanics, a shop, cross-stat debuffs, and minigames including a vertically scrolling platformer
+            and projectile physics.</p>
+            <div class="proj-ft">
+              <div class="tags">
+                <span class="tag">Python</span>
+                <span class="tag">CMU Graphics</span>
+                <span class="tag">Game Design</span>
+              </div>
+              <span class="arr">↗</span>
+            </div>
+          </a>
+
+          <a class="proj-a rv d1" href="#/project/monomuse">
+            <span class="proj-n">02</span>
+            <div class="proj-title">MonoMuse</div>
+            <p class="proj-desc">Database analysis and UX redesign for a museum website.
+            SQL-based usability findings, Flask backend, hosted on GitHub Pages.</p>
+            <div class="proj-ft">
+              <div class="tags">
+                <span class="tag">Flask</span>
+                <span class="tag">SQL</span>
+                <span class="tag">Python</span>
+                <span class="tag">JS</span>
+              </div>
+              <span class="arr">↗</span>
+            </div>
+          </a>
+
+          <a class="proj-a rv d1" href="#/project/titanic-classifier">
+            <span class="proj-n">03</span>
+            <div class="proj-title">Titanic Classifier</div>
+            <p class="proj-desc">Binary classification analysis using LDA, QDA, logistic regression,
+            and classification trees. Model comparison presented in a full RMarkdown report.</p>
+            <div class="proj-ft">
+              <div class="tags">
+                <span class="tag">R</span>
+                <span class="tag">RMarkdown</span>
+                <span class="tag">Statistics</span>
+              </div>
+              <span class="arr">↗</span>
+            </div>
+          </a>
+
+          <a class="proj-a rv d2" href="#/project/dan_the.musicman">
+            <span class="proj-n">04</span>
+            <div class="proj-title">Music Portfolio</div>
+            <p class="proj-desc">Solo producer and performing musician. 60+-track arrangements recorded,
+            mixed, and mastered independently. Founder of Ottoman Empire, selected for CMU's Rose Ball;
+            700k+ Instagram views across both projects.</p>
+            <div class="proj-ft">
+              <div class="tags">
+                <span class="tag">Production</span>
+                <span class="tag">Performance</span>
+                <span class="tag">Project Management</span>
+              </div>
+              <span class="arr">↗</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+
+<!-- CURRENTLY -->
+<section id="currently" class="sec">
+  <div class="w">
+
+    <div class="sec-hd rv">
+      <span class="sec-n">04</span>
+      <h2 class="sec-title">Currently</h2>
+    </div>
+
+    <div class="cur-wrap rv">
+
+      <p class="cur-lead">
+        Redesigning a website for a local barber shop, releasing independent music, and exploring how
+        technology shapes organizations and communities.
+      </p>
+
+      <div class="cur-list">
+        <div class="cur-item">Designing UX flows for small businesses</div>
+        <div class="cur-item">Arranging and recording music covers</div>
+        <div class="cur-item">Experimenting with portfolio and web design</div>
+        <div class="cur-item">Researching education and civic technology</div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+    <!-- SKILLS -->
+    <section id="skills" class="sec">
+      <div class="w">
+
+        <div class="sec-hd rv">
+          <span class="sec-n">05</span>
+          <h2 class="sec-title">Tools & Interests</h2>
+        </div>
+
+        <div class="sk-g rv">
+          <div>
+            <div class="sk-cat">Languages</div>
+            <div class="sk-items">
+              <span class="sk-item"><span class="sk-dot"></span>Python</span>
+              <span class="sk-item"><span class="sk-dot"></span>JavaScript</span>
+              <span class="sk-item"><span class="sk-dot"></span>R / RMarkdown</span>
+              <span class="sk-item"><span class="sk-dot"></span>SQL</span>
+              <span class="sk-item"><span class="sk-dot"></span>HTML & CSS</span>
+            </div>
+          </div>
+          <div>
+            <div class="sk-cat">Tools & Frameworks</div>
+            <div class="sk-items">
+              <span class="sk-item"><span class="sk-dot"></span>Flask</span>
+              <span class="sk-item"><span class="sk-dot"></span>Git & GitHub</span>
+              <span class="sk-item"><span class="sk-dot"></span>GitHub Pages</span>
+              <span class="sk-item"><span class="sk-dot"></span>RStudio</span>
+            </div>
+          </div>
+          <div>
+            <div class="sk-cat">Domain</div>
+            <div class="sk-items">
+              <span class="sk-item"><span class="sk-dot"></span>EdTech & Civic Tech</span>
+              <span class="sk-item"><span class="sk-dot"></span>Nonprofit Operations</span>
+              <span class="sk-item"><span class="sk-dot"></span>Data Analysis</span>
+              <span class="sk-item"><span class="sk-dot"></span>Systems & Policy</span>
+              <span class="sk-item"><span class="sk-dot"></span>Human-Centered Design</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- CONTACT -->
+    <section id="contact" class="sec">
+      <div class="w">
+        <div class="rv">
+          <span class="sec-n" style="display:block;text-align:center;margin-bottom:.75rem">06</span>
+        </div>
+        <p class="ct-big rv">Let's work<br><em>together.</em></p>
+        <p class="ct-sub rv">Seeking summer internships in edtech, civic tech, and education
+        nonprofits near Philadelphia.</p>
+        <div class="ct-links rv">
+          <!-- UPDATE: Replace all placeholder URLs below -->
+          <a href="mailto:danmicah12@gmail.com" class="btn btn-fill">Email me</a>
+          <a href="https://linkedin.com/in/danielmho" target="_blank" class="btn btn-out">LinkedIn</a>
+          <a href="https://github.com/danielm-ho"       target="_blank" class="btn btn-out">GitHub</a>
+          <a href="./static/files/resume.pdf"                          target="_blank" class="btn btn-out">Resume ↗</a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+      <span>Daniel Ho · Carnegie Mellon University</span>
+      <span>IS + Policy & Management · 2029</span>
+    </footer>
+
+
+  </div><!-- /page-home -->
+
+
+  <!-- ════════════════════════════════════════
+       PROJECT DETAIL PAGE
+       Populated dynamically by main.js
+  ════════════════════════════════════════ -->
+  <div id="page-project" class="page"></div>
+
+
+</div><!-- /app -->
+
+</body>
+</html>
