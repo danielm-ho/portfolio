@@ -54,7 +54,7 @@ const CONTENT = {
     // they sit above the fold instead of being buried in About.
     proof: [
       { value: '4.0',   label: 'GPA at Carnegie Mellon' },
-      { value: '1 mil+', label: 'Views on music socials' },
+      { value: '1M+', label: 'Views on music socials' },
       { value: 'IS',    label: 'Double Major', suffix: ' + P&M' },
       { value: '2029',  label: 'Expected graduation' }
     ]
@@ -515,7 +515,7 @@ and a structured comparison of model performance across key metrics.`,
     stack:    ['Audio Production', 'Mixing & Mastering', 'Content Strategy', 'Ensemble Performance', 'Project Management'],
     cardDesc: `Solo producer and performing musician. 60+-track arrangements recorded, mixed,
                and mastered independently. Founder of Ottoman Empire, selected for CMU's Rose
-               Ball; 1 mil+ Instagram views and 125k+ likes across both projects.`,
+               Ball; 1M+ Instagram views and 125k+ likes across both projects.`,
     cardTags: ['Production', 'Performance', 'Project Management'],
     thumb: './static/files/music-2.png',
     summary: `Solo production and live performance — 60+ self-recorded arrangements, and a
