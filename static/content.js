@@ -216,7 +216,7 @@ const CONTENT = {
   skills: [
     {
       category: 'Languages',
-      items: ['Python', 'JavaScript', 'SQL', 'Java (in progress)', 'R / RMarkdown', 'HTML & CSS']
+      items: ['Python', 'JavaScript', 'SQL', 'Java', 'R / RMarkdown', 'HTML & CSS']
     },
     {
       category: 'Tools & Frameworks',
