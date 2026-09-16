@@ -43,11 +43,11 @@ const CONTENT = {
 
   // ── HERO ──────────────────────────────────────────────────────────────
   hero: {
-    desc: `Information Systems & Policy Management student exploring how technology
-           shapes organizations, education, and everyday communities.`,
+    desc: `Sophomore at Carnegie Mellon studying Information Systems & Policy Management,
+           exploring how technology shapes organizations, education, and everyday communities.`,
     // roles: cycles under your name, in order, on a loop. Edit/add/remove
     // freely — the first one here is also what shows before JS loads.
-    roles: ['Builder.', 'Musician.', 'Systems thinker.', 'Educator.'],
+    roles: ['Builder.', 'Researcher.', 'Musician.', 'Systems thinker.'],
 
     // proof: the four-up number strip pinned to the bottom of the hero.
     // These are the facts a recruiter needs in the first five seconds, so
@@ -64,15 +64,17 @@ const CONTENT = {
   // bio: one string per paragraph — add or remove freely.
   about: {
     bio: [
-      `I'm a rising sophomore at Carnegie Mellon University studying Information Systems
+      `I'm a sophomore at Carnegie Mellon University studying Information Systems
        and Policy & Management with the intention to learn not only about how technology
        works, but also about how it can be effectively adopted and used by mission-driven organizations.`,
-      `I'm currently a Product Manager Intern at Pittsburgh Tomorrow, building LivePGH, and
-       an Undergraduate Research Assistant studying cybercriminal team formation through
-       agent-based simulation and game theory. My background also spans nonprofit database
-       work, literacy education, and community-focused design projects — I'm especially
-       interested in building tools and systems that help related organizations better achieve their mission.`,
-      `Outside of academics, I produce music and co-founded Ottoman Empire, a student band
+      `This fall I'm taking coursework in data structures, database design, and human-centered
+       software, and working as an Undergraduate Research Assistant studying cybercriminal team
+       formation through agent-based simulation and game theory. This summer I was a Product
+       Manager Intern at Pittsburgh Tomorrow, where I built LivePGH. My background also spans
+       nonprofit media operations, literacy education, and community-focused design projects.
+       I'm especially interested in building tools and systems that help mission-driven
+       organizations do their work better.`,
+      `Outside of academics, I produce music and founded Ottoman Empire, a student band
        that has performed at campus events and accumulated over 1 million views and 125k likes
        on Instagram.`
     ],
@@ -81,7 +83,9 @@ const CONTENT = {
     // headline numbers live in hero.proof).
     facts: [
       { label: 'Based in', value: 'Pittsburgh, PA' },
+      { label: 'Year',     value: 'Sophomore, Class of 2029' },
       { label: 'Studying', value: 'Information Systems + Policy & Management' },
+      { label: 'Coursework', value: 'Data Structures · Database Design · Human-Centered Software · Fundamentals of Programming · Reasoning with Data · Statistics & Data Science' },
       { label: 'Focus',    value: 'EdTech · Civic Tech · Product' }
     ],
 
@@ -112,25 +116,52 @@ const CONTENT = {
   experience: [
     {
       current: true,
-      tags: ['Product', 'Data Pipelines', 'Leaflet.js'],
-      role: 'Product Manager Intern',
-      org:  'Pittsburgh Tomorrow',
-      desc: `Developing LivePGH, an interactive Leaflet-map web app matching Pittsburgh
-             residents to neighborhoods that fit their needs. Engineering a data pipeline
-             that fetches, normalizes, and caches six civic data sources, and building a
-             six-question matching quiz and scoring algorithm alongside a tool for comparing
-             neighborhoods on cost, walkability, schools, and transit access.`,
-      year: 'June–Aug 2026'
-    },
-    {
-      current: true,
       tags: ['Python', 'Game Theory', 'Simulation'],
       role: 'Undergraduate Research Assistant',
-      org:  'CMU — Security Economics Research',
+      org:  'CMU, Security Economics Research',
       desc: `Analyzing an agent-based simulation modeling cybercriminal team formation
              through game theory. Revamping core utility functions to improve pipeline
              reliability and reduce technical debt across the simulation codebase.`,
       year: 'June 2026–Present'
+    },
+    {
+      current: true,
+      tags: ['Civic Leadership', 'Civic Data', 'Funded Project'],
+      role: 'Scholar',
+      org:  'Charpie Leadership Institute, CMU',
+      desc: `Selected for a two-semester civic leadership cohort with a funded project
+             component. Scoping a community project built on Pittsburgh civic data.`,
+      year: 'Aug 2026–Present'
+    },
+    {
+      tags: ['Product', 'Data Pipelines', 'Leaflet.js'],
+      role: 'Product Manager Intern',
+      org:  'Pittsburgh Tomorrow',
+      desc: `Developed LivePGH, an interactive Leaflet-map web app matching Pittsburgh
+             residents to neighborhoods that fit their needs. Engineered a data pipeline
+             that fetches, normalizes, and caches six civic data sources, and designed a
+             six-question matching quiz and weighted scoring algorithm alongside a tool for
+             comparing neighborhoods on cost, walkability, schools, and transit access.`,
+      year: 'June–Aug 2026'
+    },
+    {
+      tags: ['HTML & CSS', 'JavaScript', 'Client Discovery'],
+      role: 'Freelance Web Developer',
+      org:  'Zab Hair Studio',
+      desc: `Translated client brand and business preferences into technical requirements
+             through a series of interviews, then designed and built the site from scratch,
+             including a centralized content architecture and platform-detecting video embeds.`,
+      year: 'June 2026–Present'
+    },
+    {
+      tags: ['Human-Centered Design', 'User Research', 'Usability Testing'],
+      role: 'Project Team Member',
+      org:  'Design for America, CMU',
+      desc: `Devised three interventions (critique cards, a physical art yearbook template,
+             and a redesigned mailing system) to boost attendance in MCG Youth's afterschool
+             arts programs across four studios. Informed design decisions through expert
+             interviews, student surveys, and think-aloud usability testing.`,
+      year: 'Sept 2025–May 2026'
     },
     {
       tags: ['EdTech', 'Data-Informed Instruction', '+13% growth'],
@@ -140,7 +171,7 @@ const CONTENT = {
              middle-school students over 6-week periods, driving 13% average educational
              growth via the BookNook platform. Differentiated instruction across diverse
              reading levels using real-time BookNook data to pilot and modify strategies.`,
-      year: '2024–2025'
+      year: 'Summers 2024 & 2025'
     },
     {
       tags: ['Founded', '$7.5K AUM', '+12% TTM'],
@@ -161,29 +192,19 @@ const CONTENT = {
              designed for staff-led maintenance, removing dependence on continued outside
              support.`,
       year: '2023–2024'
-    },
-    {
-      tags: ['Human-Centered Design', 'User Research', 'Usability Testing'],
-      role: 'Project Team Member',
-      org:  'Design for America — CMU',
-      desc: `Devised three interventions — critique cards, a physical art yearbook template,
-             and a redesigned mailing system — to boost attendance in MCG Youth's afterschool
-             arts programs across four studios. Informed design decisions through expert
-             interviews, student surveys, and think-aloud usability testing.`,
-      year: '2025–2026'
     }
   ],
 
   // ── CURRENTLY ─────────────────────────────────────────────────────────
   // These change the most often — update freely.
   currently: {
-    lead: `Building LivePGH at Pittsburgh Tomorrow, researching cybercriminal team formation
-           at CMU, and taking on freelance web development for local clients.`,
+    lead: `Sophomore at CMU, doing security economics research, and scoping a civic data
+           project with the Charpie Leadership Institute.`,
     items: [
-      'Developing LivePGH, an interactive neighborhood-matching map for Pittsburgh residents',
-      'Analyzing agent-based simulations of cybercriminal team formation through game theory',
-      'Designing and building client websites as a freelance web developer',
-      'Producing and arranging independent music covers'
+      'Coursework in Data Structures (Java), Database Design, and Designing Human-Centered Software',
+      'Researching agent-based simulations of cybercriminal team formation',
+      'Scoping a Charpie Leadership Institute project built on Pittsburgh civic data',
+      'Performing with Ottoman Empire and producing independent covers'
     ]
   },
 
@@ -195,25 +216,25 @@ const CONTENT = {
   skills: [
     {
       category: 'Languages',
-      items: ['Python', 'JavaScript', 'R / RMarkdown', 'SQL', 'HTML & CSS']
+      items: ['Python', 'JavaScript', 'SQL', 'Java (in progress)', 'R / RMarkdown', 'HTML & CSS']
     },
     {
       category: 'Tools & Frameworks',
-      items: ['Git & GitHub', 'GitHub Pages', 'RStudio', 'Figma', 'Google Workspace']
+      items: ['Git & GitHub', 'Leaflet.js', 'Figma', 'RStudio', 'Excel', 'Google Workspace', 'Claude Code']
     },
     {
       category: 'Domains',
       items: [
-        'EdTech & Civic Tech', 'Nonprofit Operations',
-        'Data Analysis', 'Systems & Policy', 'Human-Centered Design'
+        'EdTech & Civic Tech', 'Database Design', 'Data Analysis',
+        'Human-Centered Design', 'Nonprofit Operations', 'Systems & Policy'
       ]
     }
   ],
 
   // ── CONTACT ───────────────────────────────────────────────────────────
   contact: {
-    sub: `Seeking summer internships in edtech, civic tech, and education nonprofits
-          near Philadelphia and Pittsburgh.`
+    sub: `Seeking Summer 2027 internships in product, technology consulting, and civic or
+          education technology.`
   }
 
 };
@@ -435,8 +456,46 @@ continue to maintain the engagement as an ongoing freelance client.`,
     links: [ { label: 'View Live Site', url: 'https://danielm-ho.github.io/Zab-Barber/' } ]
   },
 
-  'swe-life': {
+  'monomuse': {
     num:      '03',
+    group:    'academic',
+    title:    'MonoMuse',
+    sub:      'Museum Website Redesign & Funnel Analysis',
+    year:     '2026',
+    role:     'Designer & Analyst',
+    stack:    ['SQL', 'Funnel Analysis', 'Figma', 'Usability Evaluation', 'Information Architecture'],
+    cardDesc: `Redesigned a museum website across home, explore, exhibitions, and ticketing
+               pages, then queried visitor session data in SQL to measure how browsing
+               behavior relates to reaching checkout.`,
+    cardTags: ['SQL', 'UX Design', 'Analytics'],
+    thumb: './static/files/monomuse-2.png',
+    summary: `A CMU coursework project pairing a four-page museum website redesign with a SQL
+              funnel analysis, a usability memo, and a design summary.`,
+    // ⚠️ DRAFTED from the two screenshots and a one-line description. Check the
+    //   course name, what the funnel analysis concluded, and what the usability
+    //   memo recommended, then fill in decision: (what you changed and why).
+    challenge: `MonoMuse, a fictional contemporary museum of art and technology, needed a
+website that moves visitors from learning about the museum to buying tickets.`,
+    approach: `I designed four pages (Home, Explore, Exhibitions, and Buy Tickets) with a
+consistent navigation bar and a ticket call-to-action on every page. I then wrote SQL queries
+joining page-visit and page tables to compare how many pages sessions visited overall against
+sessions that reached the ticket overview and checkout pages.`,
+    result: `Findings were written up in a usability memo and a design summary alongside the
+query results. Sessions that reached checkout visited about the same number of pages as all
+sessions (roughly 10), suggesting page count alone doesn't predict conversion.`,
+    resultStat: { value: '4', label: 'Pages redesigned' },
+    media: {
+      main: `<img src="./static/files/monomuse-2.png"
+               style="width:100%;border-radius:6px;border:1px solid var(--b2)"
+               alt="MonoMuse wireframes: Home, Explore, Exhibitions, and Buy Tickets pages">`,
+      secondary: ['./static/files/monomuse-1.png'],
+      captions:  ['SQL funnel query comparing average pages visited across all sessions, sessions reaching the ticket overview, and sessions reaching checkout']
+    },
+    links: []
+  },
+
+  'swe-life': {
+    num:      '04',
     group:    'academic',
     title:    'SWE Life',
     sub:      'CMU 15-112 Final Project',
@@ -472,7 +531,7 @@ course website.`,
   },
 
   'titanic-classifier': {
-    num:      '04',
+    num:      '05',
     group:    'academic',
     title:    'Titanic Survival Classifier',
     sub:      'Binary Classification Analysis',
@@ -506,7 +565,7 @@ and a structured comparison of model performance across key metrics.`,
   },
 
   'dan_the.musicman': {
-    num:      '05',
+    num:      '06',
     group:    'creative',
     title:    'Music Portfolio',
     sub:      'Production, Performance & Audience Growth',
