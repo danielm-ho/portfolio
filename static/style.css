@@ -235,6 +235,12 @@ html.cursor-custom #cur { opacity: 1; }
 @supports (view-transition-name: none) {
   #page-project.on { animation: none; }
 }
+/* Project pages are separate documents now (projects/<slug>/), so the
+   cross-fade between home and a case study uses cross-document view
+   transitions. Browsers without support just navigate normally. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: .5s;
@@ -1685,10 +1691,16 @@ footer {
 }
 
 @media (max-width: 940px) {
-  .ab-g    { grid-template-columns: 1fr; gap: 3rem; }
-  .ab-rail { position: static; flex-direction: row; flex-wrap: wrap; gap: 2.5rem; align-items: flex-start; }
-  .ab-photo { flex: 0 0 200px; }
-  .ab-facts, .ab-honors { flex: 1 1 260px; min-width: 240px; }
+  /* Single column: the rail dissolves (display: contents) so its pieces
+     can be ordered independently. The photo moves ABOVE the bio, where a
+     visitor expects to see who they're reading about; facts and honors
+     stay after it as reference material. Without this the photo landed
+     roughly a full phone screen of text below the About heading. */
+  .ab-g    { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3rem 2.5rem; }
+  .ab-rail { display: contents; }
+  .ab-photo  { order: -1; grid-column: 1 / -1; width: 200px; }
+  .ab-main   { grid-column: 1 / -1; }
+  .ab-facts, .ab-honors { min-width: 0; }
   .pd-body { grid-template-columns: 1fr; gap: 3rem; }
   .pd-side { position: static; }
 }
@@ -1741,9 +1753,8 @@ footer {
   .exp-row { grid-template-columns: 1.75rem 1fr; padding: 1.75rem .5rem 1.75rem .85rem; }
   .exp-yr  { grid-column: 2; text-align: left; padding-top: .95rem; }
 
-  .ab-rail { flex-direction: column; gap: 2rem; }
-  .ab-photo { flex: 1 1 auto; max-width: 220px; }
-  .ab-facts, .ab-honors { flex: 1 1 auto; min-width: 0; width: 100%; }
+  .ab-g     { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+  .ab-photo { width: 168px; }
 
   /* Two-up rather than four. At phone width a four-column split leaves
      each cell too narrow for its handle to sit on one line. */

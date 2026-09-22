@@ -24,14 +24,26 @@
 
 const SITE = {
   name:         'Daniel Ho',
-  email:        'danmicah12@gmail.com',
+  email:        'dmho@andrew.cmu.edu',
   university:   'Carnegie Mellon University',
   program:      'Information Systems & Policy Management',
   programShort: 'IS + Policy & Management',
   gradYear:     '2029',
   resumePath:   './static/files/resume.pdf',
   linkedin:     'https://linkedin.com/in/danielmho',
-  github:       'https://github.com/danielm-ho'
+  github:       'https://github.com/danielm-ho',
+
+  // Public address of the live site, with trailing slash. Used for the
+  // canonical/share URLs that tools/build-pages.mjs writes into each
+  // project page.
+  url:          'https://danielm-ho.github.io/portfolio/',
+
+  // Visitor analytics (GoatCounter: free, no cookies, no consent banner).
+  // Off while empty. To turn on: sign up at goatcounter.com, pick a code
+  // (e.g. 'danielho' for danielho.goatcounter.com), and paste it here.
+  // Each project page counts as its own pageview, and clicks on the
+  // resume / email / LinkedIn / GitHub links are counted as events.
+  goatcounter:  'danielho'
 };
 
 
@@ -382,7 +394,7 @@ below are from the current build.`,
                alt="LivePGH landing page: three ways to start finding a neighborhood">`,
       secondary: [
         './static/files/livepgh-matches.jpg',
-        './static/files/livepgh-neighborhood.png',
+        './static/files/livepgh-neighborhood.webp',
         './static/files/livepgh-relocate.jpg',
         './static/files/livepgh-browse.jpg'
       ],
@@ -468,7 +480,7 @@ continue to maintain the engagement as an ongoing freelance client.`,
                pages, then queried visitor session data in SQL to measure how browsing
                behavior relates to reaching checkout.`,
     cardTags: ['SQL', 'UX Design', 'Analytics'],
-    thumb: './static/files/monomuse-2.png',
+    thumb: './static/files/monomuse-2.webp',
     summary: `A CMU coursework project pairing a four-page museum website redesign with a SQL
               funnel analysis, a usability memo, and a design summary.`,
     // ⚠️ DRAFTED from the two screenshots and a one-line description. Check the
@@ -485,10 +497,10 @@ query results. Sessions that reached checkout visited about the same number of p
 sessions (roughly 10), suggesting page count alone doesn't predict conversion.`,
     resultStat: { value: '4', label: 'Pages redesigned' },
     media: {
-      main: `<img src="./static/files/monomuse-2.png"
+      main: `<img src="./static/files/monomuse-2.webp"
                style="width:100%;border-radius:6px;border:1px solid var(--b2)"
                alt="MonoMuse wireframes: Home, Explore, Exhibitions, and Buy Tickets pages">`,
-      secondary: ['./static/files/monomuse-1.png'],
+      secondary: ['./static/files/monomuse-1.webp'],
       captions:  ['SQL funnel query comparing average pages visited across all sessions, sessions reaching the ticket overview, and sessions reaching checkout']
     },
     links: []
@@ -506,7 +518,7 @@ sessions (roughly 10), suggesting page count alone doesn't predict conversion.`,
                mechanics, a shop, cross-stat debuffs, and minigames including a vertically
                scrolling platformer and projectile physics.`,
     cardTags: ['Python', 'CMU Graphics', 'Game Design'],
-    thumb: './static/files/swe-life-2.png',
+    thumb: './static/files/swe-life-2.webp',
     summary: `A 1,300-line Python minigame collection with a progression system, an in-game
               shop and two original minigames, built solo for CMU 15-112.`,
     // decision: ← what did you cut, or choose the harder path on? The
@@ -524,7 +536,7 @@ course website.`,
     resultStat: { value: '99/100', label: 'Final grade' },
     media: {
       main: embedYouTube('i-ZC2HGeB9w', 'SWE Life demo'),
-      secondary: ['./static/files/swe-life-1.png', './static/files/swe-life-2.png'],
+      secondary: ['./static/files/swe-life-1.webp', './static/files/swe-life-2.webp'],
       captions:  ['Sample of code', '"THE CLIMB" vertically scrolling platformer minigame']
     },
     links: [{ label: 'Play Project', url: 'https://academy.cs.cmu.edu/sharing/oldLaceFish369828' }]
@@ -541,7 +553,7 @@ course website.`,
     cardDesc: `Binary classification analysis using LDA, QDA, logistic regression, and
                classification trees. Model comparison presented in a full RMarkdown report.`,
     cardTags: ['R', 'RMarkdown', 'Statistics'],
-    thumb: './static/files/titanic-main.png',
+    thumb: './static/files/titanic-main.webp',
     summary: `A four-way comparison of classification methods on the Titanic dataset, written
               up as a full RMarkdown report for CMU 36-202.`,
     // decision: ← your own copy says you evaluated on "accuracy, precision
@@ -557,7 +569,7 @@ classification trees, evaluating each on accuracy, precision, and interpretabili
 and a structured comparison of model performance across key metrics.`,
     resultStat: { value: '4', label: 'Methods compared' },
     media: {
-      main: `<img src="./static/files/titanic-main.png"
+      main: `<img src="./static/files/titanic-main.webp"
                style="width:100%;border-radius:6px;border:1px solid var(--b2)"
                alt="Titanic classifier results">`
     },
@@ -576,7 +588,7 @@ and a structured comparison of model performance across key metrics.`,
                and mastered independently. Founder of Ottoman Empire, selected for CMU's Rose
                Ball; 1M+ Instagram views and 125k+ likes across both projects.`,
     cardTags: ['Production', 'Performance', 'Project Management'],
-    thumb: './static/files/music-2.png',
+    thumb: './static/files/music-2.webp',
     summary: `Solo production and live performance — 60+ self-recorded arrangements, and a
               student band I founded that has performed at CMU's Rose Ball.`,
     // decision: ← optional here, but there is one worth telling: founding and
@@ -595,7 +607,7 @@ likes.`,
     resultStat: { value: '1M+', label: 'Instagram views' },
     media: {
       main: embedIframe('https://drive.google.com/file/d/1Yu2p1ySjo1PeLFIz-QaUUhyA9fAjCsME/preview', 'Music portfolio reel'),
-      secondary: ['./static/files/music-1.png', './static/files/music-2.png'],
+      secondary: ['./static/files/music-1.webp', './static/files/music-2.webp'],
       captions:  ['Recording and production setup', 'Ottoman Empire performing at Rose Ball']
     },
     links: [
