@@ -310,6 +310,10 @@ const PROJECT_GROUPS = [
                          framed screenshot (featureImage, falling back to
                          thumb) with the description, the `pull` line and the
                          result figure under it. Meant for one project.
+   tour                → OPTIONAL, with featured. Screens to step through in
+                         the frame: [{ src, label, alt, caption }].
+   pipeline            → OPTIONAL. { label, steps: [{ t, d }] }: the system
+                         as a short flow, on the featured block and the page.
    pull                → OPTIONAL. { label, text }: one short statement set
                          large on the featured block. Only used with featured.
    cardDesc            → short blurb shown on the grid card
@@ -366,6 +370,8 @@ const PROJECT_GROUPS = [
               { src, frame } to override the frame for one image; 'phone'
               sets a phone screenshot in a phone-shaped frame.
    captions:  array of captions aligned by index to secondary images
+   live:      OPTIONAL. { url, label }: a button on the main image that swaps
+              it for the real, working site in the same frame.
    callouts:  OPTIONAL. Numbered pins on the main image, each explained in a
               list under it: [{ x: 17, y: 66, text: '...' }]. x and y are
               percentages from the image's left and top edges.
@@ -397,15 +403,11 @@ const PROJECTS = {
      Still drafted from the Pittsburgh Tomorrow entry in CONTENT.experience
      and not checked by you line by line: challenge, approach, result.
 
-     decision   → states what the product does, taken from the Approach
-                  copy and from the note on LivePGH's own landing page (see
-                  static/files/livepgh-home.jpg). It is headed "What it
-                  won't do" because nothing here says whose call it was or
-                  what it cost.
-                  TODO(Daniel): if this was your decision, add one sentence
-                  on what leaving these out cost you, and delete the
-                  labels: { decision: ... } line so the block reads
-                  "Key decision".
+     decision   → yours (you confirmed it Nov 2026). It appears once, on this
+                  page only.
+                  TODO(Daniel): add one sentence on what leaving these out
+                  cost you, or replace it with a decision you think is
+                  stronger.
      links      → no public URL yet. Add { label: 'Live site', url: '...' }
                   the day it launches.
   ──────────────────────────────────────────────────────────────────── */
@@ -422,14 +424,32 @@ const PROJECTS = {
     cardTags: ['Leaflet.js', 'Data Pipeline', 'Product'],
     thumb:    './static/files/livepgh-matches.jpg',
     featured: true,
-    featureImage: './static/files/livepgh-matches.jpg',
-    featureAlt: 'LivePGH quiz results: a map of Pittsburgh with matched neighborhoods shaded, beside a ranked list of matches with fit scores',
-    // The first sentence restates the Approach copy below; the second is the
-    // product's own wording from the note on its landing page.
-    pull: {
-      label: `What LivePGH won't do`,
-      text:  `It publishes no neighborhood "safety score" and uses no demographic identity
-              to match people. It matches on how you want to live.`
+    // tour: the screens a visitor can step through inside the frame on the
+    // homepage. The first one is shown on arrival. label = the tab's text.
+    tour: [
+      { src: './static/files/livepgh-home.jpg', label: 'Start',
+        alt: 'LivePGH landing page: three ways to start finding a neighborhood',
+        caption: 'Three ways in: match from the city you live in now, take the quiz, or browse.' },
+      { src: './static/files/livepgh-matches.jpg', label: 'Quiz results',
+        alt: 'LivePGH quiz results: a map of Pittsburgh with matched neighborhoods shaded, beside a ranked list of matches with fit scores',
+        caption: 'Ranked matches with fit scores, drawn on the Leaflet map.' },
+      { src: './static/files/livepgh-neighborhood.webp', label: 'A neighborhood',
+        alt: 'A LivePGH neighborhood page listing cost, commute, transit and terrain figures',
+        caption: 'Cost, commute, transit and terrain, every figure labeled an estimate.' },
+      { src: './static/files/livepgh-browse.jpg', label: 'Browse',
+        alt: 'LivePGH browse view: a filterable grid of neighborhoods and suburbs',
+        caption: 'All 156 city neighborhoods and Allegheny County suburbs, filterable and sortable.' }
+    ],
+    // pipeline: the system in four steps, drawn as a flow on the homepage
+    // block and on the case-study page. Each step restates the Approach copy.
+    pipeline: {
+      label: 'How it works',
+      steps: [
+        { t: 'Six civic data sources',   d: 'Cost, walkability, schools and transit, each published in a different format.' },
+        { t: 'Fetch, normalize, cache',  d: 'One pipeline makes them comparable.' },
+        { t: 'Scoring algorithm',        d: 'Ranks all 156 places against what a person wants.' },
+        { t: 'Quiz, map, comparison',    d: 'Six questions in, ranked neighborhoods out.' }
+      ]
     },
     summary:  `An interactive neighborhood-matching map for Pittsburgh, built at Pittsburgh
                Tomorrow on top of six normalized civic data sources.`,
@@ -445,10 +465,9 @@ The front door gives users three ways in: match from the city they live in now, 
 quiz, or just browse all 156 places. People arrive at this decision at very different stages,
 and forcing everyone through the same funnel loses the ones who only want to look around.
 Every price and rent is labeled an <em>informed estimate</em>.`,
-    labels:   { decision: `What it won't do` },
-    decision: `LivePGH publishes no neighborhood "safety score" and uses no demographic identity
-as a matching input. Its own note to users gives the reason: steering people by demographics
-"would be discriminatory," so it matches on how you want to live.`,
+    decision: `I decided LivePGH would publish no neighborhood "safety score" and use no
+demographic identity as a matching input. Steering people by demographics would be
+discriminatory, so it matches on how you want to live.`,
     // TODO(Daniel): other decisions worth a sentence each, if you want more
     //   than one: why cache rather than fetch live; why six sources and not
     //   more; why a quiz instead of filters; how you picked the scoring weights.
@@ -464,7 +483,7 @@ so the screenshots on this page are from the handed-off build.`,
                        'LivePGH landing page: three ways to start finding a neighborhood'),
       callouts: [
         { x: 17.5, y: 67, text: `Three ways in: match from the city you live in now, take the fit quiz, or browse every neighborhood.` },
-        { x: 17.5, y: 95, text: `The note on the numbers: every price and rent is an informed estimate, and there is no neighborhood "safety score" or demographic matching.` }
+        { x: 17.5, y: 95, text: `The note on the numbers: every price and rent is an informed estimate for planning, not an authoritative figure.` }
       ],
       secondary: [
         './static/files/livepgh-matches.jpg',
@@ -518,6 +537,8 @@ to work with the studio as an ongoing freelance client.`,
        to the phone's own width and shown in a phone frame. */
     media: {
       frame: 'browser',
+      // live: lets a visitor load the real site inside the frame and use it.
+      live: { url: 'https://danielm-ho.github.io/Zab-Barber/', label: 'Use the live site here' },
       main: embedImage('./static/files/zab-hero.jpg',
                        `Zab Hair Studio homepage: 'Sharp Every Time' headline, booking call-to-action, and a stat bar reading 7 years cutting and 15,000+ clients`),
       secondary: [

@@ -403,40 +403,86 @@ function buildCard(slug, p, i, wide) {
    One project gets a full-width block instead of a card: a large framed
    screenshot, then title + description, the `pull` statement, and the
    result figure in a row beneath it. The whole block is one link. */
-function buildFeature(slug, p) {
-  const img = p.featureImage || p.thumb;
+function buildPipeline(pl, cls = '') {
+  if (!pl?.steps?.length) return '';
   return `
-    <a class="proj-feature rv" href="${projectHref(slug)}" data-slug="${slug}" aria-label="${p.title}: ${p.sub}">
-      ${img ? `
-      <div class="frame frame--browser proj-feature-media">
-        <div class="frame-bar" aria-hidden="true"><span></span></div>
-        <img src="${img}" alt="${p.featureAlt || ''}" loading="lazy" decoding="async">
+    <div class="pipe ${cls}">
+      <div class="pipe-l">${pl.label || ''}</div>
+      <ol class="pipe-steps">
+        ${pl.steps.map(st => `<li><span class="pipe-t">${st.t}</span><span class="pipe-d">${st.d}</span></li>`).join('')}
+      </ol>
+    </div>`;
+}
+
+function buildFeature(slug, p) {
+  const tour = p.tour?.length ? p.tour : (p.featureImage || p.thumb ? [{ src: p.featureImage || p.thumb, alt: p.featureAlt || '' }] : []);
+  const href = projectHref(slug);
+  return `
+    <article class="proj-feature" data-slug="${slug}">
+      ${tour.length ? `
+      <div class="tour" data-tour>
+        <div class="frame frame--browser proj-feature-media">
+          <div class="frame-bar" aria-hidden="true"><span></span></div>
+          <div class="tour-stage">
+            ${tour.map((t, i) => `<img ${i === 0 ? `src="${t.src}"` : `data-src="${t.src}"`} alt="${(t.alt || '').replace(/"/g, '&quot;')}" class="${i === 0 ? 'on' : ''}" ${i === 0 ? 'loading="lazy"' : ''} decoding="async">`).join('')}
+          </div>
+        </div>
+        ${tour.length > 1 ? `
+        <div class="tour-bar">
+          <div class="tour-tabs" role="tablist" aria-label="${p.title} screens">
+            ${tour.map((t, i) => `<button type="button" role="tab" class="tour-tab" aria-selected="${i === 0}" data-i="${i}">${t.label}</button>`).join('')}
+          </div>
+          <p class="tour-cap" aria-live="polite">${tour[0].caption || ''}</p>
+        </div>` : ''}
       </div>` : ''}
       <div class="proj-feature-body">
         <div class="proj-feature-main">
-          <div class="proj-title">${p.title}</div>
+          <h4 class="proj-title"><a href="${href}" data-slug="${slug}">${p.title}</a></h4>
           <div class="proj-sub">${p.sub}</div>
           <p class="proj-desc">${p.cardDesc}</p>
           ${metaLine(p.cardTags)}
         </div>
-        ${p.pull ? `
+        ${p.pipeline ? buildPipeline(p.pipeline) : (p.pull ? `
         <div class="proj-pull">
           <div class="proj-pull-l">${p.pull.label}</div>
           <p class="proj-pull-t">${p.pull.text}</p>
-        </div>` : ''}
+        </div>` : '')}
         <div class="proj-feature-end">
           ${p.resultStat ? `
           <span class="proj-stat">
             <span class="proj-stat-v">${p.resultStat.value}</span>
             <span class="proj-stat-l">${p.resultStat.label}</span>
           </span>` : ''}
-          <span class="proj-more">Read the case study</span>
+          <a class="proj-more" href="${href}" data-slug="${slug}">Read the case study</a>
         </div>
       </div>
-    </a>`;
+    </article>`;
 }
 
-/* Cards are rendered in labelled tiers rather than one flat grid — see the
+/* Step through a featured project's screens. Later screens are only
+   downloaded when a visitor first reaches for the tabs. */
+document.addEventListener('click', e => {
+  const tab = e.target.closest('.tour-tab');
+  if (!tab) return;
+  const tour = tab.closest('[data-tour]');
+  const slug = tab.closest('[data-slug]')?.dataset.slug;
+  const screens = PROJECTS[slug]?.tour || [];
+  const i = +tab.dataset.i;
+  tour.querySelectorAll('.tour-stage img').forEach((img, k) => {
+    if (img.dataset.src) { img.src = img.dataset.src; img.removeAttribute('data-src'); }
+    img.classList.toggle('on', k === i);
+  });
+  tour.querySelectorAll('.tour-tab').forEach((t, k) => t.setAttribute('aria-selected', k === i));
+  const cap = tour.querySelector('.tour-cap');
+  if (cap) cap.textContent = screens[i]?.caption || '';
+});
+document.addEventListener('pointerover', e => {
+  const bar = e.target.closest?.('.tour-tabs');
+  if (!bar) return;
+  bar.closest('[data-tour]').querySelectorAll('img[data-src]').forEach(img => { img.src = img.dataset.src; img.removeAttribute('data-src'); });
+}, { passive: true });
+
+/* Cards are rendered in labelled tiers/* Cards are rendered in labelled tiers rather than one flat grid — see the
    PROJECT_GROUPS note in content.js for why.
 
    Any project whose `group` doesn't match a declared tier (or has none)
@@ -545,6 +591,21 @@ if (dlg) {
   dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
 }
 
+/* "Use the live site here": swap the lead screenshot for the real site,
+   running in the same frame. */
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.shot-live');
+  if (!btn) return;
+  const frame = btn.closest('.shot')?.querySelector('.shot-img');
+  if (!frame) return;
+  frame.innerHTML = `<iframe class="shot-frame" src="${btn.dataset.live}" title="${btn.dataset.title}" loading="lazy"></iframe>`;
+  const zoom = btn.closest('.shot').querySelector('.shot-zoom');
+  /* The frame now holds a working page, so it stops being a zoom button. */
+  if (zoom) { const div = document.createElement('div'); div.className = 'shot-live-wrap'; while (zoom.firstChild) div.appendChild(zoom.firstChild); zoom.replaceWith(div); }
+  btn.remove();
+  frame.querySelector('iframe').focus();
+});
+
 /* Tap a case-study screenshot to see it at full size. */
 document.addEventListener('click', e => {
   const btn = e.target.closest('.shot-zoom');
@@ -637,7 +698,7 @@ function renderProject(slug) {
 
   /* One screenshot: framed, captioned, and wrapped in a button so it can
      be tapped (or focused and Enter-ed) to enlarge. */
-  function buildShot(src, alt, caption, frame, extraClass = '', callouts = []) {
+  function buildShot(src, alt, caption, frame, extraClass = '', callouts = [], live = null) {
     const kind = ['browser', 'phone'].includes(frame) ? frame : 'plain';
     const safeAlt = String(alt || caption || 'Project screenshot').replace(/"/g, '&quot;');
     const safeCap = String(caption || '').replace(/"/g, '&quot;');
@@ -654,6 +715,7 @@ function renderProject(slug) {
           </span>
         </span>
       </button>
+      ${live ? `<button type="button" class="btn btn-fill shot-live" data-live="${live.url}" data-title="${safeAlt}">${live.label || 'Use the live site here'}</button>` : ''}
       ${caption ? `<figcaption class="shot-cap">${caption}</figcaption>` : ''}
       ${callouts.length ? `<ol class="shot-notes">${callouts.map(c => `<li>${c.text}</li>`).join('')}</ol>` : ''}
     </figure>`;
@@ -678,7 +740,7 @@ function renderProject(slug) {
         ? main.replace('<img', '<img onerror="handleImgError(this)" ')
         : main;
     }
-    if (main.kind === 'image') return buildShot(main.src, main.alt, '', media.frame, 'shot--main', media.callouts || []);
+    if (main.kind === 'image') return buildShot(main.src, main.alt, '', media.frame, 'shot--main', media.callouts || [], media.live);
     return buildEmbedFacade(main); // embedYouTube()/embedIframe() descriptor
   }
 
@@ -750,6 +812,7 @@ function renderProject(slug) {
     <div class="pd-body">
       <div class="pd-overview">
         ${block('challenge')}
+        ${p.pipeline ? buildPipeline(p.pipeline, 'pipe--row') : ''}
         ${block('approach')}
         ${block('decision', ' pd-cs-block--key')}
         ${block('result')}

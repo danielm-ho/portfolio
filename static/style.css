@@ -772,16 +772,100 @@ span.frame-bar { display: flex; }
 }
 
 /* ── FEATURED PROJECT ── */
-.proj-feature {
-  display:         block;
-  margin-bottom:   2rem;
-  text-decoration: none;
-  color:           inherit;
+.proj-feature { display: block; margin-bottom: 2rem; }
+.proj-feature .proj-title a { color: inherit; text-decoration: none; }
+.proj-feature .proj-title a:hover { color: var(--ac); }
+.proj-feature h4.proj-title { font-weight: var(--dw); }
+
+/* ── SCREEN TOUR ──
+   The featured project's real screens, one at a time, inside the frame.
+   Tabs under it choose the screen. */
+.tour-stage { position: relative; aspect-ratio: 16 / 8.6; background: var(--s2); }
+.tour-stage img {
+  position:        absolute;
+  inset:           0;
+  width:           100%;
+  height:          100%;
+  object-fit:      cover;
+  object-position: top;
+  opacity:         0;
+  transition:      opacity .3s var(--ease);
 }
+.tour-stage img.on { opacity: 1; }
+
+.tour-bar { display: flex; align-items: baseline; flex-wrap: wrap; gap: .6rem 1.75rem; margin-top: .9rem; }
+.tour-tabs { display: flex; flex-wrap: wrap; gap: .4rem; }
+.tour-tab {
+  padding:       .5rem .95rem;
+  border:        1px solid var(--b2);
+  border-radius: 999px;
+  background:    none;
+  color:         var(--mu);
+  font-family:   var(--sans);
+  font-size:     .82rem;
+  font-weight:   600;
+  cursor:        pointer;
+  transition:    background .2s, color .2s, border-color .2s;
+}
+.tour-tab:hover { border-color: var(--tx); color: var(--tx); }
+.tour-tab[aria-selected="true"] { background: var(--tx); border-color: var(--tx); color: var(--bg); }
+.tour-cap { flex: 1 1 18rem; font-size: .85rem; color: var(--mu); line-height: 1.5; }
+
+/* ── PIPELINE ──
+   The system as a flow of steps. Numbered because it is a sequence. */
+.pipe-l { font-size: .8rem; font-weight: 600; color: var(--ac); margin-bottom: .8rem; }
+.pipe-steps { list-style: none; counter-reset: pipe; display: grid; gap: 0; }
+.pipe-steps li {
+  counter-increment: pipe;
+  position:     relative;
+  display:      grid;
+  gap:          .1rem;
+  padding:      0 0 1rem 2.4rem;
+}
+.pipe-steps li:last-child { padding-bottom: 0; }
+.pipe-steps li::before {
+  content:         counter(pipe);
+  position:        absolute;
+  left:            0;
+  top:             0;
+  width:           1.55rem;
+  height:          1.55rem;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  border:          1px solid var(--ac);
+  border-radius:   50%;
+  background:      var(--bg);
+  color:           var(--ac);
+  font-size:       .8rem;
+  font-weight:     700;
+}
+/* The line that joins one step to the next. */
+.pipe-steps li:not(:last-child)::after {
+  content:    '';
+  position:   absolute;
+  left:       .775rem;
+  top:        1.55rem;
+  bottom:     0;
+  width:      1px;
+  background: var(--acb);
+}
+.pipe-t { font-family: var(--serif); font-size: 1.25rem; line-height: 1.2; color: var(--tx); }
+.pipe-d { font-size: .85rem; line-height: 1.5; color: var(--mu); }
+
+/* On a case-study page the same steps run left to right. */
+.pipe--row { margin: 0 0 3rem; padding: 1.5rem 0; border-top: 1px solid var(--b1); border-bottom: 1px solid var(--b1); }
+.pipe--row .pipe-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; }
+.pipe--row .pipe-steps li { padding: 2.2rem 0 0; }
+.pipe--row .pipe-steps li:not(:last-child)::after { left: 1.55rem; right: -1.25rem; top: .775rem; bottom: auto; width: auto; height: 1px; }
+
+/* The real site, running inside the lead frame. */
+.shot { position: relative; }
+.shot-live { margin-top: 1rem; }
+.shot-frame { display: block; width: 100%; aspect-ratio: 16 / 10; border: 0; background: #fff; }
+.shot--phone .shot-frame { aspect-ratio: 9 / 16; }
 
 .proj-feature-media { transition: border-color .3s var(--ease); }
-.proj-feature:hover .proj-feature-media { border-color: var(--ac); }
-.proj-feature-media img { aspect-ratio: 16 / 8.4; object-fit: cover; object-position: top; }
 
 .proj-feature-body {
   display:               grid;
@@ -793,7 +877,6 @@ span.frame-bar { display: flex; }
 
 .proj-feature-main { display: flex; flex-direction: column; gap: .75rem; }
 .proj-feature .proj-title { font-size: clamp(2.1rem, 3.6vw, 2.9rem); }
-.proj-feature:hover .proj-title { color: var(--ac); }
 .proj-feature .proj-desc { -webkit-line-clamp: unset; display: block; }
 
 /* The pull statement: the one thing on the block set large enough to be
@@ -822,7 +905,7 @@ span.frame-bar { display: flex; }
   text-decoration-color: var(--acb);
   text-underline-offset: .3em;
 }
-.proj-feature:hover .proj-more { text-decoration-color: var(--ac); }
+.proj-more:hover { text-decoration-color: var(--ac); }
 
 /* ── COMPACT PROJECT LIST ──
    Smaller coursework as ruled rows under the cards: title, what it was,
@@ -1861,7 +1944,13 @@ footer {
   .proj-lines { margin-top: 1.5rem; }
   .proj-line { grid-template-columns: 1fr; gap: .25rem; padding: 1rem 0; }
   .proj-line-k { text-align: left; }
-  .proj-feature-media img { aspect-ratio: 16 / 10; }
+  .tour-stage { aspect-ratio: 16 / 10; }
+  .tour-bar { gap: .6rem; }
+  .tour-tab { padding: .45rem .8rem; }
+  .pipe--row .pipe-steps { grid-template-columns: 1fr; gap: 0; }
+  .pipe--row .pipe-steps li { padding: 0 0 1rem 2.4rem; }
+  .pipe--row .pipe-steps li:not(:last-child)::after { left: .775rem; right: auto; top: 1.55rem; bottom: 0; width: 1px; height: auto; }
+  .shot-frame { aspect-ratio: 9 / 14; }
   .proj-feature-body { grid-template-columns: 1fr; gap: 1.5rem; padding-top: 1.25rem; }
   .proj-pull { padding-left: 1.1rem; }
   .proj-feature-end { flex-direction: row; align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
