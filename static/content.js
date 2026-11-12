@@ -228,6 +228,7 @@ const CONTENT = {
   // ── CURRENTLY ─────────────────────────────────────────────────────────
   // These change the most often — update freely.
   currently: {
+    show: false,   // hidden: Experience marks the current roles. Set true to bring it back.
     lead: `Sophomore at CMU, doing security economics research, and scoping a civic data
            project with the Charpie Leadership Institute.`,
     items: [

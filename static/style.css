@@ -621,13 +621,13 @@ h1.h-name {
 /* ══════════════════════════════════════════
    SECTIONS
 ══════════════════════════════════════════ */
-.sec { padding: 6rem 0; border-bottom: 1px solid var(--b1); }
+.sec { padding: 4.75rem 0; border-bottom: 1px solid var(--b1); }
 #work { border-top: 1px solid var(--b1); }
 /* About sits on a slightly raised surface, so the page isn't five sections
    of identical ground separated by the same hairline. */
 #about { background: var(--s1); }
 
-.sec-hd { margin-bottom: 2.75rem; }
+.sec-hd { margin-bottom: 2.25rem; }
 
 .sec-title {
   font-family:    var(--serif);
@@ -1187,14 +1187,14 @@ span.frame-bar { display: flex; }
   display:               grid;
   grid-template-columns: 1fr 9rem;
   gap:                   0 2.25rem;
-  padding:               1.4rem 0;
+  padding:               1.05rem 0;
   border-bottom:         1px solid var(--b1);
 }
 .exp-row:first-child { border-top: 1px solid var(--b1); }
 
 /* Role and organisation share a line; the one sentence sits under them. */
 .exp-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: .15rem .9rem; margin-bottom: .4rem; }
-.exp-role { font-family: var(--serif); font-weight: var(--dw); font-size: 1.4rem; line-height: 1.2; }
+.exp-role { font-family: var(--serif); font-weight: var(--dw); font-size: 1.3rem; line-height: 1.2; }
 .exp-org  { font-size: .82rem; font-weight: 600; color: var(--ac); }
 .exp-org a { color: inherit; text-decoration: underline; text-decoration-color: var(--acb); text-underline-offset: .22em; }
 .exp-org a:hover { text-decoration-color: var(--ac); }
@@ -1227,29 +1227,17 @@ span.frame-bar { display: flex; }
    treatment and the single most template-looking block on the page;
    a ruled list is also faster to keyword-scan.
 ══════════════════════════════════════════ */
-.sk-g { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 3rem 4rem; }
-
-.sk-cat {
-  font-family:    var(--serif);
-  font-style:     italic;
-  font-weight:    400;
-  font-size:      1.5rem;
-  color:          var(--tx);
-  margin-bottom:  1.1rem;
-  padding-bottom: .85rem;
-  border-bottom:  1px solid var(--b2);
+.sk-g { display: grid; gap: 0; border-top: 1px solid var(--b1); }
+.sk-row {
+  display:               grid;
+  grid-template-columns: 13rem minmax(0, 1fr);
+  align-items:           baseline;
+  gap:                   2rem;
+  padding:               1.1rem 0;
+  border-bottom:         1px solid var(--b1);
 }
-
-.sk-list { list-style: none; }
-.sk-list li {
-  font-size:     .9rem;
-  color:         var(--mu);
-  padding:       .62rem 0;
-  border-bottom: 1px solid var(--b1);
-  transition:    color .25s, padding-left .35s var(--ease);
-}
-.sk-list li:hover { color: var(--tx); padding-left: .35rem; }
-.sk-list li:last-child { border-bottom: none; }
+.sk-cat  { font-family: var(--serif); font-weight: var(--dw); font-size: 1.35rem; line-height: 1.2; color: var(--tx); }
+.sk-list { font-size: .95rem; line-height: 1.65; color: var(--mu); max-width: 70ch; }
 
 
 /* ══════════════════════════════════════════
@@ -1997,7 +1985,7 @@ footer {
   .mb-actions { gap: 1rem 1.5rem; }
   .mb-play { width: 100%; justify-content: center; }
 
-  .sk-g { grid-template-columns: 1fr; gap: 2.25rem; }
+  .sk-row { grid-template-columns: 1fr; gap: .3rem; padding: 1rem 0; }
 
   .exp-row { grid-template-columns: 1fr; padding: 1.2rem 0; }
   .exp-yr  { text-align: left; padding-top: .5rem; }

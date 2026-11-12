@@ -633,6 +633,9 @@ document.addEventListener('click', e => {
 });
 
 function renderCurrently() {
+  /* show: false hides the block; the current roles in Experience and the
+     hero already say what is happening now. */
+  if (!CONTENT.currently || CONTENT.currently.show === false) { document.querySelector('.ab-now')?.remove(); return; }
   document.querySelector('.cur-lead').textContent = CONTENT.currently.lead;
   document.querySelector('.cur-list').innerHTML =
     CONTENT.currently.items
@@ -641,13 +644,13 @@ function renderCurrently() {
 }
 
 function renderSkills() {
+  /* One line per category: a label, then the items as a sentence. Faster
+     to scan than three columns of ruled rows, and a third of the height. */
   document.querySelector('.sk-g').innerHTML =
     CONTENT.skills.map(cat => `
-      <div>
+      <div class="sk-row">
         <h3 class="sk-cat">${cat.category}</h3>
-        <ul class="sk-list">
-          ${cat.items.map(item => `<li>${item}</li>`).join('')}
-        </ul>
+        <p class="sk-list">${cat.items.join(', ')}</p>
       </div>
     `).join('');
 }
