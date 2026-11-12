@@ -787,13 +787,13 @@ function renderSite() {
   if (logo) logo.textContent = SITE.name;
 
   const mobFoot = document.querySelector('.mob-foot');
-  if (mobFoot) mobFoot.textContent = `${SITE.university} · ${SITE.programShort} · ${SITE.gradYear}`;
+  if (mobFoot) mobFoot.textContent = `${SITE.university}, ${SITE.programShort}, ${SITE.gradYear}`;
 
   const ftName = document.querySelector('.ft-name');
-  if (ftName) ftName.textContent = `${SITE.name} · ${SITE.university}`;
+  if (ftName) ftName.textContent = `${SITE.name}, ${SITE.university}`;
 
   const ftProgram = document.querySelector('.ft-program');
-  if (ftProgram) ftProgram.textContent = `${SITE.programShort} · ${SITE.gradYear}`;
+  if (ftProgram) ftProgram.textContent = `${SITE.programShort}, ${SITE.gradYear}`;
 
   document.querySelectorAll('a[href$="resume.pdf"]').forEach(a => a.setAttribute('href', SITE.resumePath));
   document.querySelectorAll('a[href^="mailto:"]').forEach(a => a.setAttribute('href', `mailto:${SITE.email}`));

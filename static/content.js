@@ -128,8 +128,8 @@ const CONTENT = {
     facts: [
       { label: 'Based in', value: 'Pittsburgh, PA' },
       { label: 'Studying', value: 'Information Systems + Policy & Management' },
-      { label: 'Coursework', value: 'Data Structures · Database Design · Human-Centered Software · Fundamentals of Programming · Reasoning with Data · Statistics & Data Science' },
-      { label: 'Focus',    value: 'EdTech · Civic Tech · Product' }
+      { label: 'Coursework', value: 'Data Structures, Database Design, Human-Centered Software, Fundamentals of Programming, Reasoning with Data, Statistics & Data Science' },
+      { label: 'Focus',    value: 'EdTech, Civic Tech, Product' }
     ],
 
     // interests: moved out of the Toolkit section so the skills grid reads
