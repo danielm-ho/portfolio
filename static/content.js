@@ -333,7 +333,12 @@ const PROJECT_GROUPS = [
                          detail page and above the media. Without it a reader
                          hits a video or screenshot before they know what
                          they're looking at.
-   challenge/approach/decision/result → the case-study blocks.
+   challenge/approach/decision/result → the case-study blocks. All four are
+                         optional: leave one out and it doesn't render.
+   labels              → OPTIONAL. Rename a block's heading for this project,
+                         e.g. labels: { challenge: 'The assignment' }. The
+                         defaults are Challenge / Approach / Key decision /
+                         Result.
    decision            → OPTIONAL, and the highest-signal block on the page:
                          one choice you made and what you gave up to make it.
                          "I chose X over Y because Z." Leave it out entirely
@@ -368,6 +373,9 @@ const PROJECT_GROUPS = [
               { src, frame } to override the frame for one image; 'phone'
               sets a phone screenshot in a phone-shaped frame.
    captions:  array of captions aligned by index to secondary images
+   callouts:  OPTIONAL. Numbered pins on the main image, each explained in a
+              list under it: [{ x: 17, y: 66, text: '...' }]. x and y are
+              percentages from the image's left and top edges.
 
    Every image on a project page can be tapped to enlarge.
 ─────────────────────────────────────────────────────────────────────── */
@@ -455,6 +463,10 @@ so the screenshots on this page are from the handed-off build.`,
       frame: 'browser',
       main: embedImage('./static/files/livepgh-home.jpg',
                        'LivePGH landing page: three ways to start finding a neighborhood'),
+      callouts: [
+        { x: 17.5, y: 67, text: `Three ways in: match from the city you live in now, take the fit quiz, or browse every neighborhood.` },
+        { x: 17.5, y: 95, text: `The note on the numbers: every price and rent is an informed estimate, and there is no neighborhood "safety score" or demographic matching.` }
+      ],
       secondary: [
         './static/files/livepgh-matches.jpg',
         './static/files/livepgh-neighborhood.webp',
@@ -530,6 +542,7 @@ to work with the studio as an ongoing freelance client.`,
     group:    'academic',
     title:    'MonoMuse',
     sub:      'Museum Website Redesign & Funnel Analysis',
+    labels:   { challenge: 'The brief' },
     year:     '2026',
     role:     'Designer & Analyst',
     stack:    ['SQL', 'Funnel Analysis', 'Figma', 'Usability Evaluation', 'Information Architecture'],
@@ -566,6 +579,7 @@ sessions (roughly 10), suggesting page count alone doesn't predict conversion.`,
     group:    'academic',
     title:    'SWE Life',
     sub:      'CMU 15-112 Final Project',
+    labels:   { challenge: 'The project', approach: 'What I built' },
     year:     '2026',
     role:     'Solo Developer',
     stack:    ['Python', 'CMU Graphics Library', 'Game Design', 'Object-Oriented Programming'],
@@ -601,6 +615,7 @@ course website.`,
     group:    'academic',
     title:    'Titanic Survival Classifier',
     sub:      'Binary Classification Analysis',
+    labels:   { challenge: 'The assignment' },
     year:     '2026',
     role:     'Data Analyst',
     stack:    ['R', 'RMarkdown', 'LDA', 'QDA', 'Logistic Regression', 'Classification Trees', 'ggplot2'],
@@ -634,6 +649,7 @@ and a structured comparison of model performance across key metrics.`,
     card:     false,   // shown on the homepage as the music band, not a grid card
     title:    'Music Portfolio',
     sub:      'Ottoman Empire and solo covers',
+    labels:   { approach: 'What I do', result: 'Reach' },
     year:     '2024 – Present',
     role:     'Producer, Arranger & Performing Musician',
     stack:    ['Arranging', 'Recording', 'Mixing & Mastering', 'Ensemble Performance'],

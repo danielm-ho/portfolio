@@ -36,6 +36,7 @@
   --ac:    #2fa876;
   --aca:   rgba(47, 168, 118, .10);
   --acb:   rgba(47, 168, 118, .28);
+  --on-ac: #0b0b0b;                        /* text on an accent-coloured fill */
   --map-line:  #4d4d4d;                    /* neighborhood outlines in the hero map */
   --map-hover: rgba(240, 237, 232, .07);
 
@@ -98,7 +99,7 @@ body {
   padding:         .7rem 1.1rem;
   border-radius:   var(--r);
   background:      var(--ac);
-  color:           #0b0b0b;
+  color:           var(--on-ac);
   font-size:       .72rem;
   font-weight:     700;
   letter-spacing:  .08em;
@@ -348,7 +349,7 @@ button:focus-visible {
                     color .3s var(--ease);
 }
 
-.btn-fill { background: var(--ac); color: #0b0b0b; }
+.btn-fill { background: var(--ac); color: var(--on-ac); }
 .btn-fill:hover { background: #3fbf8a; }
 
 .btn-out { border: 1px solid var(--b2); color: var(--mu); }
@@ -1336,7 +1337,7 @@ footer {
 ══════════════════════════════════════════ */
 #page-project { padding-top: var(--nav-h); }
 
-.pd-hero { padding: 5rem 3rem 3.5rem; border-bottom: 1px solid var(--b1); max-width: 1120px; margin: 0 auto; }
+.pd-hero { padding: 4rem 3rem 0; max-width: 1120px; margin: 0 auto; }
 
 .pd-back {
   display:         inline-flex;
@@ -1400,7 +1401,62 @@ footer {
 .pd-meta-lbl  { font-size: .72rem; color: var(--mu2); }
 .pd-meta-val  { font-size: .9rem; font-weight: 500; }
 
-.pd-media { padding: 3.5rem 3rem 0; max-width: 1120px; margin: 0 auto; }
+.pd-media { padding: 3rem 3rem 0; max-width: 1120px; margin: 0 auto; }
+
+/* The rest of the screenshots, after the written part. */
+.pd-gallery { max-width: 1120px; margin: 0 auto; padding: 0 3rem 4.5rem; }
+.pd-gallery .m-grid { margin-top: 0; padding-top: 3rem; border-top: 1px solid var(--b1); }
+
+/* Numbered pins on the lead image, explained in the list under it. */
+.shot-img { position: relative; display: block; }
+.shot-pin {
+  position:        absolute;
+  width:           26px;
+  height:          26px;
+  margin:          -13px 0 0 -13px;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  border-radius:   50%;
+  background:      var(--ac);
+  color:           var(--on-ac);
+  font-family:     var(--sans);
+  font-size:       .78rem;
+  font-weight:     700;
+  box-shadow:      0 0 0 3px rgba(255, 255, 255, .85);
+}
+.shot-notes {
+  list-style:    none;
+  counter-reset: note;
+  display:       grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:           1rem 2.5rem;
+  margin-top:    1.25rem;
+}
+.shot-notes li {
+  counter-increment: note;
+  position:     relative;
+  padding-left: 2.4rem;
+  font-size:    .875rem;
+  line-height:  1.6;
+  color:        var(--mu);
+}
+.shot-notes li::before {
+  content:         counter(note);
+  position:        absolute;
+  left:            0;
+  top:             .05rem;
+  width:           24px;
+  height:          24px;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  border-radius:   50%;
+  background:      var(--ac);
+  color:           var(--on-ac);
+  font-size:       .75rem;
+  font-weight:     700;
+}
 
 .embed-16x9,
 .embed-gdoc {
@@ -1512,40 +1568,50 @@ footer {
 .pd-body {
   max-width:             1120px;
   margin:                0 auto;
-  padding:               4rem 3rem;
+  padding:               4rem 3rem 4.5rem;
   display:               grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr);
   align-items:           start;
   gap:                   5rem;
 }
 
-/* Challenge / Approach / Result — each project reads as a short case
-   study with a real spine instead of a paragraph dump. */
-.pd-cs-block { margin-bottom: 2.75rem; }
-
-/* The trade-off block is the one a recruiter is actually reading for, so
-   it's set apart rather than left as a fourth identical paragraph. */
-.pd-cs-block--key {
-  padding:       1.75rem 1.75rem 1.5rem;
-  border:        1px solid var(--b2);
-  border-radius: var(--r);
-  background:    linear-gradient(165deg, var(--aca), transparent 60%);
-}
-.pd-cs-block--key h3 { color: var(--ac); border-bottom-color: var(--b2); }
-.pd-cs-block--key p  { color: var(--tx); }
+/* The written part: a column of short blocks at a readable measure. */
+.pd-cs-block { margin-bottom: 3rem; max-width: 64ch; }
 .pd-cs-block:last-child { margin-bottom: 0; }
-.pd-overview h3 {
+
+.pd-overview h2 {
   font-family:    var(--serif);
   font-style:     italic;
   font-weight:    400;
   font-size:      1.65rem;
+  line-height:    1.2;
   color:          var(--tx);
-  margin-bottom:  1rem;
-  padding-bottom: .75rem;
-  border-bottom:  1px solid var(--b1);
+  margin-bottom:  .9rem;
 }
-.pd-overview p  { color: var(--mu); font-size: .95rem; line-height: 1.95; margin-bottom: 1rem; }
+.pd-overview p  { color: var(--mu); font-size: 1rem; line-height: 1.85; margin-bottom: 1rem; }
 .pd-overview p:last-child { margin-bottom: 0; }
+
+/* The decision is the block a recruiter is reading for. It is set as a
+   pull quote: larger, in the display face, hung off an accent rule. */
+.pd-cs-block--key {
+  padding:     .25rem 0 .25rem 1.75rem;
+  border-left: 2px solid var(--ac);
+}
+.pd-cs-block--key h2 {
+  font-family: var(--sans);
+  font-style:  normal;
+  font-size:   .8rem;
+  font-weight: 600;
+  color:       var(--ac);
+  margin-bottom: .7rem;
+}
+.pd-cs-block--key p {
+  font-family: var(--serif);
+  font-size:   clamp(1.3rem, 2vw, 1.6rem);
+  line-height: 1.4;
+  color:       var(--tx);
+  text-wrap:   pretty;
+}
 
 .pd-side {
   display:        flex;
@@ -1553,36 +1619,23 @@ footer {
   gap:            2rem;
   position:       sticky;
   top:            calc(var(--nav-h) + 2rem);
+  padding-top:    .4rem;
 }
-.pd-side-s   { display: flex; flex-direction: column; gap: .6rem; }
-.pd-side-lbl { font-size: .72rem; font-weight: 600; color: var(--mu2); }
-.pd-side-val { font-size: .9rem; }
-.pd-side-stack { font-size: .875rem; color: var(--mu); line-height: 1.85; }
+.pd-side-s   { display: flex; flex-direction: column; gap: .5rem; }
+.pd-side-lbl { font-size: .78rem; font-weight: 600; color: var(--mu2); }
+.pd-side-stack { font-size: .9rem; color: var(--mu); line-height: 1.75; }
 
-.pd-side-link {
-  color:           var(--ac);
-  font-size:       .875rem;
-  text-decoration: none;
-  display:         inline-block;
-  transition:      opacity .25s;
-}
-.pd-side-link:hover { opacity: .72; }
-
-/* Result stat — the project's headline outcome, given real typographic
-   weight instead of being buried in a sentence. */
-.pd-side-stat {
-  padding-bottom: 1.5rem;
-  border-bottom:  1px solid var(--b2);
-}
+/* Result figure, given real typographic weight instead of being buried
+   in a sentence. */
+.pd-side-stat { padding-bottom: 1.75rem; border-bottom: 1px solid var(--b2); }
 .pd-side-stat .st-v {
   font-family: var(--serif);
   font-weight: var(--dw);
-  font-size:   3.25rem;
+  font-size:   3.4rem;
   line-height: 1;
-  margin-top:  .5rem;
   color:       var(--ac);
 }
-.pd-side-stat .st-l { font-size: .8rem; color: var(--mu); margin-top: .45rem; }
+.pd-side-stat .st-l { font-size: .85rem; color: var(--mu); margin-top: .2rem; }
 
 /* Next-project link at the foot of a case study — keeps a recruiter
    inside the work instead of dead-ending them at the bottom. */
@@ -1658,8 +1711,9 @@ footer {
   .ab-photo  { order: -1; grid-column: 1 / -1; width: 200px; }
   .ab-main   { grid-column: 1 / -1; }
   .ab-facts, .ab-honors { min-width: 0; }
-  .pd-body { grid-template-columns: 1fr; gap: 3rem; }
-  .pd-side { position: static; }
+  .pd-body { grid-template-columns: 1fr; gap: 2.5rem; }
+  .pd-side { position: static; flex-direction: row; flex-wrap: wrap; gap: 1.5rem 3rem; padding-top: 2rem; border-top: 1px solid var(--b1); }
+  .pd-side-stat { padding-bottom: 0; border-bottom: none; }
   .hero-grid { gap: 2.25rem; }
   .proj-feature-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem; }
   .proj-feature-end { grid-column: 1 / -1; flex-direction: row; align-items: baseline; justify-content: space-between; }
@@ -1673,7 +1727,7 @@ footer {
 }
 
 @media (max-width: 780px) {
-  .w, .pd-hero, .pd-media, .pd-body, .pd-next, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .w, .pd-hero, .pd-media, .pd-body, .pd-gallery, .pd-next, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
   .sec { padding: 4.5rem 0; }
 
   #hero { padding: calc(var(--nav-h) + 1rem) 1.5rem 2.5rem; min-height: 0; gap: 2.25rem; }
@@ -1727,7 +1781,17 @@ footer {
   .proj-a--wide .proj-body { padding: 1.35rem; }
   .pd-summary { margin-bottom: 1.5rem; }
   .pd-links { gap: 1.15rem; margin-bottom: 1.75rem; }
-  .pd-cs-block--key { padding: 1.25rem 1.25rem 1rem; }
+  .pd-hero { padding-top: 2.5rem; }
+  .pd-meta { gap: 1rem 2rem; }
+  .pd-title { margin-bottom: 1.25rem; }
+  .pd-back { margin-bottom: 2rem; }
+  .pd-body { padding-top: 2.5rem; padding-bottom: 3rem; }
+  .pd-cs-block { margin-bottom: 2.25rem; }
+  .pd-cs-block--key { padding-left: 1.1rem; }
+  .pd-gallery { padding-bottom: 3rem; }
+  .pd-gallery .m-grid { padding-top: 2.25rem; }
+  .shot-notes { grid-template-columns: 1fr; gap: .9rem; }
+  .shot-pin { width: 22px; height: 22px; margin: -11px 0 0 -11px; font-size: .7rem; box-shadow: 0 0 0 2px rgba(255, 255, 255, .85); }
   .proj-body { padding: 1.35rem 1.35rem 1.35rem; }
   .arr       { display: none; }
 
@@ -1770,7 +1834,7 @@ footer {
   .ct-cell-l { font-size: 1.5rem; }
   .ct-cell-arr { top: 1.4rem; }
 
-  .pd-media { padding-top: 2.5rem; }
+  .pd-media { padding-top: 2rem; }
   .m-grid  { grid-template-columns: 1fr; gap: 1.75rem; }
   .pd-next-a { flex-direction: column; align-items: flex-start; gap: 1rem; }
 
@@ -1794,7 +1858,6 @@ footer {
   .h-map { display: none !important; }
   .sec { padding: 1.5rem 0; page-break-inside: avoid; }
   .proj-row { grid-template-columns: 1fr 1fr; }
-  .pd-cs-block--key { background: none; }
   .proj-a { break-inside: avoid; }
   .js-ready .rv { opacity: 1 !important; transform: none !important; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .7em; color: #666; }

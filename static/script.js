@@ -586,7 +586,7 @@ function renderProject(slug) {
 
   /* One screenshot: framed, captioned, and wrapped in a button so it can
      be tapped (or focused and Enter-ed) to enlarge. */
-  function buildShot(src, alt, caption, frame, extraClass = '') {
+  function buildShot(src, alt, caption, frame, extraClass = '', callouts = []) {
     const kind = ['browser', 'phone'].includes(frame) ? frame : 'plain';
     const safeAlt = String(alt || caption || 'Project screenshot').replace(/"/g, '&quot;');
     const safeCap = String(caption || '').replace(/"/g, '&quot;');
@@ -595,11 +595,16 @@ function renderProject(slug) {
               aria-label="Enlarge image: ${safeAlt}">
         <span class="frame frame--${kind}">
           ${kind === 'browser' ? '<span class="frame-bar" aria-hidden="true"><span></span></span>' : ''}
-          <img src="${src}" alt="${safeAlt}" loading="lazy" decoding="async"
-               onerror="this.closest('.shot').classList.add('shot--err')">
+          <span class="shot-img">
+            <img src="${src}" alt="${safeAlt}" loading="lazy" decoding="async"
+                 onerror="this.closest('.shot').classList.add('shot--err')">
+            ${callouts.map((c, i) =>
+              `<span class="shot-pin" style="left:${c.x}%;top:${c.y}%" aria-hidden="true">${i + 1}</span>`).join('')}
+          </span>
         </span>
       </button>
       ${caption ? `<figcaption class="shot-cap">${caption}</figcaption>` : ''}
+      ${callouts.length ? `<ol class="shot-notes">${callouts.map(c => `<li>${c.text}</li>`).join('')}</ol>` : ''}
     </figure>`;
   }
 
@@ -622,25 +627,32 @@ function renderProject(slug) {
         ? main.replace('<img', '<img onerror="handleImgError(this)" ')
         : main;
     }
-    if (main.kind === 'image') return buildShot(main.src, main.alt, '', media.frame, 'shot--main');
+    if (main.kind === 'image') return buildShot(main.src, main.alt, '', media.frame, 'shot--main', media.callouts || []);
     return buildEmbedFacade(main); // embedYouTube()/embedIframe() descriptor
   }
 
-  const mediaHTML = p.media
-    ? `<div class="pd-media">
-         ${buildMainMedia(p.media.main, p.media)}
-         ${buildSecondaryImages(p.media)}
-       </div>`
-    : `<div class="pd-media">
-         <div class="m-main">
-           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-           <span>Add primary media — screenshot, video embed, or live demo link</span>
-         </div>
-         <div class="m-grid">
-           <div class="m-slot">Secondary image</div>
-           <div class="m-slot">Secondary image</div>
-         </div>
-       </div>`;
+  /* The lead image (or video) sits directly under the title. The rest of
+     the screenshots come after the written part, so on a phone the words
+     are one scroll away and not five screenshots down. */
+  const leadHTML = p.media?.main
+    ? `<div class="pd-media">${buildMainMedia(p.media.main, p.media)}</div>`
+    : '';
+  const galleryHTML = p.media?.secondary?.length
+    ? `<div class="pd-gallery">${buildSecondaryImages(p.media)}</div>`
+    : '';
+
+  /* The written part. Every block is optional: a page shows only the ones
+     it has something for. Headings can be renamed per project with
+     `labels`, because "Challenge" is the wrong word for a course brief. */
+  const L = Object.assign(
+    { challenge: 'Challenge', approach: 'Approach', decision: 'Key decision', result: 'Result' },
+    p.labels || {});
+  const block = (key, extra = '') => p[key]
+    ? `<section class="pd-cs-block${extra}">
+         <h2>${L[key]}</h2>
+         <p>${p[key]}</p>
+       </section>`
+    : '';
 
   /* Next project — a case study that dead-ends costs you the rest of the
      portfolio. Wraps around so there's always somewhere to go. */
@@ -682,50 +694,29 @@ function renderProject(slug) {
       </div>
     </div>
 
-    ${mediaHTML}
+    ${leadHTML}
 
     <div class="pd-body">
       <div class="pd-overview">
-        ${p.challenge ? `
-        <div class="pd-cs-block">
-          <h3>Challenge</h3>
-          <p>${p.challenge}</p>
-        </div>` : ''}
-        <div class="pd-cs-block">
-          <h3>Approach</h3>
-          <p>${p.approach}</p>
-        </div>
-        ${p.decision ? `
-        <div class="pd-cs-block pd-cs-block--key">
-          <h3>Key decision</h3>
-          <p>${p.decision}</p>
-        </div>` : ''}
-        <div class="pd-cs-block">
-          <h3>Result</h3>
-          <p>${p.result}</p>
-        </div>
+        ${block('challenge')}
+        ${block('approach')}
+        ${block('decision', ' pd-cs-block--key')}
+        ${block('result')}
       </div>
-      <div class="pd-side">
+      <aside class="pd-side">
         ${p.resultStat ? `
         <div class="pd-side-s pd-side-stat">
-          <div class="pd-side-lbl">Result</div>
           <div class="st-v">${p.resultStat.value}</div>
           <div class="st-l">${p.resultStat.label}</div>
         </div>` : ''}
         <div class="pd-side-s">
-          <div class="pd-side-lbl">Technologies</div>
-          <div class="pd-side-stack">${p.stack.join(' · ')}</div>
+          <div class="pd-side-lbl">Built with</div>
+          <div class="pd-side-stack">${p.stack.join(', ')}</div>
         </div>
-        <div class="pd-side-s">
-          <div class="pd-side-lbl">Year</div>
-          <div class="pd-side-val">${p.year}</div>
-        </div>
-        <div class="pd-side-s">
-          <div class="pd-side-lbl">Role</div>
-          <div class="pd-side-val">${p.role}</div>
-        </div>
-      </div>
+      </aside>
     </div>
+
+    ${galleryHTML}
 
     ${nextHTML}
   `;
