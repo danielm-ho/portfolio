@@ -319,23 +319,34 @@ function metaLine(items, extraClass = '') {
 }
 
 function renderExperience() {
-  document.querySelector('.exp-list').innerHTML =
-    CONTENT.experience.map(e => {
-      const org = e.url
-        ? `<a href="${e.url}" target="_blank" rel="noopener noreferrer">${e.org}</a>`
-        : e.org;
-      const more = e.project && PROJECTS[e.project]
-        ? ` <a class="exp-more" href="${projectHref(e.project)}">Case study</a>`
-        : '';
-      return `
-      <div class="exp-row rv">
+  const row = e => {
+    const org = e.url
+      ? `<a href="${e.url}" target="_blank" rel="noopener noreferrer">${e.org}</a>`
+      : e.org;
+    const more = e.project && PROJECTS[e.project]
+      ? ` <a class="exp-more" href="${projectHref(e.project)}">Case study</a>`
+      : '';
+    return `
+      <div class="exp-row">
         <div>
           <div class="exp-head"><span class="exp-role">${e.role}</span><span class="exp-org">${org}</span></div>
           <p class="exp-desc">${e.line || e.desc || ''}${more}</p>
         </div>
         <span class="exp-yr${e.current ? ' is-current' : ''}">${e.year}</span>
       </div>`;
-    }).join('');
+  };
+  /* The first few roles show; the rest sit in a native disclosure, so the
+     page is shorter and nothing is deleted. */
+  const all  = CONTENT.experience;
+  const n    = CONTENT.experienceVisible ?? all.length;
+  const rest = all.slice(n);
+  document.querySelector('.exp-list').innerHTML =
+    all.slice(0, n).map(row).join('') +
+    (rest.length ? `
+      <details class="exp-earlier">
+        <summary>Earlier roles (${rest.length})</summary>
+        ${rest.map(row).join('')}
+      </details>` : '');
 }
 
 /* ── PROJECT CARDS ──

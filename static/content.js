@@ -165,6 +165,9 @@ const CONTENT = {
   //                  the role. The full bullets live in the resume PDF.
   // project:       → OPTIONAL. A PROJECTS slug; adds a "Case study" link.
   // url:           → OPTIONAL. Makes the organisation name a link.
+  // experienceVisible: how many roles show before the rest fold into an
+  // "Earlier roles" disclosure. Nothing is removed; set it to 99 to show all.
+  experienceVisible: 4,
   experience: [
     {
       current: true,
@@ -481,7 +484,8 @@ discriminatory, so it matches on how you want to live.`,
     result: `Over a summer internship I delivered the pipeline, the matching quiz, the
 comparison tool and the neighborhood pages: 156 places in all, covering every City of
 Pittsburgh neighborhood plus 67 Allegheny County suburbs, each with cost, commute, walkability
-and lifestyle detail. The build is finished and handed off. It has not launched publicly yet,
+and lifestyle detail. I ran a 30-item QA audit before the handoff. The build is finished and
+handed off. It has not launched publicly yet,
 so the screenshots on this page are from the handed-off build.`,
     resultStat: { value: '156', label: 'Neighborhoods & suburbs covered' },
     media: {
@@ -621,9 +625,16 @@ sessions (roughly 10), suggesting page count alone doesn't predict conversion.`,
     thumb: './static/files/swe-life-2.webp',
     summary: `A 1,300-line Python minigame collection with a progression system, an in-game
               shop and two original minigames, built solo for CMU 15-112.`,
-    // TODO(Daniel) decision: what did you cut, or choose the harder path on?
-    //   The scrolling platformer and the slingshot physics were both optional;
-    //   why build them instead of more minigames? Two or three sentences.
+    /* decision: NOT from an interview. It is read out of your own README in
+       the SWE-Life repo (the debuffs and "impossible at first") and out of
+       swe-life.py (FallingItem and BarberShop are commented as used by both a
+       minigame and the climb). Check it says what you meant.
+       TODO(Daniel): add what you cut, or what went wrong, in your own words. */
+    decision: `I made the three minigames feed the final climb instead of standing alone. Low
+hygiene puts a stink cloud over the screen, excess hair weighs down your jump, and a messy
+room makes the map harder and you slower, so the climb is impossible until you have played
+the others. In the code, the falling items and barbershops from the minigames are the same
+classes the climb reuses.`,
     challenge: `A minigame collection built as the final project for CMU 15-112 (Fundamentals
 of Programming and Computer Science). The game follows a Software Engineer attempting to climb
 the corporate ladder by improving hygiene, grooming, and room cleanliness stats through a
