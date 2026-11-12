@@ -431,7 +431,9 @@ function renderProjectCards() {
     .map(({ g, items }) => {
       /* Featured projects come out of the row and lead the tier. */
       const featured = items.filter(([, p]) => p.featured);
-      const rest     = items.filter(([, p]) => !p.featured);
+      const rest     = items.filter(([, p]) => !p.featured && !p.compact);
+      /* compact: true projects become one-line rows under the cards. */
+      const lines    = items.filter(([, p]) => p.compact && !p.featured);
       /* A row holding a single project gets a full-width horizontal card,
          so a lone tile never sits beside an empty half-row. */
       const wide = rest.length === 1;
@@ -447,6 +449,15 @@ function renderProjectCards() {
           <div class="proj-row">
             ${rest.map(([slug, p], i) => buildCard(slug, p, i, wide)).join('')}
           </div>` : ''}
+          ${lines.length ? `
+          <ul class="proj-lines">
+            ${lines.map(([slug, p]) => `
+            <li><a class="proj-line rv" href="${projectHref(slug)}" data-slug="${slug}">
+              <span class="proj-line-t">${p.title}</span>
+              <span class="proj-line-s">${p.sub}</span>
+              <span class="proj-line-k">${(p.cardTags || []).join(', ')}</span>
+            </a></li>`).join('')}
+          </ul>` : ''}
         </section>`;
     }).join('');
 }

@@ -720,6 +720,25 @@ span.frame-bar { display: flex; }
 }
 .proj-feature:hover .proj-more { text-decoration-color: var(--ac); }
 
+/* ── COMPACT PROJECT LIST ──
+   Smaller coursework as ruled rows under the cards: title, what it was,
+   what it used. Each row links to the project's own page. */
+.proj-lines { list-style: none; margin-top: 2rem; border-top: 1px solid var(--b1); }
+.proj-line {
+  display:               grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr) minmax(0, .9fr);
+  align-items:           baseline;
+  gap:                   1.5rem;
+  padding:               1.1rem 0;
+  border-bottom:         1px solid var(--b1);
+  text-decoration:       none;
+  color:                 inherit;
+}
+.proj-line-t { font-family: var(--serif); font-weight: var(--dw); font-size: 1.4rem; line-height: 1.2; transition: color .25s; }
+.proj-line:hover .proj-line-t { color: var(--ac); }
+.proj-line-s { font-size: .9rem; color: var(--mu); }
+.proj-line-k { font-size: .82rem; color: var(--mu2); text-align: right; }
+
 .proj-a {
   display:         flex;
   flex-direction:  column;
@@ -1755,6 +1774,9 @@ footer {
   .proj-grid { gap: 3rem; }
   .proj-row  { grid-template-columns: 1fr; gap: 1.5rem; }
   .proj-feature { margin-bottom: 1.5rem; }
+  .proj-lines { margin-top: 1.5rem; }
+  .proj-line { grid-template-columns: 1fr; gap: .25rem; padding: 1rem 0; }
+  .proj-line-k { text-align: left; }
   .proj-feature-media img { aspect-ratio: 16 / 10; }
   .proj-feature-body { grid-template-columns: 1fr; gap: 1.5rem; padding-top: 1.25rem; }
   .proj-pull { padding-left: 1.1rem; }

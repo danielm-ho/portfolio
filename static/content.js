@@ -297,6 +297,9 @@ const PROJECT_GROUPS = [
    Each entry powers both the homepage grid card AND the detail page.
 
    group               → which PROJECT_GROUPS tier the card sits in
+   compact             → OPTIONAL. true shows the project as one line in a
+                         list under its tier's cards (title, subtitle, tools)
+                         instead of a full card. It still has its own page.
    card                → OPTIONAL. false keeps the project out of the Selected
                          Work grid (it still has its own page). The music page
                          uses this: the homepage shows it as the full-width
@@ -537,6 +540,7 @@ to work with the studio as an ongoing freelance client.`,
 
   'monomuse': {
     group:    'academic',
+    compact:  true,
     title:    'MonoMuse',
     sub:      'Museum Website Redesign & Funnel Analysis',
     labels:   { challenge: 'The brief' },
@@ -615,6 +619,7 @@ CMU's Spring '26 15-112 course website.`,
 
   'titanic-classifier': {
     group:    'academic',
+    compact:  true,
     title:    'Titanic Survival Classifier',
     sub:      'Binary Classification Analysis',
     labels:   { challenge: 'The assignment' },
