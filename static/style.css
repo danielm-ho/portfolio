@@ -1382,11 +1382,15 @@ footer {
   display:         flex;
   align-items:     center;
   justify-content: space-between;
-  gap:             1rem;
+  flex-wrap:       wrap;
+  gap:             .6rem 1rem;
   font-size:       .8rem;
   color:           var(--mu2);
   border-top:      1px solid var(--b1);
 }
+.ft-credit { flex-basis: 100%; font-size: .8rem; color: var(--mu2); }
+.ft-credit a { color: inherit; text-decoration: underline; text-decoration-color: var(--b2); text-underline-offset: .22em; }
+.ft-credit a:hover { color: var(--tx); }
 
 
 /* ══════════════════════════════════════════
