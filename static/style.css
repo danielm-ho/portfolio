@@ -409,57 +409,86 @@ button:focus-visible {
 
 
 /* ── HERO ──────────────────────────────────────────────────────────────
-   Left: name, the one-sentence statement, a short paragraph, two actions.
-   Right: Pittsburgh's neighborhoods as line work with the LivePGH matches
-   filled in. The figures run underneath, across both columns. */
-#hero-s { position: relative; }
+   A poster. The map of Pittsburgh is drawn large behind everything and
+   runs off the right edge. The name is set across it at nearly the full
+   width of the screen. Under the name: the statement (with a portrait) on
+   the left, the map's key on the right. Figures run along the bottom. */
+#hero-s { position: relative; overflow: hidden; }
 
 #hero {
+  position:        relative;
   min-height:      100svh;
   display:         flex;
   flex-direction:  column;
-  justify-content: center;
-  gap:             3.5rem;
-  padding:         calc(var(--nav-h) + 2.5rem) 3rem 3rem;
-  max-width:       1240px;
+  justify-content: flex-end;
+  gap:             2.5rem;
+  padding:         calc(var(--nav-h) + 1rem) 3rem 2.5rem;
+  max-width:       1680px;
   margin:          0 auto;
 }
 
-.hero-grid {
-  display:               grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
-  align-items:           center;
-  gap:                   3.5rem;
-}
-
+/* The name. Sized off the viewport so "Daniel Ho" spans the page at any
+   width; it lets clicks through so the map under it stays live. */
 h1.h-name {
+  position:       relative;
+  z-index:        1;
   font-family:    var(--serif);
   font-weight:    var(--dw);
-  font-size:      clamp(3.4rem, 6.2vw, 5.6rem);
-  line-height:    .95;
-  letter-spacing: -.02em;
-  margin-bottom:  1.6rem;
+  font-size:      clamp(4.5rem, 20.5vw, 23rem);
+  line-height:    .8;
+  letter-spacing: -.045em;
+  margin:         0 0 0 -.05em;
+  white-space:    nowrap;
+  pointer-events: none;
 }
 
-/* The statement. Set in the display face at roughly a third of the name's
-   size, so the name is read first and this is read second. */
+.hero-row {
+  position:              relative;
+  z-index:               1;
+  display:               grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  align-items:           end;
+  gap:                   4rem;
+}
+
+/* Portrait and statement share a line. */
+.h-say { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.1rem; }
+.h-face {
+  flex:          0 0 auto;
+  width:         6.5rem;
+  height:        6.5rem;
+  border-radius: 50%;
+  object-fit:    cover;
+  border:        1px solid var(--b2);
+}
+
 .h-lede {
   font-family:    var(--serif);
   font-weight:    400;
-  font-size:      clamp(1.55rem, 2.6vw, 2.3rem);
-  line-height:    1.25;
+  font-size:      clamp(1.5rem, 2.35vw, 2.2rem);
+  line-height:    1.22;
   letter-spacing: -.005em;
   color:          var(--tx);
-  max-width:      22ch;
-  margin-bottom:  1.6rem;
+  max-width:      26ch;
   text-wrap:      balance;
 }
 
-.h-desc { max-width: 46ch; color: var(--mu); font-size: .95rem; line-height: 1.8; margin-bottom: 2rem; }
+.h-desc { color: var(--mu); font-size: .95rem; line-height: 1.6; margin-bottom: 1.5rem; }
 .h-cta  { display: flex; gap: .6rem; flex-wrap: wrap; }
 
+/* The map's key sits on the paper colour so it stays readable where the
+   map runs behind it. */
+.h-key { background: var(--bg); padding: 1.1rem 1.25rem 1rem; border: 1px solid var(--b1); border-radius: 6px; }
+
 /* ── HERO MAP ── */
-.h-map { margin: 0; min-width: 0; }
+.h-map {
+  position: absolute;
+  z-index:  0;
+  top:      calc(var(--nav-h) - 9.5vw);
+  right:    -9vw;
+  width:    min(76vw, 1300px);
+  margin:   0;
+}
 
 .h-map-svg { display: block; width: 100%; height: auto; overflow: visible; }
 
@@ -478,7 +507,34 @@ h1.h-name {
 .h-map-svg path.is-match[data-rank="3"] { fill-opacity: .62; }
 .h-map-svg path.is-match[data-rank="4"] { fill-opacity: .46; }
 .h-map-svg path.is-match:hover { fill: var(--ac); fill-opacity: 1; }
+.h-map-svg path { cursor: pointer; }
+.h-map-svg path.is-hot { fill: var(--map-hover); stroke: var(--tx); }
+.h-map-svg path.is-match.is-hot { fill: var(--ac); fill-opacity: 1; stroke: var(--bg); }
 
+/* What the map is, said above it. */
+.h-map-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: .2rem .8rem; margin-bottom: .8rem; }
+.h-map-title { font-family: var(--serif); font-size: 1.5rem; line-height: 1.1; color: var(--tx); }
+.h-map-sub   { font-size: .82rem; color: var(--mu); line-height: 1.5; }
+
+/* The name of whatever is under the pointer. */
+.h-map-read { min-height: 1.5em; margin-top: .7rem; font-size: .82rem; color: var(--mu2); line-height: 1.5; }
+.h-map-read.is-live { color: var(--tx); font-weight: 600; }
+.h-map-list li { transition: color .2s; cursor: default; }
+.h-map-list li.is-hot .h-map-hood { color: var(--ac); font-weight: 600; }
+
+/* ── The arrival sequence ──
+   The one thing on the page that moves without being asked, once: the
+   four matches fill in rank order while their rows appear in step. */
+@media (prefers-reduced-motion: no-preference) {
+  .h-map.is-seq path.is-match   { animation: mapFill .55s var(--ease) both; animation-delay: calc(.45s + var(--i) * .32s); }
+  .h-map.is-seq .h-map-mark     { animation: mapShow .4s var(--ease) both;  animation-delay: calc(.65s + var(--i) * .32s); }
+  .h-key.is-seq .h-map-list li  { animation: mapShow .5s var(--ease) both;  animation-delay: calc(.45s + var(--i) * .32s); }
+}
+@keyframes mapFill { from { fill: transparent; } }
+@keyframes mapShow { from { opacity: 0; } }
+
+/* Markers are labels, not targets: taps go through to the neighborhood. */
+.h-map-mark { pointer-events: none; }
 .h-map-mark circle { fill: var(--bg); stroke: var(--ac); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
 .h-map-mark text {
   font-family: var(--sans);
@@ -488,7 +544,6 @@ h1.h-name {
   text-anchor: middle;
 }
 
-.h-map-cap { margin-top: 1.1rem; }
 
 /* The four matches, numbered to agree with the markers on the map. */
 .h-map-list {
@@ -518,7 +573,7 @@ h1.h-name {
 .h-map-hood { flex: 1; min-width: 0; }
 .h-map-fit  { color: var(--mu); font-variant-numeric: tabular-nums; }
 
-.h-map-note { margin-top: .8rem; font-size: .8rem; color: var(--mu); line-height: 1.6; }
+.h-map-note { margin-top: .25rem; font-size: .82rem; color: var(--mu); line-height: 1.6; }
 .h-map-note a {
   color:                 var(--ac);
   text-decoration:       underline;
@@ -1755,7 +1810,7 @@ footer {
   .pd-body { grid-template-columns: 1fr; gap: 2.5rem; }
   .pd-side { position: static; flex-direction: row; flex-wrap: wrap; gap: 1.5rem 3rem; padding-top: 2rem; border-top: 1px solid var(--b1); }
   .pd-side-stat { padding-bottom: 0; border-bottom: none; }
-  .hero-grid { gap: 2.25rem; }
+  .hero-row { gap: 2.5rem; }
   .proj-feature-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem; }
   .proj-feature-end { grid-column: 1 / -1; flex-direction: row; align-items: baseline; justify-content: space-between; }
 }
@@ -1771,18 +1826,20 @@ footer {
   .w, .pd-hero, .pd-media, .pd-body, .pd-gallery, .pd-next, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
   .sec { padding: 4.5rem 0; }
 
-  #hero { padding: calc(var(--nav-h) + 1rem) 1.5rem 2.5rem; min-height: 0; gap: 2.25rem; }
-  h1.h-name { margin-bottom: 1rem; }
-  .h-lede   { max-width: none; margin-bottom: 0; }
-  /* One column, and the map moves up between the statement and the
-     paragraph so it is on the first screen. */
-  .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
-  .hero-copy { display: contents; }
-  .h-name, .h-lede { order: 1; }
-  .h-map  { order: 2; }
-  .h-desc { order: 3; margin-bottom: 0; }
-  .h-cta  { order: 4; width: 100%; }
+  /* Phone: the map fills the top of the screen and runs off the right
+     edge, the name sits across its lower part, then the statement, the
+     key and the actions in one column. */
+  #hero { padding: var(--nav-h) 1.5rem 2.5rem; min-height: 0; gap: 1.5rem; justify-content: flex-start; }
+  .h-map { position: relative; top: auto; right: auto; width: 128%; margin: .5rem 0 -24vw -6%; }
+  h1.h-name { font-size: 23.5vw; }
+  .hero-row { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .h-say  { gap: 1rem; margin-bottom: .9rem; }
+  .h-face { width: 4.25rem; height: 4.25rem; }
+  .h-lede { max-width: none; font-size: 1.4rem; }
+  .h-desc { margin-bottom: 1.25rem; }
+  .h-cta  { width: 100%; }
   .h-cta .btn { flex: 1; justify-content: center; }
+  .h-key  { padding: 1rem 1rem .9rem; }
   /* Markers are drawn in map units, so they need enlarging to stay legible
      when the whole map is 340px wide. */
   .h-map-mark-i { transform: scale(1.75); }

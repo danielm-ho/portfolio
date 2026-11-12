@@ -58,9 +58,8 @@ const CONTENT = {
     // statement: the one sentence a recruiter should be able to repeat.
     statement: `I find places where a system falls short of its mission and build something
                 to close the gap.`,
-    desc: `Sophomore at Carnegie Mellon, studying Information Systems and Policy & Management.
-           I chose IS after working with Pamoza International in Malawi, where I saw how much
-           good accessible tools could do and how limited my technical skills still were.`,
+    // desc: one line of who and where. The Pamoza story opens the About section.
+    desc: `Information Systems and Policy & Management at Carnegie Mellon, Class of 2029.`,
 
     // map: the drawing of Pittsburgh's 90 neighborhoods beside the statement.
     // `matches` are filled in on the map and listed under it, in this order.
@@ -69,7 +68,9 @@ const CONTENT = {
     // (static/files/livepgh-matches.jpg).
     map: {
       project: 'livepgh',   // the case study the caption links to
-      caption: `One run of the LivePGH quiz, drawn on Pittsburgh's 90 neighborhoods.`,
+      title:   'LivePGH',   // set above the map, with the caption beside it
+      caption: `One run of the quiz I built, drawn on Pittsburgh's 90 neighborhoods.`,
+      hint:    'Hover or tap any neighborhood for its name.',
       linkText: 'See how I built LivePGH',
       matches: [
         { hood: 'Squirrel Hill South', fit: '76%' },

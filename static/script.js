@@ -199,9 +199,10 @@ function renderHero() {
    figure is removed and the hero is simply one column. */
 function renderHeroMap() {
   const fig = document.querySelector('.h-map');
+  const key = document.querySelector('.h-key');
   if (!fig) return;
   const cfg = CONTENT.hero?.map;
-  if (PAGE_PROJECT || typeof PGH_MAP === 'undefined' || !cfg?.matches?.length) { fig.remove(); return; }
+  if (PAGE_PROJECT || typeof PGH_MAP === 'undefined' || !cfg?.matches?.length) { fig.remove(); key?.remove(); return; }
 
   const rank = new Map(cfg.matches.map((m, i) => [m.hood, i + 1]));
   const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
@@ -211,13 +212,14 @@ function renderHeroMap() {
   const hoods = [...PGH_MAP.hoods].sort((a, b) => (rank.get(a.n) || 0) - (rank.get(b.n) || 0));
   const paths = hoods.map(hd => {
     const r = rank.get(hd.n);
-    return `<path d="${hd.d}"${r ? ` class="is-match" data-rank="${r}"` : ''}><title>${esc(hd.n)}</title></path>`;
+    return `<path d="${hd.d}" data-hood="${esc(hd.n)}"${r ? ` class="is-match" data-rank="${r}" style="--i:${r - 1}"` : ''}></path>`;
   }).join('');
 
   /* Numbered markers sit on each match's centre point. */
   const marks = PGH_MAP.hoods.filter(hd => rank.has(hd.n)).map(hd => {
     const [x, y] = hd.c;
-    return `<g class="h-map-mark" transform="translate(${x} ${y})"><g class="h-map-mark-i"><circle r="15"></circle><text dy=".35em">${rank.get(hd.n)}</text></g></g>`;
+    const r = rank.get(hd.n);
+    return `<g class="h-map-mark" transform="translate(${x} ${y})" style="--i:${r - 1}"><g class="h-map-mark-i"><circle r="15"></circle><text dy=".35em">${r}</text></g></g>`;
   }).join('');
 
   const names = cfg.matches.map(m => m.hood);
@@ -229,15 +231,47 @@ function renderHeroMap() {
     <svg class="h-map-svg" viewBox="-6 -6 ${PGH_MAP.w + 12} ${PGH_MAP.h + 12}" role="img" aria-label="${esc(alt)}">
       ${paths}
       <g aria-hidden="true">${marks}</g>
-    </svg>
-    <figcaption class="h-map-cap">
-      <ol class="h-map-list">
-        ${cfg.matches.map(m => `<li><span class="h-map-hood">${m.hood}</span><span class="h-map-fit">${m.fit}</span></li>`).join('')}
-      </ol>
-      <p class="h-map-note">${cfg.caption}
-        ${p ? `<a href="${projectHref(cfg.project)}">${cfg.linkText || p.title}</a>` : ''}
-      </p>
-    </figcaption>`;
+    </svg>`;
+
+  if (key) key.innerHTML = `
+    <div class="h-map-head">
+      ${cfg.title ? `<span class="h-map-title">${cfg.title}</span>` : ''}
+      <span class="h-map-sub">${cfg.caption}</span>
+    </div>
+    <ol class="h-map-list">
+      ${cfg.matches.map((m, i) => `<li data-hood="${esc(m.hood)}" style="--i:${i}"><span class="h-map-hood">${m.hood}</span><span class="h-map-fit">${m.fit}</span></li>`).join('')}
+    </ol>
+    <p class="h-map-read" aria-hidden="true">${cfg.hint || ''}</p>
+    ${p ? `<p class="h-map-note"><a href="${projectHref(cfg.project)}">${cfg.linkText || p.title}</a></p>` : ''}`;
+
+  /* The map answers the pointer: hover or tap a neighborhood and its name
+     appears under the map; hover a row in the list and its neighborhood
+     lights up. Keyboard and screen-reader users get the same four names
+     from the list and the map's description. */
+  const svg  = fig.querySelector('.h-map-svg');
+  const read = key.querySelector('.h-map-read');
+  const fits = new Map(cfg.matches.map((m, i) => [m.hood, `match ${i + 1}, ${m.fit} fit`]));
+  const show = name => {
+    svg.querySelectorAll('.is-hot').forEach(el => el.classList.remove('is-hot'));
+    key.querySelectorAll('li.is-hot').forEach(el => el.classList.remove('is-hot'));
+    if (!name) { read.textContent = cfg.hint || ''; read.classList.remove('is-live'); return; }
+    svg.querySelector(`path[data-hood="${CSS.escape(name)}"]`)?.classList.add('is-hot');
+    key.querySelector(`li[data-hood="${CSS.escape(name)}"]`)?.classList.add('is-hot');
+    read.textContent = fits.has(name) ? `${name}: ${fits.get(name)}` : name;
+    read.classList.add('is-live');
+  };
+  svg.addEventListener('pointerover', e => { const t = e.target.closest('path'); if (t) show(t.dataset.hood); });
+  svg.addEventListener('pointerleave', () => show(null));
+  svg.addEventListener('click', e => { const t = e.target.closest('path'); show(t ? t.dataset.hood : null); });
+  key.querySelectorAll('.h-map-list li').forEach(li => {
+    li.addEventListener('pointerenter', () => show(li.dataset.hood));
+    li.addEventListener('pointerleave', () => show(null));
+  });
+
+  /* One short sequence on arrival: the four matches fill in order as their
+     rows appear. Skipped under prefers-reduced-motion (style.css). */
+  fig.classList.add('is-seq');
+  key.classList.add('is-seq');
 }
 
 function renderAbout() {

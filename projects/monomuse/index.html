@@ -175,11 +175,23 @@
     <!-- HERO -->
     <section id="hero-s">
       <div id="hero">
-        <div class="hero-grid">
+        <!-- The hero is a poster. The map of Pittsburgh's 90 neighborhoods is
+             drawn large and runs off the right edge; the name is set across
+             it at full width; the statement and the map's key sit under it.
+             The map is built in script.js from static/pgh-map.js and
+             CONTENT.hero.map. If that fails, the hero is the name and the
+             statement on plain paper. -->
+        <figure class="h-map"></figure>
+
+        <h1 class="h-name">Daniel Ho</h1>
+
+        <div class="hero-row">
           <div class="hero-copy">
-            <h1 class="h-name">Daniel Ho</h1>
-            <!-- Statement and description are set from CONTENT.hero in script.js -->
-            <p class="h-lede"></p>
+            <div class="h-say">
+              <img class="h-face" src="./static/files/headshot-sm.webp" width="200" height="200" alt="Daniel Ho">
+              <!-- Statement and description are set from CONTENT.hero in script.js -->
+              <p class="h-lede"></p>
+            </div>
             <p class="h-desc"></p>
             <div class="h-cta">
               <a href="./static/files/resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-fill">View resume</a>
@@ -187,10 +199,9 @@
             </div>
           </div>
 
-          <!-- Pittsburgh's 90 neighborhoods, drawn from static/pgh-map.js, with
-               the matches listed in CONTENT.hero.map filled in. Built in
-               script.js; stays empty (and takes no space) if that fails. -->
-          <figure class="h-map"></figure>
+          <!-- What the map shows: its title, the four matches, and the name
+               of whichever neighborhood is under the pointer. -->
+          <div class="h-key"></div>
         </div>
 
         <!-- Proof figures. Filled by CONTENT.hero.proof in script.js. -->
