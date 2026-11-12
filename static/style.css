@@ -386,10 +386,13 @@ html.cursor-custom #cur { opacity: 1; }
   padding:         var(--nav-h) 1.5rem 3rem;
   pointer-events:  none;
   opacity:         0;
-  transition:      opacity .35s var(--ease2);
+  /* visibility (not just opacity) so the closed menu's links can't take
+     keyboard focus, even if script.js never runs. */
+  visibility:      hidden;
+  transition:      opacity .35s var(--ease2), visibility 0s .35s;
 }
 
-#mob-menu.open { opacity: 1; pointer-events: all; }
+#mob-menu.open { opacity: 1; pointer-events: all; visibility: visible; transition: opacity .35s var(--ease2), visibility 0s; }
 
 .mob-links {
   display:         flex;
@@ -1121,10 +1124,13 @@ h1.h-name {
 .cur-item:last-child { border-bottom: none; }
 
 .cur-item::before {
-  content:     '—';
+  content:     '';
   position:    absolute;
   left:        0;
-  color:       var(--ac);
+  top:         1.42em;
+  width:       .8rem;
+  height:      1px;
+  background:  var(--ac);
 }
 
 .int-items { font-size: .9rem; color: var(--mu); line-height: 1.9; }

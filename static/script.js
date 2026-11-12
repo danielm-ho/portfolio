@@ -377,7 +377,7 @@ function buildCardThumb(p) {
 function buildCard(slug, p, i, wide) {
   return `
     <a class="proj-a${wide ? ' proj-a--wide' : ''} rv${i % 2 ? ' d1' : ''}"
-       href="${projectHref(slug)}" data-slug="${slug}" aria-label="${p.title} — ${p.sub}">
+       href="${projectHref(slug)}" data-slug="${slug}" aria-label="${p.title}: ${p.sub}">
       ${buildCardThumb(p)}
       <div class="proj-body">
         <div class="proj-top">
@@ -650,7 +650,7 @@ function renderProject(slug) {
   /* Per-project tab title + meta description (SEO / UX — doesn't affect
      social-preview crawlers, which don't execute JS, but helps the tab,
      browser history entries, and any client-side sitemap tooling). */
-  document.title = `${p.title} — ${SITE.name}`;
+  document.title = `${p.title} | ${SITE.name}`;
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) metaDesc.setAttribute('content', p.cardDesc.replace(/\s+/g, ' ').trim());
 
@@ -772,6 +772,7 @@ function openMobileMenu() {
   burger.setAttribute('aria-expanded', 'true');
   burger.setAttribute('aria-label', 'Close menu');
   mobMenu.classList.add('open');
+  mobMenu.inert = false;
   document.body.style.overflow = 'hidden';
 }
 
@@ -781,8 +782,14 @@ function closeMobileMenu() {
   burger.setAttribute('aria-expanded', 'false');
   burger.setAttribute('aria-label', 'Open menu');
   mobMenu.classList.remove('open');
+  mobMenu.inert = true;
   document.body.style.overflow = '';
 }
+
+/* The overlay is always in the DOM, so while it is closed it has to be
+   taken out of the tab order. Without this, tabbing past the nav on a
+   desktop landed on five invisible links. */
+mobMenu.inert = true;
 
 burger.addEventListener('click', () => menuOpen ? closeMobileMenu() : openMobileMenu());
 

@@ -70,7 +70,7 @@ function metaFor(slug, p) {
   const url   = `${SITE_URL}projects/${encodeURIComponent(slug)}/`;
   const ogRel = fs.existsSync(rel(`static/og/og-${slug}.jpg`)) ? `static/og/og-${slug}.jpg` : 'static/og/og-home.jpg';
   const img   = SITE_URL + ogRel;
-  const title = `${clean(p.title)} — ${SITE.name}`;
+  const title = `${clean(p.title)} | ${SITE.name}`;
   const ogTitle = `${clean(p.title)}: ${clean(p.sub)}`;
   const desc  = clean(p.summary || p.cardDesc);
   return `<!-- META:START -->
@@ -127,7 +127,7 @@ ${MARK}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex">
-  <title>Page not found — ${esc(SITE.name)}</title>
+  <title>Page not found | ${esc(SITE.name)}</title>
   <script>
     /* A project page that hasn't been generated yet: forward to the
        in-page route for it, which always works. */

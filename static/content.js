@@ -365,16 +365,16 @@ const PROJECTS = {
     summary:  `An interactive neighborhood-matching map for Pittsburgh, built at Pittsburgh
                Tomorrow on top of six normalized civic data sources.`,
     challenge: `Choosing where to live in a city you don't already know means reconciling
-several incompatible public datasets — cost, walkability, schools, transit — that are
+several incompatible public datasets (cost, walkability, schools, transit) that are
 published in different formats, on different schedules, at different geographic granularities.
 To sort through this data, prospective residents need an intuitive, interactive tool that can act as a "first step" in their decision-making process.`,
     approach: `I engineered a data pipeline that fetches, normalizes and caches six civic data
 sources into a Pittsburgh neighborhood ranking/scoring algorithm, then used these results to build an interactive
 Leaflet map, a six-question matching quiz with a scoring algorithm behind it, and a comparison
 tool that puts neighborhoods side by side on cost, walkability, schools and transit access.
-The front door gives users three ways in — match from the city they live in now, take the fit
-quiz, or just browse all 156 places — because people arrive at this decision at very different
-stages, and forcing everyone through the same funnel loses the ones who only want to look around.
+The front door gives users three ways in: match from the city they live in now, take the fit
+quiz, or just browse all 156 places. People arrive at this decision at very different stages,
+and forcing everyone through the same funnel loses the ones who only want to look around.
 Every price and rent is labeled an <em>informed estimate</em>, and the product publishes no
 neighborhood "safety score" and uses no demographic identity as a matching input.`,
     // decision: ← THE MOST VALUABLE BLOCK ON THIS PAGE, and I can't write it
@@ -383,10 +383,10 @@ neighborhood "safety score" and uses no demographic identity as a matching input
     //   not more; why a quiz instead of filters; how you picked the scoring
     //   weights. Two or three sentences. Uncomment and fill in.
     result: `Over a summer internship I delivered the pipeline, the matching quiz, the
-comparison tool and the neighborhood pages — 156 places in all, covering every City of
+comparison tool and the neighborhood pages: 156 places in all, covering every City of
 Pittsburgh neighborhood plus 67 Allegheny County suburbs, each with cost, commute, walkability
-and lifestyle detail. The build is running locally and in review ahead of launch; screenshots
-below are from the current build.`,
+and lifestyle detail. The build is finished and handed off. It has not launched publicly yet,
+so the screenshots on this page are from the handed-off build.`,
     resultStat: { value: '156', label: 'Neighborhoods & suburbs covered' },
     media: {
       main: `<img src="./static/files/livepgh-home.jpg"
@@ -399,13 +399,13 @@ below are from the current build.`,
         './static/files/livepgh-browse.jpg'
       ],
       captions: [
-        'Quiz results — ranked matches with fit scores, drawn on the Leaflet map',
-        'Neighborhood page — cost, commute, transit and terrain, every figure labeled an estimate',
-        'Match from where you live now — three curated Pittsburgh neighborhoods and an honest cost comparison',
-        'Browse — all 156 city neighborhoods and Allegheny County suburbs, filterable and sortable'
+        'Quiz results: ranked matches with fit scores, drawn on the Leaflet map',
+        'Neighborhood page: cost, commute, transit and terrain, every figure labeled an estimate',
+        'Match from where you live now: three curated Pittsburgh neighborhoods and an honest cost comparison',
+        'Browse: all 156 city neighborhoods and Allegheny County suburbs, filterable and sortable'
       ]
     },
-    links: [] // ← local build only for now; add { label: 'Live site', url: '...' } at launch
+    links: [] // ← handed off, not public yet; add { label: 'Live site', url: '...' } at launch
   },
 
   'zab-hair-studio': {
@@ -426,8 +426,8 @@ below are from the current build.`,
               designed so the owner can maintain it without touching markup.`,
     challenge: `A Newtown Square hair studio needed a website built from the ground up, with
 no existing technical requirements.`,
-    approach: `I Interviewed the client to translate those preferences into concrete technical
-requirements, then designed and built the site from scratch, including a centralized content
+    approach: `I interviewed the client to turn his brand and business preferences into concrete
+technical requirements, then designed and built the site from scratch, including a centralized content
 architecture (so future edits don't require touching markup) and platform-detecting video
 embeds.`,
     /* ⚠️  DRAFTED, NOT VERIFIED. This is my reading of the reasoning already
@@ -438,8 +438,8 @@ embeds.`,
 // into a single file the owner could open on her own. That cost more time up front and added a
 // layer of indirection to the codebase, but it meant routine changes — prices, hours, a new
 // photo — never require a developer.`,
-    result: `Delivered a working, maintainable site the client can update independently, and
-continue to maintain the engagement as an ongoing freelance client.`,
+    result: `Delivered a working, maintainable site the client can update independently. I continue
+to work with the studio as an ongoing freelance client.`,
     resultStat: { value: 'Live', label: 'Shipped & maintained' },
     /* Screenshots from the live site (Aug 2026).
        Note on the secondary grid: .m-figure img is locked to 16/9 with
@@ -459,10 +459,10 @@ continue to maintain the engagement as an ongoing freelance client.`,
         './static/files/zab-media.jpg'
       ],
       captions: [
-        'The work — a gallery of cuts shot in the shop, captioned by service so a visitor can point at the one they want',
-        'Services — every card, price and photo is read from the shared content file, so the shop can change an offering without touching markup',
-        'Mobile — where nearly all barbershop traffic actually arrives, with book, call and directions pinned to the bottom of the screen',
-        'Media — platform-detecting embeds that render YouTube, Instagram or TikTok from a single pasted link'
+        'The work: a gallery of cuts shot in the shop, captioned by service so a visitor can point at the one they want',
+        'Services: every card, price and photo is read from the shared content file, so the shop can change an offering without touching markup',
+        'Mobile: where nearly all barbershop traffic actually arrives, with book, call and directions pinned to the bottom of the screen',
+        'Media: platform-detecting embeds that render YouTube, Instagram or TikTok from a single pasted link'
       ]
     },
     links: [ { label: 'View Live Site', url: 'https://danielm-ho.github.io/Zab-Barber/' } ]
@@ -562,9 +562,9 @@ course website.`,
     //   That one paragraph turns a common assignment into a judgement call.
     challenge: `A binary classification analysis on the Titanic dataset for CMU 36-202:
 Methods for Statistics and Data Science.`,
-    approach: `Applied and compared four classification methods — Linear Discriminant
+    approach: `Applied and compared four classification methods: Linear Discriminant
 Analysis (LDA), Quadratic Discriminant Analysis (QDA), logistic regression, and
-classification trees, evaluating each on accuracy, precision, and interpretability.`,
+classification trees. Each was evaluated on accuracy, precision, and interpretability.`,
     result: `Findings were communicated in a full RMarkdown report with clear visualizations
 and a structured comparison of model performance across key metrics.`,
     resultStat: { value: '4', label: 'Methods compared' },
@@ -589,8 +589,8 @@ and a structured comparison of model performance across key metrics.`,
                Ball; 1M+ Instagram views and 125k+ likes across both projects.`,
     cardTags: ['Production', 'Performance', 'Project Management'],
     thumb: './static/files/music-2.webp',
-    summary: `Solo production and live performance — 60+ self-recorded arrangements, and a
-              student band I founded that has performed at CMU's Rose Ball.`,
+    summary: `Solo covers I arrange, record, mix and master myself, the most recent with 61
+              tracks, and a student band I founded that has performed at CMU's Rose Ball.`,
     // decision: ← optional here, but there is one worth telling: founding and
     //   running a band is a coordination problem, not a musical one. What did
     //   you decide about how the group works?
