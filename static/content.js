@@ -295,6 +295,13 @@ const PROJECT_GROUPS = [
    Each entry powers both the homepage grid card AND the detail page.
 
    group               → which PROJECT_GROUPS tier the card sits in
+   featured            → OPTIONAL. true gives the project a full-width block
+                         at the top of its tier instead of a card: a large
+                         framed screenshot (featureImage, falling back to
+                         thumb) with the description, the `pull` line and the
+                         result figure under it. Meant for one project.
+   pull                → OPTIONAL. { label, text }: one short statement set
+                         large on the featured block. Only used with featured.
    cardDesc            → short blurb shown on the grid card
    cardTags            → tags on the grid card (keep to 3–4)
    thumb               → image shown at the top of the grid card (optional —
@@ -375,6 +382,16 @@ const PROJECTS = {
                data sources.`,
     cardTags: ['Leaflet.js', 'Data Pipeline', 'Product'],
     thumb:    './static/files/livepgh-matches.jpg',
+    featured: true,
+    featureImage: './static/files/livepgh-matches.jpg',
+    featureAlt: 'LivePGH quiz results: a map of Pittsburgh with matched neighborhoods shaded, beside a ranked list of matches with fit scores',
+    // The first sentence restates the Approach copy below; the second is the
+    // product's own wording from the note on its landing page.
+    pull: {
+      label: `What LivePGH won't do`,
+      text:  `It publishes no neighborhood "safety score" and uses no demographic identity
+              to match people. It matches on how you want to live.`
+    },
     summary:  `An interactive neighborhood-matching map for Pittsburgh, built at Pittsburgh
                Tomorrow on top of six normalized civic data sources.`,
     challenge: `Choosing where to live in a city you don't already know means reconciling

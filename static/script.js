@@ -354,6 +354,43 @@ function buildCard(slug, p, i, wide) {
     </a>`;
 }
 
+/* ── FEATURED PROJECT ──
+   One project gets a full-width block instead of a card: a large framed
+   screenshot, then title + description, the `pull` statement, and the
+   result figure in a row beneath it. The whole block is one link. */
+function buildFeature(slug, p) {
+  const img = p.featureImage || p.thumb;
+  return `
+    <a class="proj-feature rv" href="${projectHref(slug)}" data-slug="${slug}" aria-label="${p.title}: ${p.sub}">
+      ${img ? `
+      <div class="frame frame--browser proj-feature-media">
+        <div class="frame-bar" aria-hidden="true"><span></span></div>
+        <img src="${img}" alt="${p.featureAlt || ''}" loading="lazy" decoding="async">
+      </div>` : ''}
+      <div class="proj-feature-body">
+        <div class="proj-feature-main">
+          <div class="proj-title">${p.title}</div>
+          <div class="proj-sub">${p.sub}</div>
+          <p class="proj-desc">${p.cardDesc}</p>
+          ${metaLine(p.cardTags)}
+        </div>
+        ${p.pull ? `
+        <div class="proj-pull">
+          <div class="proj-pull-l">${p.pull.label}</div>
+          <p class="proj-pull-t">${p.pull.text}</p>
+        </div>` : ''}
+        <div class="proj-feature-end">
+          ${p.resultStat ? `
+          <span class="proj-stat">
+            <span class="proj-stat-v">${p.resultStat.value}</span>
+            <span class="proj-stat-l">${p.resultStat.label}</span>
+          </span>` : ''}
+          <span class="proj-more">Read the case study</span>
+        </div>
+      </div>
+    </a>`;
+}
+
 /* Cards are rendered in labelled tiers rather than one flat grid — see the
    PROJECT_GROUPS note in content.js for why.
 
@@ -380,9 +417,12 @@ function renderProjectCards() {
   document.querySelector('.proj-grid').innerHTML = blocks
     .filter(b => b.items.length)
     .map(({ g, items }) => {
-      /* A tier holding a single project gets a full-width horizontal card,
+      /* Featured projects come out of the row and lead the tier. */
+      const featured = items.filter(([, p]) => p.featured);
+      const rest     = items.filter(([, p]) => !p.featured);
+      /* A row holding a single project gets a full-width horizontal card,
          so a lone tile never sits beside an empty half-row. */
-      const wide = items.length === 1;
+      const wide = rest.length === 1;
       return `
         <section class="proj-group">
           ${g.label ? `
@@ -390,9 +430,11 @@ function renderProjectCards() {
               <h3 class="proj-group-l">${g.label}</h3>
               ${g.note ? `<p class="proj-group-n">${g.note}</p>` : ''}
             </header>` : ''}
+          ${featured.map(([slug, p]) => buildFeature(slug, p)).join('')}
+          ${rest.length ? `
           <div class="proj-row">
-            ${items.map(([slug, p], i) => buildCard(slug, p, i, wide)).join('')}
-          </div>
+            ${rest.map(([slug, p], i) => buildCard(slug, p, i, wide)).join('')}
+          </div>` : ''}
         </section>`;
     }).join('');
 }
