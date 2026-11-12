@@ -141,7 +141,7 @@ ${MARK}
                  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
     main { min-height: 100%; display: flex; flex-direction: column; justify-content: center;
            padding: 0 1.5rem; max-width: 40rem; margin: 0 auto; box-sizing: border-box; }
-    h1 { font-family: Georgia, serif; font-weight: 400; font-size: 2.5rem; margin: 0 0 1rem; }
+    h1 { font-family: inherit; font-weight: 600; font-size: 2.5rem; margin: 0 0 1rem; }
     p { color: #434d46; line-height: 1.7; margin: 0 0 1.5rem; }
     a { color: #0d6845; }
   </style>

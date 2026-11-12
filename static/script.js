@@ -202,7 +202,9 @@ function renderHeroMap() {
   const key = document.querySelector('.h-key');
   if (!fig) return;
   const cfg = CONTENT.hero?.map;
-  if (PAGE_PROJECT || typeof PGH_MAP === 'undefined' || !cfg?.matches?.length) { fig.remove(); key?.remove(); return; }
+  const metaEl = document.querySelector('.hero-meta');
+  if (PAGE_PROJECT || typeof PGH_MAP === 'undefined' || !cfg?.matches?.length) { fig.remove(); key?.remove(); metaEl?.remove(); return; }
+  if (metaEl) metaEl.innerHTML = (cfg.meta || []).map(t => `<span>${t}</span>`).join('');
 
   const rank = new Map(cfg.matches.map((m, i) => [m.hood, i + 1]));
   const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');

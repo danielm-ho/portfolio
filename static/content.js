@@ -68,6 +68,8 @@ const CONTENT = {
     // (static/files/livepgh-matches.jpg).
     map: {
       project: 'livepgh',   // the case study the caption links to
+      // meta: the legend line in the hero's top corner, like the note on a survey sheet.
+      meta:    ['Pittsburgh, PA', '40.44° N, 79.99° W', '90 neighborhoods', 'Boundaries: WPRDC'],
       title:   'LivePGH',   // set above the map, with the caption beside it
       caption: `One run of the quiz I built, drawn on Pittsburgh's 90 neighborhoods.`,
       hint:    'Hover or tap any neighborhood for its name.',
