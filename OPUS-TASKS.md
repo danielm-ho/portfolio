@@ -29,18 +29,27 @@ Rules:
   the TODOs.
 ```
 
-## 1. Photo hero (needs one photo from me)
+## 1. A photo-led hero, as an alternative to try
 
 ```
 The homepage hero is a poster: my name set across the full width with a line map
 of Pittsburgh behind it (see #hero in index.html, the HERO block in style.css and
-renderHeroMap in script.js). I'm attaching a high-resolution photo of myself.
-Build a second version of the hero where the photo runs full bleed and my name is
-set across it, in the spirit of https://lchsu5.github.io/liz/. Keep my statement
-and both buttons, and drop the small round portrait, since the photo replaces it. Move the Pittsburgh map and its key
-into the top of the LivePGH block in Selected Work so it is not lost. Make the
-text legible over the photo at 1440px and 390px, and tell me where you cropped.
-Show me screenshots of both hero versions before committing.
+renderHeroMap in script.js). I chose the map because I want the site to read as
+technical work. Build an alternative on a separate branch so I can compare: one
+of my photos running full bleed with my name set across it, in the spirit of
+https://lchsu5.github.io/liz/. Candidates already in the repo:
+static/files/music-stage-portrait.webp (me on stage under purple light) and
+static/files/portrait-blazer.webp (navy blazer, stone archway). I will attach the
+full-size originals; do not upscale the ones in the repo. In that version move
+the Pittsburgh map and its key to the top of the LivePGH block in Selected Work.
+Keep my statement and both buttons legible at 1440px and 390px, tell me where you
+cropped, and show me both heroes side by side before I decide. Also tell me
+plainly whether a music photo as the first thing a recruiter sees helps or hurts
+for product and consulting roles.
+
+Separately: I have three more photos of me playing guitar that are not on the
+site. Add the best one or two to the music project page gallery (media.secondary
+in content.js). Ask me what event each is from before writing a caption.
 ```
 
 ## 2. Case-study text as tabs

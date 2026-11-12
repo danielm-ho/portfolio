@@ -21,15 +21,22 @@ reference, four more commits went in. The table further down is the overnight wo
 | `4a17792` | **Hero as a poster.** Your name spans the page, the Pittsburgh map is blown up behind it and runs off the edge, a portrait sits beside the statement. The map is now a working object: hover or tap any neighborhood for its name, and the four matches fill in order once on arrival. |
 | `9068b56` | **Things to click.** LivePGH has a four-screen tour inside its frame on the homepage and a "How it works" pipeline. The Zab page can load the real site inside its frame. The safety-score line left the homepage and appears once, on the LivePGH page, as your key decision. |
 | `88c5e2f` | **Length.** Skills is three lines, "Right now" is hidden, sections are tighter. Homepage is 7,537px on desktop and 9,786px on a phone. |
-| (this commit) | Screen-reader fix for the tour, this report, and `OPUS-TASKS.md`. |
+| `a9d83e4` | Screen-reader fix for the tour, this report, and `OPUS-TASKS.md`. |
+| `25d87fd` | **Your photos.** A 4:5 portrait in the hero (hoodie readable), the blazer photo in About, and on phones a stage portrait of you in the music band. |
+| `9591703` | **Technical register.** IBM Plex Sans Condensed, Sans and Mono replace the serif. Values (dates, tools, scores, counts) are in monospace. The hero sits on a drafting grid with a legend line: place, coordinates, neighborhood count, data source. |
 
 Settled since the first report: the 1M+ views belong to Ottoman Empire; the
 safety-score decision was yours; the paper theme stays.
 
 What that reference site does that yours still does not: it is about 3,400px
-long, and it opens on a full-bleed photograph. Both are in `OPUS-TASKS.md`
-(tasks 1 and 3), because the first needs a photo from you and the second needs
-you to approve what gets cut.
+long (yours is about 7,600px), and it opens on a full-bleed photograph. Both are
+in `OPUS-TASKS.md` (tasks 1 and 3). I kept the map as your hero image on
+purpose: you said the site did not look technical enough, and every photo you
+sent that is strong enough for a full-bleed hero is a music photo.
+
+Three of the six photos you sent are in use. The other three (the guitar
+photos in the green shirt) are not on the site; task 1 in `OPUS-TASKS.md`
+covers them.
 
 ## What changed, one commit per idea
 
