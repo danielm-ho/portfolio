@@ -781,7 +781,7 @@ function setActiveNav(id) {
 function initScrollSpy() {
   if (spyObserver) spyObserver.disconnect();
 
-  const sections = ['about', 'work', 'experience', 'skills', 'contact']
+  const sections = ['work', 'about', 'experience', 'skills', 'contact']
     .map(id => document.getElementById(id))
     .filter(Boolean);
   if (!sections.length) return;

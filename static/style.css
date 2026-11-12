@@ -460,7 +460,7 @@ h1.h-name {
    SECTIONS
 ══════════════════════════════════════════ */
 .sec { padding: 7rem 0; border-bottom: 1px solid var(--b1); }
-#about { border-top: 1px solid var(--b1); }
+#work { border-top: 1px solid var(--b1); }
 
 .sec-hd { margin-bottom: 3.5rem; }
 
@@ -1436,8 +1436,16 @@ footer {
   .exp-row { grid-template-columns: 1fr; padding: 1.75rem .5rem 1.75rem .85rem; }
   .exp-yr  { text-align: left; padding-top: .95rem; }
 
-  .ab-g     { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
-  .ab-photo { width: 168px; }
+  .ab-g     { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  .ab-photo { width: 120px; }
+  .ab-main  { gap: 2rem; }
+  /* Facts sit two-up at phone width so the reference material costs half
+     the scroll; long values (coursework) take the full row. */
+  .ab-facts { display: grid; grid-template-columns: 1fr 1fr; column-gap: 1.25rem; }
+  .fact-row:first-child { border-top: none; }
+  .fact-row:nth-child(-n+2) { border-top: 1px solid var(--b1); }
+  .fact-row:nth-child(n+3) { grid-column: 1 / -1; }
+  .cur-item { padding-top: .45rem; padding-bottom: .45rem; }
 
   /* Two-up rather than four. At phone width a four-column split leaves
      each cell too narrow for its handle to sit on one line. */
