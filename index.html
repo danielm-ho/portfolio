@@ -85,6 +85,7 @@
 
   <!-- Content (edit here) then behavior — order matters since script.js reads these -->
   <script src="./static/content.js" defer></script>
+  <script src="./static/pgh-map.js" defer></script>
   <script src="./static/script.js" defer></script>
 
   <link rel="icon" type="image/png" href="./favicon/favicon-96x96.png" sizes="96x96" />
@@ -168,16 +169,11 @@
     <!-- HERO -->
     <section id="hero-s">
       <div id="hero">
-        <div class="hero-inner">
-          <p class="h-eye"><span class="h-rule"></span><span class="h-eye-text">Carnegie Mellon University, class of 2029</span></p>
-
-          <h1 class="h-name">
-            <span class="h-line">Daniel</span>
-            <span class="h-line h-line-em">Ho</span>
-          </h1>
-
-          <div class="h-bot">
-            <!-- Text set by CONTENT.hero.desc in script.js -->
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <h1 class="h-name">Daniel Ho</h1>
+            <!-- Statement and description are set from CONTENT.hero in script.js -->
+            <p class="h-lede"></p>
             <p class="h-desc"></p>
             <div class="h-cta">
               <a href="./static/files/resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-fill">View resume</a>
@@ -185,10 +181,14 @@
             </div>
           </div>
 
-          <!-- Headline numbers, pinned to the bottom of the first screen.
-               Filled by CONTENT.hero.proof in script.js. -->
-          <div class="h-proof"></div>
+          <!-- Pittsburgh's 90 neighborhoods, drawn from static/pgh-map.js, with
+               the matches listed in CONTENT.hero.map filled in. Built in
+               script.js; stays empty (and takes no space) if that fails. -->
+          <figure class="h-map"></figure>
         </div>
+
+        <!-- Proof figures. Filled by CONTENT.hero.proof in script.js. -->
+        <div class="h-proof"></div>
       </div>
     </section>
 

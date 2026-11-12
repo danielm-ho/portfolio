@@ -36,6 +36,8 @@
   --ac:    #2fa876;
   --aca:   rgba(47, 168, 118, .10);
   --acb:   rgba(47, 168, 118, .28);
+  --map-line:  #4d4d4d;                    /* neighborhood outlines in the hero map */
+  --map-hover: rgba(240, 237, 232, .07);
 
   /* 'orpheus-pro' is the Adobe Fonts family name; 'Orpheus Pro' catches a
      locally installed desktop licence. Cormorant is the free fallback. */
@@ -353,108 +355,160 @@ button:focus-visible {
 .btn-out:hover { border-color: var(--mu); color: var(--tx); }
 
 
-/* ── HERO ── */
-#hero-s {
-  position:  relative;
-  overflow:  hidden;
-  isolation: isolate;
-}
+/* ── HERO ──────────────────────────────────────────────────────────────
+   Left: name, the one-sentence statement, a short paragraph, two actions.
+   Right: Pittsburgh's neighborhoods as line work with the LivePGH matches
+   filled in. The figures run underneath, across both columns. */
+#hero-s { position: relative; }
 
 #hero {
-  position:        relative;
-  z-index:         1;
   min-height:      100svh;
   display:         flex;
   flex-direction:  column;
-  justify-content: flex-end;
-  padding:         calc(var(--nav-h) + 2rem) 3rem 2.5rem;
-  max-width:       1120px;
+  justify-content: center;
+  gap:             3.5rem;
+  padding:         calc(var(--nav-h) + 2.5rem) 3rem 3rem;
+  max-width:       1240px;
   margin:          0 auto;
 }
 
-.hero-inner { width: 100%; }
-
-/* ── EYEBROW ──
-   Was 0.7rem uppercase Manrope at .18em tracking, which is the standard
-   micro-label of every dark-mode template in circulation. Now it's set in
-   the display italic at reading size, sentence case, hung off a hairline
-   rule — closer to a masthead standfirst than a UI chip. */
-.h-eye {
-  display:       flex;
-  align-items:   center;
-  gap:           1.1rem;
-  margin-bottom: 2.25rem;
-  font-family:   var(--serif);
-  font-style:    italic;
-  font-size:     clamp(1.12rem, 1.7vw, 1.35rem);
-  letter-spacing: .005em;
-  color:         var(--mu);
-}
-
-.h-rule {
-  flex:            0 0 clamp(40px, 6vw, 84px);
-  height:          1px;
-  background:      var(--mu2);
+.hero-grid {
+  display:               grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+  align-items:           center;
+  gap:                   3.5rem;
 }
 
 h1.h-name {
   font-family:    var(--serif);
   font-weight:    var(--dw);
-  font-size:      clamp(4.5rem, 14vw, 11rem);
-  line-height:    .86;
-  letter-spacing: -.015em;
-  margin-bottom:  1.75rem;
+  font-size:      clamp(3.4rem, 6.2vw, 5.6rem);
+  line-height:    .95;
+  letter-spacing: -.02em;
+  margin-bottom:  1.6rem;
 }
 
-.h-line { display: block; }
-.h-line-em { font-style: italic; color: var(--ac); }
-
-.h-bot {
-  display:         flex;
-  align-items:     flex-end;
-  justify-content: space-between;
-  gap:             4rem;
+/* The statement. Set in the display face at roughly a third of the name's
+   size, so the name is read first and this is read second. */
+.h-lede {
+  font-family:    var(--serif);
+  font-weight:    400;
+  font-size:      clamp(1.55rem, 2.6vw, 2.3rem);
+  line-height:    1.25;
+  letter-spacing: -.005em;
+  color:          var(--tx);
+  max-width:      22ch;
+  margin-bottom:  1.6rem;
+  text-wrap:      balance;
 }
 
-.h-desc { max-width: 430px; color: var(--mu); font-size: .95rem; line-height: 1.9; }
-.h-cta  { display: flex; gap: .6rem; flex-shrink: 0; }
+.h-desc { max-width: 46ch; color: var(--mu); font-size: .95rem; line-height: 1.8; margin-bottom: 2rem; }
+.h-cta  { display: flex; gap: .6rem; flex-wrap: wrap; }
+
+/* ── HERO MAP ── */
+.h-map { margin: 0; min-width: 0; }
+
+.h-map-svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+.h-map-svg path {
+  fill:            transparent;
+  stroke:          var(--map-line);
+  stroke-width:    1;
+  stroke-linejoin: round;
+  vector-effect:   non-scaling-stroke;
+  transition:      stroke .2s, fill .2s;
+}
+.h-map-svg path:hover { fill: var(--map-hover); }
+
+.h-map-svg path.is-match { fill: var(--ac); stroke: var(--bg); stroke-width: 1.5; }
+.h-map-svg path.is-match[data-rank="2"] { fill-opacity: .8; }
+.h-map-svg path.is-match[data-rank="3"] { fill-opacity: .62; }
+.h-map-svg path.is-match[data-rank="4"] { fill-opacity: .46; }
+.h-map-svg path.is-match:hover { fill: var(--ac); fill-opacity: 1; }
+
+.h-map-mark circle { fill: var(--bg); stroke: var(--ac); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.h-map-mark text {
+  font-family: var(--sans);
+  font-size:   17px;
+  font-weight: 700;
+  fill:        var(--tx);
+  text-anchor: middle;
+}
+
+.h-map-cap { margin-top: 1.1rem; }
+
+/* The four matches, numbered to agree with the markers on the map. */
+.h-map-list {
+  list-style:            none;
+  counter-reset:         match;
+  display:               grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:                   0 2rem;
+  border-top:            1px solid var(--b1);
+}
+.h-map-list li {
+  counter-increment: match;
+  display:           flex;
+  align-items:       baseline;
+  gap:               .6rem;
+  padding:           .5rem 0;
+  border-bottom:     1px solid var(--b1);
+  font-size:         .82rem;
+  color:             var(--tx);
+}
+.h-map-list li::before {
+  content:     counter(match);
+  flex:        0 0 1.1rem;
+  font-weight: 700;
+  color:       var(--ac);
+}
+.h-map-hood { flex: 1; min-width: 0; }
+.h-map-fit  { color: var(--mu); font-variant-numeric: tabular-nums; }
+
+.h-map-note { margin-top: .8rem; font-size: .8rem; color: var(--mu); line-height: 1.6; }
+.h-map-note a {
+  color:                 var(--ac);
+  text-decoration:       underline;
+  text-decoration-color: var(--acb);
+  text-underline-offset: .22em;
+  white-space:           nowrap;
+}
+.h-map-note a:hover { text-decoration-color: var(--ac); }
 
 /* ── HERO PROOF STRIP ──
-   Headline numbers above the fold. Divided by hairline rules rather than
-   sat in boxes — a ruled table of figures, not a row of stat cards. */
+   A ruled row of figures, not a row of stat cards. */
 .h-proof {
+  --pf-n:                3;
   display:               grid;
-  grid-template-columns: repeat(4, 1fr);
-  margin-top:            3.25rem;
+  grid-template-columns: repeat(var(--pf-n), minmax(0, 1fr));
   padding-top:           1.75rem;
   border-top:            1px solid var(--b1);
 }
 
 .pf-item {
-  display:        flex;
-  flex-direction: column;
-  gap:            .35rem;
-  padding-left:   1.5rem;
-  border-left:    1px solid var(--b1);
+  display:      flex;
+  align-items:  baseline;
+  gap:          1rem;
+  padding-left: 1.75rem;
+  border-left:  1px solid var(--b1);
 }
 .pf-item:first-child { padding-left: 0; border-left: none; }
 
 .pf-v {
   font-family:    var(--serif);
   font-weight:    var(--dw);
-  font-size:      clamp(2rem, 3.6vw, 2.9rem);
+  font-size:      clamp(2rem, 3.2vw, 2.7rem);
   line-height:    1;
   letter-spacing: -.01em;
 }
-.pf-v .pf-sfx { font-size: .46em; color: var(--mu2); }
 
 .pf-l {
-  font-size:   .72rem;
-  font-weight: 500;
+  font-size:   .8rem;
   color:       var(--mu);
-  line-height: 1.5;
-  max-width:   16ch;
+  line-height: 1.45;
+  max-width:   26ch;
 }
+
 
 /* ══════════════════════════════════════════
    SECTIONS
@@ -1387,6 +1441,7 @@ footer {
   .ab-facts, .ab-honors { min-width: 0; }
   .pd-body { grid-template-columns: 1fr; gap: 3rem; }
   .pd-side { position: static; }
+  .hero-grid { gap: 2.25rem; }
 }
 
 @media (max-width: 860px) {
@@ -1400,15 +1455,30 @@ footer {
   .w, .pd-hero, .pd-media, .pd-body, .pd-next, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
   .sec { padding: 4.5rem 0; }
 
-  #hero { padding: calc(var(--nav-h) + 1.5rem) 1.5rem 2.5rem; min-height: 100svh; }
-  .h-bot { flex-direction: column; align-items: flex-start; gap: 2rem; }
-  .h-cta { width: 100%; }
+  #hero { padding: calc(var(--nav-h) + 1rem) 1.5rem 2.5rem; min-height: 0; gap: 2.25rem; }
+  h1.h-name { margin-bottom: 1rem; }
+  .h-lede   { max-width: none; margin-bottom: 0; }
+  /* One column, and the map moves up between the statement and the
+     paragraph so it is on the first screen. */
+  .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .hero-copy { display: contents; }
+  .h-name, .h-lede { order: 1; }
+  .h-map  { order: 2; }
+  .h-desc { order: 3; margin-bottom: 0; }
+  .h-cta  { order: 4; width: 100%; }
   .h-cta .btn { flex: 1; justify-content: center; }
+  /* Markers are drawn in map units, so they need enlarging to stay legible
+     when the whole map is 340px wide. */
+  .h-map-mark-i { transform: scale(1.75); }
+  .h-map-list { gap: 0 1.25rem; }
+  .h-map-list li { font-size: .78rem; gap: .45rem; }
 
-  /* Two-up rather than four-up: four columns of figures at phone width
-     shrinks each past the point of being readable. */
-  .h-proof { grid-template-columns: repeat(2, 1fr); gap: 1.75rem 0; margin-top: 2.5rem; }
-  .pf-item:nth-child(odd) { padding-left: 0; border-left: none; }
+  /* Figures stack as ruled rows: three columns at phone width leaves each
+     label two words wide. */
+  .h-proof { grid-template-columns: 1fr; padding-top: 0; border-top: none; }
+  .pf-item, .pf-item:first-child { padding: .9rem 0; border-left: none; border-top: 1px solid var(--b1); }
+  .pf-v { flex: 0 0 4.6rem; font-size: 2rem; }
+  .pf-l { max-width: none; }
 
   .sec-hd { margin-bottom: 2.5rem; }
 
@@ -1478,6 +1548,7 @@ footer {
   .site-nav, #mob-menu, .skip-link,
   .proj-thumb, .ab-photo { display: none !important; }
   #hero { min-height: auto; padding: 0 0 2rem; }
+  .h-map { display: none !important; }
   .sec { padding: 1.5rem 0; page-break-inside: avoid; }
   .proj-row { grid-template-columns: 1fr 1fr; }
   .pd-cs-block--key { background: none; }

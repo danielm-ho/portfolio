@@ -55,16 +55,36 @@ const CONTENT = {
 
   // ── HERO ──────────────────────────────────────────────────────────────
   hero: {
-    desc: `Sophomore at Carnegie Mellon studying Information Systems & Policy Management,
-           exploring how technology shapes organizations, education, and everyday communities.`,
-    // proof: the four-up number strip pinned to the bottom of the hero.
-    // These are the facts a recruiter needs in the first five seconds, so
-    // they sit above the fold instead of being buried in About.
+    // statement: the one sentence a recruiter should be able to repeat.
+    statement: `I find places where a system falls short of its mission and build something
+                to close the gap.`,
+    desc: `Sophomore at Carnegie Mellon, studying Information Systems and Policy & Management.
+           I chose IS after working with Pamoza International in Malawi, where I saw how much
+           good accessible tools could do and how limited my technical skills still were.`,
+
+    // map: the drawing of Pittsburgh's 90 neighborhoods beside the statement.
+    // `matches` are filled in on the map and listed under it, in this order.
+    // Names must match the city's own neighborhood names exactly. These four
+    // and their fit scores are read off the LivePGH results screenshot
+    // (static/files/livepgh-matches.jpg).
+    map: {
+      project: 'livepgh',   // the case study the caption links to
+      caption: `One run of the LivePGH quiz, drawn on Pittsburgh's 90 neighborhoods.`,
+      linkText: 'See how I built LivePGH',
+      matches: [
+        { hood: 'Squirrel Hill South', fit: '76%' },
+        { hood: 'Squirrel Hill North', fit: '75%' },
+        { hood: 'Friendship',          fit: '74%' },
+        { hood: 'Regent Square',       fit: '73%' }
+      ]
+    },
+
+    // proof: the figures under the hero. Only numbers with something behind
+    // them on this site. `href` is optional: '#music', '#work', or a project slug.
     proof: [
-      { value: '4.0',   label: 'GPA at Carnegie Mellon' },
-      { value: '1M+', label: 'Views on music socials' },
-      { value: 'IS',    label: 'Double Major', suffix: ' + P&M' },
-      { value: '2029',  label: 'Expected graduation' }
+      { value: '4.0', label: 'GPA at Carnegie Mellon' },
+      { value: '156', label: 'Neighborhoods and suburbs covered by LivePGH' },
+      { value: '1M+', label: 'Instagram views for Ottoman Empire, the student band I founded' }
     ]
   },
 
@@ -72,16 +92,15 @@ const CONTENT = {
   // bio: one string per paragraph — add or remove freely.
   about: {
     bio: [
-      `I'm a sophomore at Carnegie Mellon University studying Information Systems
-       and Policy & Management with the intention to learn not only about how technology
-       works, but also about how it can be effectively adopted and used by mission-driven organizations.`,
+      `At Pamoza International in Malawi I built a simple Google Drive organization flow, and
+       I wished I could have done much more. That work showed me how much good accessible
+       tools could do, and how limited my technical skills still were. It is why I chose
+       Information Systems.`,
       `This fall I'm taking coursework in data structures, database design, and human-centered
        software, and working as an Undergraduate Research Assistant studying cybercriminal team
-       formation through agent-based simulation and game theory. This summer I was a Product
+       formation through agent-based simulation and game theory. Last summer I was a Product
        Manager Intern at Pittsburgh Tomorrow, where I built LivePGH. My background also spans
-       nonprofit media operations, literacy education, and community-focused design projects.
-       I'm especially interested in building tools and systems that help mission-driven
-       organizations do their work better.`,
+       nonprofit media operations, literacy education, and community-focused design projects.`,
       `Outside of academics, I produce music and founded Ottoman Empire, a student band
        that has performed at campus events and accumulated over 1 million views and 125k likes
        on Instagram.`

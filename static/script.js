@@ -166,26 +166,73 @@ window.addEventListener('hashchange', route);
 ══════════════════════════════════════════ */
 
 function renderHero() {
+  document.querySelector('.h-lede').textContent = CONTENT.hero.statement;
   document.querySelector('.h-desc').textContent = CONTENT.hero.desc;
 
-  /* Proof strip — the headline numbers, above the fold. */
+  /* Proof strip: only figures with something behind them on the site. */
   const proofEl = document.querySelector('.h-proof');
   const proof = CONTENT.hero?.proof;
   if (proofEl && proof?.length) {
     proofEl.innerHTML = proof.map(p => `
       <div class="pf-item">
-        <span class="pf-v">${p.value}${p.suffix ? `<span class="pf-sfx">${p.suffix}</span>` : ''}</span>
+        <span class="pf-v">${p.value}</span>
         <span class="pf-l">${p.label}</span>
       </div>
     `).join('');
-    /* Four columns only work if there are four items; otherwise let the
-       grid size itself so a 3- or 5-item edit doesn't leave a gap. */
-    if (proof.length !== 4) {
-      proofEl.style.gridTemplateColumns = `repeat(${Math.min(proof.length, 4)}, 1fr)`;
-    }
+    proofEl.style.setProperty('--pf-n', Math.min(proof.length, 4));
   } else if (proofEl) {
     proofEl.remove();
   }
+
+  renderHeroMap();
+}
+
+/* ── HERO MAP ───────────────────────────────────────────────────────────
+   Pittsburgh's 90 neighborhoods as line work, with the LivePGH matches
+   from CONTENT.hero.map filled in and numbered. The outlines come from
+   static/pgh-map.js (PGH_MAP). If that file or the config is missing the
+   figure is removed and the hero is simply one column. */
+function renderHeroMap() {
+  const fig = document.querySelector('.h-map');
+  if (!fig) return;
+  const cfg = CONTENT.hero?.map;
+  if (PAGE_PROJECT || typeof PGH_MAP === 'undefined' || !cfg?.matches?.length) { fig.remove(); return; }
+
+  const rank = new Map(cfg.matches.map((m, i) => [m.hood, i + 1]));
+  const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+
+  /* Unmatched outlines first, matches on top so their edges aren't
+     overdrawn by a neighbour's stroke. */
+  const hoods = [...PGH_MAP.hoods].sort((a, b) => (rank.get(a.n) || 0) - (rank.get(b.n) || 0));
+  const paths = hoods.map(hd => {
+    const r = rank.get(hd.n);
+    return `<path d="${hd.d}"${r ? ` class="is-match" data-rank="${r}"` : ''}><title>${esc(hd.n)}</title></path>`;
+  }).join('');
+
+  /* Numbered markers sit on each match's centre point. */
+  const marks = PGH_MAP.hoods.filter(hd => rank.has(hd.n)).map(hd => {
+    const [x, y] = hd.c;
+    return `<g class="h-map-mark" transform="translate(${x} ${y})"><g class="h-map-mark-i"><circle r="15"></circle><text dy=".35em">${rank.get(hd.n)}</text></g></g>`;
+  }).join('');
+
+  const names = cfg.matches.map(m => m.hood);
+  const alt = `Outline map of Pittsburgh's ${PGH_MAP.hoods.length} neighborhoods. ` +
+              `Filled in: ${names.join(', ')}.`;
+  const p = PROJECTS[cfg.project];
+
+  fig.innerHTML = `
+    <svg class="h-map-svg" viewBox="-6 -6 ${PGH_MAP.w + 12} ${PGH_MAP.h + 12}" role="img" aria-label="${esc(alt)}">
+      ${paths}
+      <g aria-hidden="true">${marks}</g>
+    </svg>
+    <figcaption class="h-map-cap">
+      <ol class="h-map-list">
+        ${cfg.matches.map(m => `<li><span class="h-map-hood">${m.hood}</span><span class="h-map-fit">${m.fit}</span></li>`).join('')}
+      </ol>
+      <p class="h-map-note">${cfg.caption}
+        ${p ? `<a href="${projectHref(cfg.project)}">${cfg.linkText || p.title}</a>` : ''}
+      </p>
+    </figcaption>`;
 }
 
 function renderAbout() {
@@ -589,9 +636,6 @@ function resetHomeMeta() {
 function renderSite() {
   const logo = document.getElementById('n-home');
   if (logo) logo.textContent = SITE.name;
-
-  const eyeText = document.querySelector('.h-eye-text');
-  if (eyeText) eyeText.textContent = `${SITE.university}, class of ${SITE.gradYear}`;
 
   const mobFoot = document.querySelector('.mob-foot');
   if (mobFoot) mobFoot.textContent = `${SITE.university} · ${SITE.programShort} · ${SITE.gradYear}`;
