@@ -118,6 +118,7 @@
 
   <div class="n-links">
     <a href="#work"       class="n-link n-hm" data-s="work">Work</a>
+    <a href="#music"      class="n-link n-hm" data-s="music">Music</a>
     <a href="#about"      class="n-link n-hm" data-s="about">About</a>
     <a href="#experience" class="n-link n-hm" data-s="experience">Experience</a>
     <a href="#skills"     class="n-link n-hm" data-s="skills">Skills</a>
@@ -139,6 +140,7 @@
 <div id="mob-menu">
   <nav class="mob-links">
     <a class="mob-link" data-s="work"       href="#work">Work</a>
+    <a class="mob-link" data-s="music"      href="#music">Music</a>
     <a class="mob-link" data-s="about"      href="#about">About</a>
     <a class="mob-link" data-s="experience" href="#experience">Experience</a>
     <a class="mob-link" data-s="skills"     href="#skills">Skills</a>
@@ -202,6 +204,23 @@
         </header>
         <!-- Cards filled by PROJECTS in script.js (thumb + cardDesc + resultStat + cardTags) -->
         <div class="proj-grid"></div>
+      </div>
+    </section>
+
+    <!-- MUSIC
+         A full-width band: the Rose Ball photo edge to edge with the band's
+         name over it. Everything here is filled from CONTENT.music in
+         script.js; if that is missing the section is removed. -->
+    <section id="music" class="music-band" aria-labelledby="music-title">
+      <div class="mb-media"></div>
+      <div class="mb-inner">
+        <h2 class="mb-title" id="music-title"></h2>
+        <p class="mb-lede"></p>
+        <p class="mb-body"></p>
+        <div class="mb-foot">
+          <div class="mb-stat"></div>
+          <div class="mb-actions"></div>
+        </div>
       </div>
     </section>
 
@@ -343,6 +362,14 @@
   <div id="page-project" class="page"></div>
 
 </div><!-- /app -->
+
+<!-- One shared viewer for anything that opens over the page (the reel on
+     the homepage; enlarged screenshots on case-study pages). A native
+     <dialog>, so Escape, focus trapping and focus return come for free. -->
+<dialog id="dlg" class="dlg" aria-label="Viewer">
+  <button type="button" class="dlg-close" id="dlg-close">Close</button>
+  <div class="dlg-body" id="dlg-body"></div>
+</dialog>
 
 </body>
 </html>

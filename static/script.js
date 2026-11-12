@@ -27,17 +27,22 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
    turns that into the actual facade markup at render time. */
 let embedIdSeq = 0;
 
+function embedIframeHtml(media, ratioClass, src) {
+  return `<div class="${ratioClass}"><iframe src="${src}" title="${media.title}" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe></div>`;
+}
+
 function buildEmbedFacade(media) {
   const id = 'embed-' + (++embedIdSeq);
-  const ratioClass = media.kind === 'youtube' ? 'embed-16x9' : (media.ratio === 'gdoc' ? 'embed-gdoc' : 'embed-16x9');
+  const ratioClass = media.kind === 'youtube' ? 'embed-16x9'
+    : ({ gdoc: 'embed-gdoc', square: 'embed-1x1' }[media.ratio] || 'embed-16x9');
   const src = media.kind === 'youtube'
     ? `https://www.youtube.com/embed/${media.videoId}?autoplay=1&rel=0`
     : media.src;
-  const label = media.kind === 'youtube' ? 'Play video' : 'Load embedded content';
+  const label = media.label || (media.kind === 'youtube' ? 'Play video' : 'Load embedded content');
   const posterAttr = media.poster ? ` style="background-image:url('${media.poster}')"` : '';
 
   /* Real iframe markup — inert inside a <template> until the user opts in. */
-  const iframeHtml = `<div class="${ratioClass}"><iframe src="${src}" title="${media.title}" allowfullscreen loading="lazy"></iframe></div>`;
+  const iframeHtml = embedIframeHtml(media, ratioClass, src);
 
   return `<div class="embed-facade ${ratioClass}" id="${id}"${posterAttr}>
     <button class="embed-facade-btn" type="button" data-embed-target="${id}" aria-label="${label}: ${media.title}">
@@ -402,7 +407,8 @@ function renderProjectCards() {
     ? PROJECT_GROUPS
     : [{ id: null, label: '', note: '' }];
 
-  const entries = Object.entries(PROJECTS);
+  /* card: false keeps a project out of the grid (it still has its page). */
+  const entries = Object.entries(PROJECTS).filter(([, p]) => p.card !== false);
   const claimed = new Set();
 
   const blocks = groups.map(g => {
@@ -439,6 +445,70 @@ function renderProjectCards() {
     }).join('');
 }
 
+/* ── MUSIC BAND ── */
+function renderMusic() {
+  const sec = document.getElementById('music');
+  const m = CONTENT.music;
+  if (!sec) return;
+  if (!m) { sec.remove(); return; }
+
+  sec.querySelector('.mb-media').innerHTML =
+    `<img src="${m.image}" alt="${m.imageAlt || ''}" loading="lazy" decoding="async">`;
+  sec.querySelector('.mb-title').textContent = m.title;
+  sec.querySelector('.mb-lede').textContent  = m.lede;
+  sec.querySelector('.mb-body').textContent  = m.body || '';
+  sec.querySelector('.mb-stat').innerHTML = m.stat
+    ? `<span class="mb-stat-v">${m.stat.value}</span><span class="mb-stat-l">${m.stat.label}</span>` : '';
+
+  const p = PROJECTS[m.project];
+  const reel = p?.media?.main;
+  const hasReel = reel && typeof reel === 'object';
+  sec.querySelector('.mb-actions').innerHTML = `
+    ${hasReel ? `<button type="button" class="btn mb-play" data-reel="${m.project}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"></path></svg>${m.reelLabel || 'Watch the reel'}</button>` : ''}
+    ${p ? `<a class="mb-link" href="${projectHref(m.project)}">${m.pageLabel || p.title}</a>` : ''}
+    ${(m.links || []).map(l =>
+      `<a class="mb-link" href="${l.url}" target="_blank" rel="noopener noreferrer" data-track="music: ${l.label}">${l.label} <span aria-hidden="true">↗</span></a>`
+    ).join('')}`;
+}
+
+/* ── VIEWER (shared <dialog>) ───────────────────────────────────────────
+   openViewer(html) shows anything over the page; closing it empties the
+   body, which is also what stops a playing video. */
+const dlg     = document.getElementById('dlg');
+const dlgBody = document.getElementById('dlg-body');
+
+function openViewer(html, label) {
+  if (!dlg?.showModal) return false;
+  dlgBody.innerHTML = html;
+  dlg.setAttribute('aria-label', label || 'Viewer');
+  dlg.showModal();
+  return true;
+}
+
+if (dlg) {
+  dlg.addEventListener('close', () => { dlgBody.innerHTML = ''; });
+  document.getElementById('dlg-close')?.addEventListener('click', () => dlg.close());
+  /* A click on the backdrop (the dialog element itself, outside its
+     content) closes it. */
+  dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+}
+
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-reel]');
+  if (!btn) return;
+  const media = PROJECTS[btn.dataset.reel]?.media?.main;
+  if (!media) return;
+  const ratioClass = ({ gdoc: 'embed-gdoc', square: 'embed-1x1' }[media.ratio]) || 'embed-16x9';
+  const src = media.kind === 'youtube'
+    ? `https://www.youtube.com/embed/${media.videoId}?autoplay=1&rel=0` : media.src;
+  /* No <dialog> support: fall back to the project page, where the same
+     video sits behind its click-to-load poster. */
+  if (!openViewer(embedIframeHtml(media, ratioClass, src), media.title)) {
+    window.location.href = projectHref(btn.dataset.reel);
+  }
+});
+
 function renderCurrently() {
   document.querySelector('.cur-lead').textContent = CONTENT.currently.lead;
   document.querySelector('.cur-list').innerHTML =
@@ -469,6 +539,7 @@ function renderContent() {
   renderHonors();
   renderExperience();
   renderProjectCards();
+  renderMusic();
   renderCurrently();
   renderSkills();
   renderContact();
@@ -588,10 +659,11 @@ function renderProject(slug) {
 
     <div class="pd-body">
       <div class="pd-overview">
+        ${p.challenge ? `
         <div class="pd-cs-block">
           <h3>Challenge</h3>
           <p>${p.challenge}</p>
-        </div>
+        </div>` : ''}
         <div class="pd-cs-block">
           <h3>Approach</h3>
           <p>${p.approach}</p>
@@ -867,7 +939,7 @@ function setActiveNav(id) {
 function initScrollSpy() {
   if (spyObserver) spyObserver.disconnect();
 
-  const sections = ['work', 'about', 'experience', 'skills', 'contact']
+  const sections = ['work', 'music', 'about', 'experience', 'skills', 'contact']
     .map(id => document.getElementById(id))
     .filter(Boolean);
   if (!sections.length) return;

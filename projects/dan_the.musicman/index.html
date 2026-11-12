@@ -17,16 +17,16 @@
   <meta name="description" content="Solo covers I arrange, record, mix and master myself, the most recent with 61 tracks, and a student band I founded that has performed at CMU's Rose Ball.">
   <link rel="canonical" href="https://danielm-ho.github.io/portfolio/projects/dan_the.musicman/">
   <meta property="og:site_name" content="Daniel Ho">
-  <meta property="og:title" content="Music Portfolio: Production, Performance &amp; Audience Growth">
+  <meta property="og:title" content="Music Portfolio: Ottoman Empire and solo covers">
   <meta property="og:description" content="Solo covers I arrange, record, mix and master myself, the most recent with 61 tracks, and a student band I founded that has performed at CMU's Rose Ball.">
   <meta property="og:image" content="https://danielm-ho.github.io/portfolio/static/og/og-dan_the.musicman.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Music Portfolio: Production, Performance &amp; Audience Growth">
+  <meta property="og:image:alt" content="Music Portfolio: Ottoman Empire and solo covers">
   <meta property="og:url" content="https://danielm-ho.github.io/portfolio/projects/dan_the.musicman/">
   <meta property="og:type" content="article">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Music Portfolio: Production, Performance &amp; Audience Growth">
+  <meta name="twitter:title" content="Music Portfolio: Ottoman Empire and solo covers">
   <meta name="twitter:description" content="Solo covers I arrange, record, mix and master myself, the most recent with 61 tracks, and a student band I founded that has performed at CMU's Rose Ball.">
   <meta name="twitter:image" content="https://danielm-ho.github.io/portfolio/static/og/og-dan_the.musicman.jpg">
   <!-- META:END -->
@@ -118,6 +118,7 @@
 
   <div class="n-links">
     <a href="#work"       class="n-link n-hm" data-s="work">Work</a>
+    <a href="#music"      class="n-link n-hm" data-s="music">Music</a>
     <a href="#about"      class="n-link n-hm" data-s="about">About</a>
     <a href="#experience" class="n-link n-hm" data-s="experience">Experience</a>
     <a href="#skills"     class="n-link n-hm" data-s="skills">Skills</a>
@@ -139,6 +140,7 @@
 <div id="mob-menu">
   <nav class="mob-links">
     <a class="mob-link" data-s="work"       href="#work">Work</a>
+    <a class="mob-link" data-s="music"      href="#music">Music</a>
     <a class="mob-link" data-s="about"      href="#about">About</a>
     <a class="mob-link" data-s="experience" href="#experience">Experience</a>
     <a class="mob-link" data-s="skills"     href="#skills">Skills</a>
@@ -202,6 +204,23 @@
         </header>
         <!-- Cards filled by PROJECTS in script.js (thumb + cardDesc + resultStat + cardTags) -->
         <div class="proj-grid"></div>
+      </div>
+    </section>
+
+    <!-- MUSIC
+         A full-width band: the Rose Ball photo edge to edge with the band's
+         name over it. Everything here is filled from CONTENT.music in
+         script.js; if that is missing the section is removed. -->
+    <section id="music" class="music-band" aria-labelledby="music-title">
+      <div class="mb-media"></div>
+      <div class="mb-inner">
+        <h2 class="mb-title" id="music-title"></h2>
+        <p class="mb-lede"></p>
+        <p class="mb-body"></p>
+        <div class="mb-foot">
+          <div class="mb-stat"></div>
+          <div class="mb-actions"></div>
+        </div>
       </div>
     </section>
 
@@ -343,6 +362,14 @@
   <div id="page-project" class="page"></div>
 
 </div><!-- /app -->
+
+<!-- One shared viewer for anything that opens over the page (the reel on
+     the homepage; enlarged screenshots on case-study pages). A native
+     <dialog>, so Escape, focus trapping and focus return come for free. -->
+<dialog id="dlg" class="dlg" aria-label="Viewer">
+  <button type="button" class="dlg-close" id="dlg-close">Close</button>
+  <div class="dlg-body" id="dlg-body"></div>
+</dialog>
 
 </body>
 </html>

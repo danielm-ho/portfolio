@@ -88,6 +88,26 @@ const CONTENT = {
     ]
   },
 
+  // ── MUSIC ─────────────────────────────────────────────────────────────
+  // The full-width band between Selected Work and About. The photo runs
+  // edge to edge; "Watch the reel" plays the main video from the project
+  // named in `project` (its media.main), so the reel is only set in one place.
+  music: {
+    title: 'Ottoman Empire',
+    lede:  `I founded Ottoman Empire, a student band at Carnegie Mellon. We were one of two
+            acts selected for CMU's Rose Ball.`,
+    body:  `On my own I arrange, record, mix and master multi-instrument covers. The most
+            recent one has 61 tracks. Across both I sing and play guitar, piano, percussion,
+            saxophone, viola and oboe.`,
+    stat:  { value: '1M+', label: 'Instagram views' },
+    image: './static/files/music-2.webp',
+    imageAlt: 'Ottoman Empire playing at Rose Ball: six musicians on stage under purple light, with dancers in the foreground',
+    project: 'dan_the.musicman',
+    reelLabel: 'Watch the reel',
+    pageLabel: 'How the covers get made',
+    links: [ { label: 'Ottoman Empire on Instagram', url: 'https://instagram.com/ottomanempire502' } ]
+  },
+
   // ── ABOUT ─────────────────────────────────────────────────────────────
   // bio: one string per paragraph — add or remove freely.
   about: {
@@ -100,10 +120,7 @@ const CONTENT = {
        software, and working as an Undergraduate Research Assistant studying cybercriminal team
        formation through agent-based simulation and game theory. Last summer I was a Product
        Manager Intern at Pittsburgh Tomorrow, where I built LivePGH. My background also spans
-       nonprofit media operations, literacy education, and community-focused design projects.`,
-      `Outside of academics, I produce music and founded Ottoman Empire, a student band
-       that has performed at campus events and accumulated over 1 million views and 125k likes
-       on Instagram.`
+       nonprofit media operations, literacy education, and community-focused design projects.`
     ],
     // facts: the compact definition list under the photo. Short labels,
     // short values — this is reference material, not a headline (the
@@ -285,8 +302,7 @@ const CONTENT = {
 
 const PROJECT_GROUPS = [
   { id: 'applied',  label: 'Applied & Client Work', note: 'Built for real users and paying clients.' },
-  { id: 'academic', label: 'Academic Projects',     note: 'Coursework at Carnegie Mellon.' },
-  { id: 'creative', label: 'Creative Practice',     note: '' }
+  { id: 'academic', label: 'Academic Projects',     note: 'Coursework at Carnegie Mellon.' }
 ];
 
 
@@ -295,6 +311,10 @@ const PROJECT_GROUPS = [
    Each entry powers both the homepage grid card AND the detail page.
 
    group               → which PROJECT_GROUPS tier the card sits in
+   card                → OPTIONAL. false keeps the project out of the Selected
+                         Work grid (it still has its own page). The music page
+                         uses this: the homepage shows it as the full-width
+                         music band instead (CONTENT.music).
    featured            → OPTIONAL. true gives the project a full-width block
                          at the top of its tier instead of a card: a large
                          framed screenshot (featureImage, falling back to
@@ -333,7 +353,10 @@ const PROJECT_GROUPS = [
    ── MEDIA GUIDE ──────────────────────────────────────────────────────
    YouTube video (main slot):     media.main = embedYouTube('VIDEO_ID', 'Title')
    Google Drive/Docs (main slot): media.main = embedIframe('https://...', 'Title')
-     — pass 'gdoc' as a third argument for a taller 4:3 embed (docs/reports)
+     — pass 'gdoc' as a third argument for a taller 4:3 embed (docs/reports),
+       or 'square' for a 1:1 video
+     — optional fourth argument { poster: './static/files/x.webp', label: 'Play the reel' }
+       sets the still image and button text shown before the embed loads
    Image (main slot):
      media.main = `<img src="./static/files/img.png"
                       style="width:100%;border-radius:6px;border:1px solid var(--b2)" alt="...">`
@@ -349,8 +372,8 @@ const PROJECT_GROUPS = [
 function embedYouTube(videoId, title) {
   return { kind: 'youtube', videoId, title, poster: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` };
 }
-function embedIframe(src, title, ratio = '16x9') {
-  return { kind: 'iframe', src, title, ratio };
+function embedIframe(src, title, ratio = '16x9', opts = {}) {
+  return { kind: 'iframe', src, title, ratio, poster: opts.poster, label: opts.label };
 }
 
 const PROJECTS = {
@@ -604,23 +627,22 @@ and a structured comparison of model performance across key metrics.`,
 
   'dan_the.musicman': {
     group:    'creative',
+    card:     false,   // shown on the homepage as the music band, not a grid card
     title:    'Music Portfolio',
-    sub:      'Production, Performance & Audience Growth',
+    sub:      'Ottoman Empire and solo covers',
     year:     '2024 – Present',
     role:     'Producer, Arranger & Performing Musician',
-    stack:    ['Audio Production', 'Mixing & Mastering', 'Content Strategy', 'Ensemble Performance', 'Project Management'],
+    stack:    ['Arranging', 'Recording', 'Mixing & Mastering', 'Ensemble Performance'],
     cardDesc: `Solo producer and performing musician. 60+-track arrangements recorded, mixed,
                and mastered independently. Founder of Ottoman Empire, selected for CMU's Rose
                Ball; 1M+ Instagram views and 125k+ likes across both projects.`,
-    cardTags: ['Production', 'Performance', 'Project Management'],
+    cardTags: ['Production', 'Performance'],
     thumb: './static/files/music-2.webp',
     summary: `Solo covers I arrange, record, mix and master myself, the most recent with 61
               tracks, and a student band I founded that has performed at CMU's Rose Ball.`,
     // decision: ← optional here, but there is one worth telling: founding and
     //   running a band is a coordination problem, not a musical one. What did
     //   you decide about how the group works?
-    challenge: `A body of work spanning solo production and live performance, built around
-iteration, technical execution, and creative direction under real constraints.`,
     approach: `I founded Ottoman Empire, a student band at CMU that has performed at multiple
 campus events, including CMU's Rose Ball as one of two selected acts. I coordinate rehearsals,
 arrangements, and live execution across the group. Separately, I arrange, record, mix, and
@@ -631,7 +653,8 @@ saxophone, viola, and oboe.`,
 likes.`,
     resultStat: { value: '1M+', label: 'Instagram views' },
     media: {
-      main: embedIframe('https://drive.google.com/file/d/1Yu2p1ySjo1PeLFIz-QaUUhyA9fAjCsME/preview', 'Music portfolio reel'),
+      main: embedIframe('https://drive.google.com/file/d/1Yu2p1ySjo1PeLFIz-QaUUhyA9fAjCsME/preview', 'Music portfolio reel', 'square',
+                        { poster: './static/files/music-reel-poster.webp', label: 'Play the reel' }),
       secondary: ['./static/files/music-1.webp', './static/files/music-2.webp'],
       captions:  ['Recording and production setup', 'Ottoman Empire performing at Rose Ball']
     },
