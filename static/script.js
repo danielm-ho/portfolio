@@ -4,7 +4,7 @@
 
    All editable text/data lives in content.js (loaded before this file —
    see index.html). This file just reads CONTENT / PROJECTS / SITE and
-   turns them into the page: renderers, routing, cursor, motion, etc.
+   turns them into the page: renderers, routing, menus, analytics.
 ───────────────────────────────────────── */
 
 /* JS is running — activate scroll-reveal hiding.
@@ -13,93 +13,6 @@ document.documentElement.classList.add('js-ready');
 
 /* Capability flags, read once. */
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const hasHover             = window.matchMedia('(hover: hover)').matches;
-const hasFinePointer       = window.matchMedia('(pointer: fine)').matches;
-
-/* ── CUSTOM CURSOR OPT-IN ──────────────────────────────────────────────
-   The stylesheet only hides the real cursor under html.cursor-custom, and
-   that class is added here — meaning it can only ever be applied when JS
-   has actually run AND the device has a real, fine, hover-capable pointer
-   AND the visitor hasn't asked for reduced motion.
-
-   The previous version set `cursor: none` in plain CSS on <body>, so a
-   visitor whose JS was blocked, slow, or errored got a page with no
-   visible pointer at all — an unrecoverable state, and a plausible one on
-   a locked-down corporate network. Enhancement now degrades to "normal
-   cursor" rather than "no cursor". */
-const useCustomCursor = hasHover && hasFinePointer && !prefersReducedMotion;
-if (useCustomCursor) document.documentElement.classList.add('cursor-custom');
-
-
-/* ══════════════════════════════════════════
-   TEXT SPLITTING
-   Two reveal treatments, both built at runtime so the HTML stays plain
-   text and reads correctly to screen readers, search crawlers, and
-   anyone whose JS never arrives.
-
-   splitChars()  → hero name, one span per glyph, staggered rise
-   maskLines()   → section titles, whole line rising from behind its box
-
-   Both bail out entirely under reduced motion: there's no point building
-   dozens of wrapper elements for an animation that won't play.
-══════════════════════════════════════════ */
-
-function splitChars(el, startIndex) {
-  const text = el.textContent;
-  el.textContent = '';
-
-  /* The real string stays in the DOM for assistive tech and crawlers. The
-     animated glyphs are decorative duplicates — without this split a
-     screen reader announces the name one letter at a time, because each
-     inline-block span reads as its own word. */
-  const label = document.createElement('span');
-  label.className = 'sr-only';
-  label.textContent = text;
-  el.appendChild(label);
-
-  const visual = document.createElement('span');
-  visual.setAttribute('aria-hidden', 'true');
-
-  let i = startIndex;
-  for (const ch of text) {
-    if (ch === ' ') { visual.appendChild(document.createTextNode(' ')); i++; continue; }
-    const outer = document.createElement('span');
-    outer.className = 'ch';
-    const inner = document.createElement('span');
-    inner.className = 'ch-i';
-    inner.textContent = ch;
-    outer.style.setProperty('--i', i++);
-    outer.appendChild(inner);
-    visual.appendChild(outer);
-  }
-  el.appendChild(visual);
-  return i;
-}
-
-function initSplitText() {
-  if (prefersReducedMotion) return;
-  /* One running index across every split element, so the stagger reads as
-     a single continuous sweep through the name rather than each line
-     restarting its own count. */
-  let i = 0;
-  document.querySelectorAll('[data-split]').forEach(el => { i = splitChars(el, i); });
-}
-
-/* Wraps a title's text in a single block so it can slide up from behind
-   the heading's own overflow box. Idempotent — safe to call again after
-   a re-render. */
-function maskLines() {
-  if (prefersReducedMotion) return;
-  document.querySelectorAll('.sec-title').forEach(el => {
-    if (el.querySelector('.m-in')) return;
-    const inner = document.createElement('span');
-    inner.className = 'm-in';
-    inner.textContent = el.textContent;
-    el.textContent = '';
-    el.appendChild(inner);
-  });
-}
-
 
 /* ── EMBED FACADE ─────────────────────────────────────────────────────
    Third-party embeds (YouTube, Google Drive/Docs) load on click instead
@@ -319,9 +232,8 @@ function metaLine(items, extraClass = '') {
 
 function renderExperience() {
   document.querySelector('.exp-list').innerHTML =
-    CONTENT.experience.map((e, i) => `
+    CONTENT.experience.map(e => `
       <div class="exp-row rv">
-        <span class="exp-i">${String(i + 1).padStart(2, '0')}</span>
         <div>
           <div class="exp-role">${e.role}</div>
           <div class="exp-org">${e.org}</div>
@@ -358,19 +270,16 @@ function handleThumbError(img, label) {
 }
 
 function buildCardThumb(p) {
-  const num = `<span class="proj-num">${p.num}</span>`;
-
   /* Fall back to the monogram tile both when no thumb is declared and when
      a declared one fails to load (onerror), so a bad path degrades to the
      designed placeholder instead of a broken-image icon. */
   if (!p.thumb) {
-    return `<div class="proj-thumb proj-thumb--mono"><span>${p.title}</span>${num}</div>`;
+    return `<div class="proj-thumb proj-thumb--mono"><span>${p.title}</span></div>`;
   }
 
   return `<div class="proj-thumb">
     <img src="${p.thumb}" alt="" loading="lazy" decoding="async"
          onerror="handleThumbError(this, ${JSON.stringify(thumbFallbackLabel(p.title)).replace(/"/g, '&quot;')})">
-    ${num}
   </div>`;
 }
 
@@ -566,7 +475,6 @@ function renderProject(slug) {
   document.getElementById('page-project').innerHTML = `
     <div class="pd-hero">
       <a href="${PAGE_PROJECT ? ROOT_URL + '#work' : '#'}" class="pd-back" id="pd-back">← Back to work</a>
-      <div class="pd-n">${p.num}</div>
       <h1 class="pd-title">${p.title}</h1>
       ${p.summary ? `<p class="pd-summary">${p.summary}</p>` : ''}
       ${linksHTML}
@@ -654,7 +562,6 @@ function renderProject(slug) {
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) metaDesc.setAttribute('content', p.cardDesc.replace(/\s+/g, ' ').trim());
 
-  bindHoverTargets();
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
@@ -911,120 +818,6 @@ window.addEventListener('resize', updateProgress, { passive: true });
 
 
 /* ══════════════════════════════════════════
-   CUSTOM CURSOR
-══════════════════════════════════════════ */
-
-const cur = document.getElementById('cur');
-const curPreview = document.getElementById('cur-preview');
-const curPreviewImg = curPreview?.querySelector('img');
-let mx = 0, my = 0, cx = 0, cy = 0;
-
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-
-/* Skip the rAF loop entirely when the custom cursor isn't in use — it's
-   pure wasted work there since #cur is hidden anyway. */
-if (useCustomCursor) {
-  (function animateCursor() {
-    // Higher factor = less trailing lag behind the real cursor. 0.3 felt
-    // sluggish on fast movement; this keeps a touch of smoothing without
-    // the dot visibly lagging behind.
-    cx += (mx - cx) * 0.65;
-    cy += (my - cy) * 0.65;
-    cur.style.left = cx + 'px';
-    cur.style.top  = cy + 'px';
-    if (curPreview) {
-      curPreview.style.left = (cx + 40) + 'px';
-      curPreview.style.top  = (cy - 90) + 'px';
-    }
-    requestAnimationFrame(animateCursor);
-  })();
-}
-
-function bindHoverTargets() {
-  if (!useCustomCursor) return;
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => cur.classList.add('h'));
-    el.addEventListener('mouseleave', () => cur.classList.remove('h'));
-  });
-}
-
-/* Project cards get a bigger, labeled cursor state instead of the generic
-   circle, plus a floating preview of the project's own screenshot — delegated
-   so it keeps working after renderProjectCards() (re)builds the grid, with
-   no re-binding required. */
-const curLabel = cur.querySelector('.cur-label');
-if (useCustomCursor) {
-  document.addEventListener('mouseover', e => {
-    const card = e.target.closest('.proj-a');
-    if (!card) return;
-    cur.classList.add('cur-view');
-    if (curLabel) curLabel.textContent = 'VIEW';
-
-    const slug = card.dataset.slug;
-    const p = PROJECTS[slug];
-    /* Prefer a second image over the card's own thumbnail — showing the
-       same picture that's already under the cursor tells you nothing. */
-    const src = p?.media?.secondary?.[0] || p?.thumb;
-    if (src && curPreviewImg && curPreview) {
-      curPreviewImg.src = src;
-      curPreview.classList.add('v');
-    }
-  });
-  document.addEventListener('mouseout', e => {
-    const leavingCard = e.target.closest('.proj-a');
-    const enteringCard = e.relatedTarget?.closest?.('.proj-a');
-    if (leavingCard && !enteringCard) {
-      cur.classList.remove('cur-view');
-      curPreview?.classList.remove('v');
-    }
-  });
-}
-
-
-/* ══════════════════════════════════════════
-   HERO ROLE ROTATOR
-══════════════════════════════════════════ */
-
-function initRoleRotator() {
-  const el = document.querySelector('.h-role-word');
-  const words = CONTENT?.hero?.roles;
-  if (!el || !words?.length || prefersReducedMotion) return; // static first word only — no motion
-
-  let i = 0;
-  setInterval(() => {
-    el.classList.add('out');
-    setTimeout(() => {
-      i = (i + 1) % words.length;
-      el.textContent = words[i];
-      el.classList.remove('out');
-    }, 350);
-  }, 2200);
-}
-
-
-/* ══════════════════════════════════════════
-   MAGNETIC BUTTONS
-   CTAs pull gently toward the cursor within their own bounds and snap
-   back on leave — mouse/hover devices only, skipped for reduced motion.
-══════════════════════════════════════════ */
-
-function initMagneticButtons() {
-  if (!hasHover || prefersReducedMotion) return;
-
-  const strength = 0.28;
-  document.querySelectorAll('.btn').forEach(btn => {
-    btn.addEventListener('mousemove', e => {
-      const r = btn.getBoundingClientRect();
-      const x = (e.clientX - r.left - r.width / 2) * strength;
-      const y = (e.clientY - r.top - r.height / 2) * strength;
-      btn.style.transform = `translate(${x}px, ${y}px)`;
-    });
-    btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
-  });
-}
-
-
-/* ══════════════════════════════════════════
    SCROLL REVEAL
 ══════════════════════════════════════════ */
 
@@ -1127,11 +920,6 @@ function initAnalytics() {
 
 renderSite();           // populate identity info (name, email, links) from SITE
 renderContent();        // populate all text & cards from CONTENT / PROJECTS
-initSplitText();        // wrap the hero name per-glyph for the load reveal
-maskLines();            // wrap section titles so they rise from behind their box
-bindHoverTargets();     // attach cursor hover to all existing links/buttons
-initRoleRotator();      // start the hero's cycling role line
-initMagneticButtons();  // enable magnetic pull on CTA buttons
 initCopyEmail();        // click-to-copy on the contact address
 initSkipLink();         // skip link that also works under a <base> tag
 applyRoute();           // first paint — no transition (nothing to transition from)

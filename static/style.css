@@ -47,10 +47,6 @@
      large sizes; if Orpheus loads, 300 resolves to its Regular. */
   --dw: 300;
 
-  /* Ambient light strength — the single number worth tuning by eye. */
-  --glow-a: .26;
-  --glow-b: .10;
-
   --ease:  cubic-bezier(.16, 1, .3, 1);
   --ease2: cubic-bezier(.33, 1, .68, 1);
 
@@ -77,22 +73,7 @@ body {
   overflow-x:  hidden;
 }
 
-/* ── CUSTOM CURSOR OPT-IN ──
-   `cursor: none` is applied only when script.js confirms it can actually
-   draw a replacement (JS running, real hover-capable pointer, motion not
-   suppressed). Previously this lived on plain `body`, which meant a
-   visitor whose JS failed to load — or anyone on reduced-motion — got a
-   page with no visible cursor at all. Now the default is always a real
-   pointer and the custom one is strictly an enhancement. */
-html.cursor-custom body,
-html.cursor-custom a,
-html.cursor-custom button,
-html.cursor-custom .embed-facade,
-html.cursor-custom .embed-facade-btn { cursor: none; }
-
-
-/* Visible to assistive tech only. Used by the hero name split, which
-   replaces the readable string with decorative per-glyph spans. */
+/* Visible to assistive tech only. */
 .sr-only {
   position:  absolute;
   width:     1px;
@@ -126,97 +107,12 @@ html.cursor-custom .embed-facade-btn { cursor: none; }
 .skip-link:focus { transform: none; }
 
 
-/* ── GRAIN ──
-   Very subtle noise overlay so large flat-black areas read as material
-   rather than an empty void. Pure CSS (inline SVG feTurbulence), no
-   image asset, effectively free. */
-body::after {
-  content:         '';
-  position:        fixed;
-  inset:            0;
-  z-index:          9990;
-  pointer-events:   none;
-  opacity:          .035;
-  mix-blend-mode:   overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
 /* ── FOCUS STATES ── */
 a:focus-visible,
 button:focus-visible {
   outline:        2px solid var(--ac);
   outline-offset: 3px;
   border-radius:  var(--r);
-}
-
-
-/* ── CUSTOM CURSOR ── */
-#cur {
-  position:       fixed;
-  width:          9px;
-  height:         9px;
-  border-radius:  50%;
-  background:     var(--ac);
-  pointer-events: none;
-  z-index:        9999;
-  opacity:        0;
-  transform:      translate(-50%, -50%);
-  transition:     width .3s var(--ease), height .3s var(--ease),
-                  background .3s, opacity .3s;
-}
-html.cursor-custom #cur { opacity: 1; }
-
-#cur.h {
-  width:      30px;
-  height:     30px;
-  background: var(--aca);
-  border:     1px solid var(--acb);
-}
-
-.cur-label {
-  position:       absolute;
-  top:            50%;
-  left:           50%;
-  transform:      translate(-50%, -50%);
-  font-family:    var(--sans);
-  font-size:      .58rem;
-  font-weight:    700;
-  letter-spacing: .08em;
-  color:          #0b0b0b;
-  opacity:        0;
-  white-space:    nowrap;
-  pointer-events: none;
-  transition:     opacity .2s;
-}
-#cur.cur-view {
-  width:      58px;
-  height:     58px;
-  background: var(--ac);
-  border:     none;
-}
-#cur.cur-view .cur-label { opacity: 1; }
-
-#cur-preview {
-  position:       fixed;
-  top:            0;
-  left:           0;
-  width:          220px;
-  aspect-ratio:   16 / 10;
-  overflow:       hidden;
-  pointer-events: none;
-  z-index:        9998;
-  opacity:        0;
-  transform:      translate(-50%, -50%) scale(.94);
-  transition:     opacity .3s var(--ease), transform .3s var(--ease);
-  box-shadow:     0 24px 50px rgba(0, 0, 0, .6);
-  border:         1px solid var(--b2);
-  background:     var(--s1);
-}
-#cur-preview.v { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-#cur-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-@media (hover: none) {
-  #cur, #cur-preview { display: none; }
 }
 
 
@@ -418,14 +314,6 @@ html.cursor-custom #cur { opacity: 1; }
 
 .mob-link:hover { color: var(--tx); padding-left: .4rem; }
 
-.mob-i {
-  font-family:    var(--sans);
-  font-size:      .62rem;
-  font-weight:    600;
-  letter-spacing: .12em;
-  color:          var(--mu2);
-}
-
 .mob-foot {
   font-size:      .72rem;
   color:          var(--mu2);
@@ -441,10 +329,7 @@ html.cursor-custom #cur { opacity: 1; }
 .sec, #hero-s { scroll-margin-top: var(--nav-h); }
 
 
-/* ── BUTTONS ──
-   transform is split out from the rest so the magnetic-pull effect
-   (JS, see script.js initMagneticButtons) can drive it directly without
-   fighting a blanket `transition: all`. */
+/* ── BUTTONS ── */
 .btn {
   display:         inline-flex;
   align-items:     center;
@@ -458,7 +343,7 @@ html.cursor-custom #cur { opacity: 1; }
   text-decoration: none;
   white-space:     nowrap;
   transition:      background .3s var(--ease), border-color .3s var(--ease),
-                    color .3s var(--ease), transform .2s var(--ease);
+                    color .3s var(--ease);
 }
 
 .btn-fill { background: var(--ac); color: #0b0b0b; }
@@ -466,63 +351,6 @@ html.cursor-custom #cur { opacity: 1; }
 
 .btn-out { border: 1px solid var(--b2); color: var(--mu); }
 .btn-out:hover { border-color: var(--mu); color: var(--tx); }
-
-
-/* ══════════════════════════════════════════
-   AMBIENT LIGHT
-   Two large, very soft radial sources drifting on long, deliberately
-   mismatched cycles. The point is that the pair never lands in the same
-   relative position twice within a visit — a short synced loop is what
-   makes ambient background motion read as an effect rather than as light.
-══════════════════════════════════════════ */
-.glow {
-  position:       absolute;
-  z-index:        0;
-  border-radius:  50%;
-  pointer-events: none;
-  filter:         blur(70px);
-  will-change:    transform;
-}
-
-/* The first pass ran these at .085 alpha, which over #0b0b0b resolves to
-   roughly #131f19 — about a dozen RGB levels off the background, then
-   blurred, which is to say invisible on anything but a calibrated display
-   in a dark room. Driven from --glow-a / --glow-b at the top of this file
-   so the strength is a single number to tune. */
-.glow-a {
-  top:          -16vh;
-  left:         38%;
-  width:        min(1020px, 105vw);
-  aspect-ratio: 1;
-  background:   radial-gradient(circle,
-                  rgba(47, 168, 118, var(--glow-a)),
-                  rgba(47, 168, 118, calc(var(--glow-a) * .34)) 42%,
-                  transparent 70%);
-  animation:    driftA 58s ease-in-out infinite alternate;
-}
-
-.glow-b {
-  top:          -4vh;
-  left:         -16%;
-  width:        min(760px, 88vw);
-  aspect-ratio: 1;
-  background:   radial-gradient(circle,
-                  rgba(240, 237, 232, var(--glow-b)),
-                  rgba(240, 237, 232, calc(var(--glow-b) * .3)) 40%,
-                  transparent 68%);
-  animation:    driftB 79s ease-in-out infinite alternate;
-}
-
-@keyframes driftA {
-  0%   { transform: translate3d(0, 0, 0) scale(1); }
-  50%  { transform: translate3d(-14vw, 6vh, 0) scale(1.12); }
-  100% { transform: translate3d(6vw, -4vh, 0) scale(.95); }
-}
-@keyframes driftB {
-  0%   { transform: translate3d(0, 0, 0) scale(1); }
-  50%  { transform: translate3d(10vw, 9vh, 0) scale(1.18); }
-  100% { transform: translate3d(-5vw, 3vh, 0) scale(1.02); }
-}
 
 
 /* ── HERO ── */
@@ -567,11 +395,7 @@ html.cursor-custom #cur { opacity: 1; }
   flex:            0 0 clamp(40px, 6vw, 84px);
   height:          1px;
   background:      var(--mu2);
-  transform:       scaleX(0);
-  transform-origin: left;
 }
-.js-ready .h-rule { animation: ruleIn 1.1s var(--ease) .15s forwards; }
-@keyframes ruleIn { to { transform: scaleX(1); } }
 
 h1.h-name {
   font-family:    var(--serif);
@@ -584,62 +408,6 @@ h1.h-name {
 
 .h-line { display: block; }
 .h-line-em { font-style: italic; color: var(--ac); }
-
-/* ── PER-CHARACTER REVEAL ──
-   script.js wraps each glyph in .ch > .ch-i. The outer span clips, the
-   inner one slides up from below the baseline, staggered by index. The
-   padding/negative-margin pair gives descenders and italic overhang room
-   to render without the clip cutting them off mid-stroke.
-
-   Unsplit (no JS) the name is just text, already visible. */
-.ch {
-  --i:            0; /* overwritten per glyph by splitChars(); the default
-                        keeps the calc() below valid if one ever isn't */
-  display:        inline-block;
-  overflow:       hidden;
-  vertical-align: bottom;
-  padding:        0 .06em .16em;
-  margin:         0 -.06em -.16em;
-}
-.ch-i { display: inline-block; }
-
-.js-ready .ch-i {
-  transform:  translateY(110%);
-  animation:  charUp .95s var(--ease) forwards;
-  animation-delay: calc(.18s + var(--i) * .035s);
-}
-@keyframes charUp { to { transform: translateY(0); } }
-
-/* ── HERO LOAD-IN ──
-   Everything else in the hero is a plain staggered rise, timed to land
-   after the name has finished setting itself. Gated behind .js-ready
-   (added synchronously as script.js's first line) so no-JS visitors just
-   see everything immediately. */
-@keyframes heroIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: none; }
-}
-.js-ready .h-eye-text { opacity: 0; animation: heroIn .8s var(--ease) .1s both; }
-.js-ready .h-role     { opacity: 0; animation: heroIn .8s var(--ease) .62s both; }
-.js-ready .h-desc     { opacity: 0; animation: heroIn .8s var(--ease) .74s both; }
-.js-ready .h-cta      { opacity: 0; animation: heroIn .8s var(--ease) .84s both; }
-.js-ready .h-proof    { opacity: 0; animation: heroIn .9s var(--ease) .96s both; }
-.js-ready .h-scroll   { opacity: 0; animation: heroIn .9s var(--ease) 1.15s both; }
-
-.h-role {
-  font-family:   var(--serif);
-  font-style:    italic;
-  font-size:     clamp(1.5rem, 2.8vw, 2.05rem);
-  color:         var(--ac);
-  margin-bottom: 2.25rem;
-  height:        1.35em;
-  overflow:      hidden;
-}
-.h-role-word {
-  display:    inline-block;
-  transition: opacity .4s var(--ease), transform .4s var(--ease);
-}
-.h-role-word.out { opacity: 0; transform: translateY(-.5em); }
 
 .h-bot {
   display:         flex;
@@ -688,62 +456,13 @@ h1.h-name {
   max-width:   16ch;
 }
 
-/* ── SCROLL CUE ──
-   A hairline with a single highlight passing down it on a long cycle.
-   Deliberately not a bouncing chevron or a looping pulse. */
-.h-scroll {
-  display:     flex;
-  align-items: center;
-  gap:         .85rem;
-  margin-top:  2.5rem;
-  font-size:   .7rem;
-  font-weight: 500;
-  color:       var(--mu2);
-}
-
-.h-scroll-line {
-  position:   relative;
-  display:    block;
-  width:      64px;
-  height:     1px;
-  background: var(--b2);
-  overflow:   hidden;
-}
-.h-scroll-line::after {
-  content:    '';
-  position:   absolute;
-  inset:      0;
-  background: linear-gradient(90deg, transparent, var(--ac), transparent);
-  transform:  translateX(-100%);
-  animation:  scrollHint 3.6s var(--ease2) 2s infinite;
-}
-@keyframes scrollHint {
-  0%        { transform: translateX(-100%); }
-  45%, 100% { transform: translateX(100%); }
-}
-
-
 /* ══════════════════════════════════════════
    SECTIONS
 ══════════════════════════════════════════ */
 .sec { padding: 7rem 0; border-bottom: 1px solid var(--b1); }
 #about { border-top: 1px solid var(--b1); }
 
-/* Header is a baseline row: number, title, then a rule running out to the
-   right margin. The rule draws itself in when the header enters. */
-.sec-hd {
-  display:               grid;
-  grid-template-columns: auto 1fr;
-  align-items:           baseline;
-  column-gap:            1.25rem;
-  margin-bottom:         3.5rem;
-}
-
-.sec-n {
-  font-family: var(--serif);
-  font-size:   1.1rem;
-  color:       var(--mu2);
-}
+.sec-hd { margin-bottom: 3.5rem; }
 
 .sec-title {
   font-family:    var(--serif);
@@ -751,33 +470,16 @@ h1.h-name {
   font-size:      clamp(2.4rem, 5.5vw, 4rem);
   letter-spacing: -.015em;
   line-height:    1;
-  overflow:       hidden;
-  padding-bottom: .08em;
-  margin-bottom:  -.08em;
 }
-
-/* Mask reveal — the title rises out from behind its own box rather than
-   fading up like everything else on the page. script.js wraps the text in
-   .m-in; without JS the title is simply visible. */
-.js-ready .sec-title .m-in {
-  display:    block;
-  transform:  translateY(110%);
-  transition: transform 1s var(--ease);
-}
-.js-ready .rv.v .sec-title .m-in { transform: none; }
 
 .sec-rule {
-  grid-column:      2;
-  height:           1px;
-  background:       var(--b1);
-  transform:        scaleX(0);
-  transform-origin: left;
-  margin-top:       1.5rem;
+  display:    block;
+  height:     1px;
+  background: var(--b1);
+  margin-top: 1.5rem;
 }
-.js-ready .rv.v .sec-rule { transform: none; transition: transform 1.3s var(--ease) .15s; }
 
 .sec-sub {
-  grid-column: 2;
   margin-top:  1.5rem;
   max-width:   54ch;
   color:       var(--mu);
@@ -906,17 +608,6 @@ h1.h-name {
 }
 .proj-a:hover .proj-thumb--mono span { color: var(--ac); }
 
-.proj-num {
-  position:    absolute;
-  top:         1rem;
-  left:        1.1rem;
-  font-family: var(--serif);
-  font-size:   1rem;
-  color:       var(--tx);
-  opacity:     .55;
-  mix-blend-mode: difference;
-}
-
 .proj-body {
   display:        flex;
   flex-direction: column;
@@ -994,7 +685,7 @@ h1.h-name {
 .exp-row {
   position:              relative;
   display:               grid;
-  grid-template-columns: 2.5rem 1fr 9rem;
+  grid-template-columns: 1fr 9rem;
   gap:                   0 2.25rem;
   padding:               2.25rem .75rem 2.25rem 1rem;
   border-bottom:         1px solid var(--b1);
@@ -1018,7 +709,6 @@ h1.h-name {
 }
 .exp-row:hover::before { transform: scaleY(1); }
 
-.exp-i    { font-family: var(--serif); font-size: 1.05rem; color: var(--mu2); padding-top: .15rem; }
 .exp-role { font-family: var(--serif);
   font-weight: var(--dw); font-size: 1.55rem; line-height: 1.15; margin-bottom: .3rem; }
 .exp-org  { font-size: .8rem; font-weight: 600; color: var(--ac); margin-bottom: .9rem; letter-spacing: .01em; }
@@ -1363,8 +1053,6 @@ footer {
 }
 .pd-back:hover { color: var(--ac); gap: .95rem; }
 
-.pd-n { font-family: var(--serif); font-size: 1.1rem; color: var(--mu2); margin-bottom: .6rem; }
-
 .pd-title {
   font-family:    var(--serif);
   font-weight:    var(--dw);
@@ -1667,23 +1355,13 @@ footer {
 
 
 /* ── REDUCED MOTION ─────────────────────────────────────────────────────
-   Everything above is decoration. Under a reduced-motion preference the
-   page arrives fully composed and stays still — including the ambient
-   light, which is the one piece that would otherwise keep moving forever.
+   Under a reduced-motion preference the page arrives fully composed and
+   stays still.
 ───────────────────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   #page-project.on { animation: none; }
   .js-ready .rv { opacity: 1; transform: none; transition: none; }
-  .js-ready .h-eye-text, .js-ready .h-role, .js-ready .h-desc,
-  .js-ready .h-cta, .js-ready .h-proof, .js-ready .h-scroll {
-    opacity: 1; animation: none; transform: none;
-  }
-  .js-ready .ch-i { transform: none; animation: none; }
-  .js-ready .h-rule { transform: scaleX(1); animation: none; }
-  .js-ready .sec-title .m-in { transform: none; transition: none; }
-  .js-ready .rv .sec-rule { transform: scaleX(1); transition: none; }
   .js-ready .proj-a .proj-thumb img { clip-path: none; }
-  .glow, .h-scroll-line::after { animation: none; }
   html { scroll-behavior: auto; }
 }
 
@@ -1693,7 +1371,7 @@ footer {
   .n-links { gap: 1.2rem; }
   .n-link  { font-size: .74rem; }
   .ab-g    { gap: 3.5rem; }
-  .exp-row { grid-template-columns: 2.25rem 1fr 7rem; gap: 0 1.5rem; }
+  .exp-row { grid-template-columns: 1fr 7rem; gap: 0 1.5rem; }
 }
 
 @media (max-width: 940px) {
@@ -1731,9 +1409,8 @@ footer {
      shrinks each past the point of being readable. */
   .h-proof { grid-template-columns: repeat(2, 1fr); gap: 1.75rem 0; margin-top: 2.5rem; }
   .pf-item:nth-child(odd) { padding-left: 0; border-left: none; }
-  .h-scroll { display: none; }
 
-  .sec-hd { column-gap: .9rem; margin-bottom: 2.5rem; }
+  .sec-hd { margin-bottom: 2.5rem; }
 
   .proj-grid { gap: 3rem; }
   .proj-row  { grid-template-columns: 1fr; gap: 1.5rem; }
@@ -1756,8 +1433,8 @@ footer {
 
   .sk-g { grid-template-columns: 1fr; gap: 2.25rem; }
 
-  .exp-row { grid-template-columns: 1.75rem 1fr; padding: 1.75rem .5rem 1.75rem .85rem; }
-  .exp-yr  { grid-column: 2; text-align: left; padding-top: .95rem; }
+  .exp-row { grid-template-columns: 1fr; padding: 1.75rem .5rem 1.75rem .85rem; }
+  .exp-yr  { text-align: left; padding-top: .95rem; }
 
   .ab-g     { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
   .ab-photo { width: 168px; }
@@ -1790,15 +1467,13 @@ footer {
 @media print {
   :root { --bg: #fff; --tx: #111; --mu: #444; --mu2: #666; --b1: #ddd; --b2: #ccc; --ac: #0a6b3f; }
   body { background: #fff; color: #111; }
-  body::after,
-  .site-nav, #mob-menu, #cur, #cur-preview, .skip-link,
-  .h-scroll, .glow, .proj-thumb, .ab-photo { display: none !important; }
+  .site-nav, #mob-menu, .skip-link,
+  .proj-thumb, .ab-photo { display: none !important; }
   #hero { min-height: auto; padding: 0 0 2rem; }
   .sec { padding: 1.5rem 0; page-break-inside: avoid; }
   .proj-row { grid-template-columns: 1fr 1fr; }
   .pd-cs-block--key { background: none; }
   .proj-a { break-inside: avoid; }
   .js-ready .rv { opacity: 1 !important; transform: none !important; }
-  .js-ready .ch-i, .js-ready .sec-title .m-in { transform: none !important; animation: none !important; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .7em; color: #666; }
 }

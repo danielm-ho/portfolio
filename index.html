@@ -100,9 +100,6 @@
 <!-- Keyboard users shouldn't have to tab through the whole nav to reach content. -->
 <a href="#main" class="skip-link">Skip to content</a>
 
-<div id="cur" aria-hidden="true"><span class="cur-label"></span></div>
-<div id="cur-preview" aria-hidden="true"><img alt=""></div>
-
 
 <!-- ══════════════════════════════════════════
      NAVIGATION
@@ -139,11 +136,11 @@
 ══════════════════════════════════════════ -->
 <div id="mob-menu">
   <nav class="mob-links">
-    <a class="mob-link" data-s="about"      href="#about"><span class="mob-i">01</span>About</a>
-    <a class="mob-link" data-s="work"       href="#work"><span class="mob-i">02</span>Work</a>
-    <a class="mob-link" data-s="experience" href="#experience"><span class="mob-i">03</span>Experience</a>
-    <a class="mob-link" data-s="skills"     href="#skills"><span class="mob-i">04</span>Skills</a>
-    <a class="mob-link" data-s="contact"    href="#contact"><span class="mob-i">05</span>Contact</a>
+    <a class="mob-link" data-s="about"      href="#about">About</a>
+    <a class="mob-link" data-s="work"       href="#work">Work</a>
+    <a class="mob-link" data-s="experience" href="#experience">Experience</a>
+    <a class="mob-link" data-s="skills"     href="#skills">Skills</a>
+    <a class="mob-link" data-s="contact"    href="#contact">Contact</a>
   </nav>
   <div class="mob-resume-row">
     <a href="./static/files/resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-fill">View resume</a>
@@ -170,26 +167,14 @@
 
     <!-- HERO -->
     <section id="hero-s">
-      <!-- Two slow-drifting light sources. Long, prime-ish, mismatched
-           durations (58s / 79s) so the pair never visibly repeats a
-           position — a short synced loop is what makes ambient background
-           motion register as an effect rather than as light. -->
-      <div class="glow glow-a" aria-hidden="true"></div>
-      <div class="glow glow-b" aria-hidden="true"></div>
-
       <div id="hero">
         <div class="hero-inner">
           <p class="h-eye"><span class="h-rule"></span><span class="h-eye-text">Carnegie Mellon University, class of 2029</span></p>
 
-          <!-- script.js splits these into per-character spans for the load
-               reveal. Left as plain text here so the name is still the name
-               if the script never runs. -->
           <h1 class="h-name">
-            <span class="h-line" data-split>Daniel</span>
-            <span class="h-line h-line-em" data-split>Ho</span>
+            <span class="h-line">Daniel</span>
+            <span class="h-line h-line-em">Ho</span>
           </h1>
-
-          <p class="h-role"><span class="h-role-word">Builder.</span></p>
 
           <div class="h-bot">
             <!-- Text set by CONTENT.hero.desc in script.js -->
@@ -204,11 +189,6 @@
                Filled by CONTENT.hero.proof in script.js. -->
           <div class="h-proof"></div>
         </div>
-
-        <div class="h-scroll" aria-hidden="true">
-          <span class="h-scroll-line"></span>
-          <span class="h-scroll-txt">Scroll</span>
-        </div>
       </div>
     </section>
 
@@ -216,7 +196,6 @@
     <section id="about" class="sec">
       <div class="w">
         <header class="sec-hd rv">
-          <span class="sec-n">01</span>
           <h2 class="sec-title">About</h2>
           <span class="sec-rule"></span>
         </header>
@@ -266,7 +245,6 @@
     <section id="work" class="sec">
       <div class="w">
         <header class="sec-hd rv">
-          <span class="sec-n">02</span>
           <h2 class="sec-title">Selected Work</h2>
           <span class="sec-rule"></span>
           <p class="sec-sub">Grouped by type of work.</p>
@@ -280,7 +258,6 @@
     <section id="experience" class="sec">
       <div class="w">
         <header class="sec-hd rv">
-          <span class="sec-n">03</span>
           <h2 class="sec-title">Experience</h2>
           <span class="sec-rule"></span>
         </header>
@@ -293,7 +270,6 @@
     <section id="skills" class="sec">
       <div class="w">
         <header class="sec-hd rv">
-          <span class="sec-n">04</span>
           <h2 class="sec-title">Skills</h2>
           <span class="sec-rule"></span>
         </header>
@@ -311,7 +287,6 @@
     <section id="contact" class="sec">
       <div class="w">
         <header class="sec-hd rv">
-          <span class="sec-n">05</span>
           <h2 class="sec-title">Contact</h2>
           <span class="sec-rule"></span>
           <!-- Sub text filled by CONTENT.contact.sub in script.js -->

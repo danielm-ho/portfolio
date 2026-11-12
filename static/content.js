@@ -9,7 +9,7 @@
 
    SITE     → name, email, links, resume path (nav, footer, contact)
    CONTENT  → homepage copy (hero, about, experience, currently, skills,
-              contact) — hero.roles is the line that rotates under your name
+              contact)
    PROJECTS → project detail pages + the grid cards
 ───────────────────────────────────────── */
 
@@ -57,10 +57,6 @@ const CONTENT = {
   hero: {
     desc: `Sophomore at Carnegie Mellon studying Information Systems & Policy Management,
            exploring how technology shapes organizations, education, and everyday communities.`,
-    // roles: cycles under your name, in order, on a loop. Edit/add/remove
-    // freely — the first one here is also what shows before JS loads.
-    roles: ['Builder.', 'Researcher.', 'Musician.', 'Systems thinker.'],
-
     // proof: the four-up number strip pinned to the bottom of the hero.
     // These are the facts a recruiter needs in the first five seconds, so
     // they sit above the fold instead of being buried in About.
@@ -121,7 +117,7 @@ const CONTENT = {
   // To add a role: copy one object, fill in the fields, paste it in.
   // Order here = order on page.
   //
-  // current: true  → adds a pulsing "Now" marker to the row, so a recruiter
+  // current: true  → sets the row's dates in the accent colour, so a recruiter
   //                  can see what you're actively doing without parsing dates.
   // tags:          → 2–4 short keywords per role. These are what a skim
   //                  actually catches; the paragraph is for the second pass.
@@ -350,7 +346,6 @@ const PROJECTS = {
        decision   → the trade-off block. See the note on it below.
   ──────────────────────────────────────────────────────────────────── */
   'livepgh': {
-    num:      '01',
     group:    'applied',
     title:    'LivePGH',
     sub:      'Neighborhood Matching for Pittsburgh Residents',
@@ -409,7 +404,6 @@ so the screenshots on this page are from the handed-off build.`,
   },
 
   'zab-hair-studio': {
-    num:      '02',
     group:    'applied',
     title:    'Zab Hair Studio',
     sub:      'Freelance Client Website',
@@ -469,7 +463,6 @@ to work with the studio as an ongoing freelance client.`,
   },
 
   'monomuse': {
-    num:      '03',
     group:    'academic',
     title:    'MonoMuse',
     sub:      'Museum Website Redesign & Funnel Analysis',
@@ -507,7 +500,6 @@ sessions (roughly 10), suggesting page count alone doesn't predict conversion.`,
   },
 
   'swe-life': {
-    num:      '04',
     group:    'academic',
     title:    'SWE Life',
     sub:      'CMU 15-112 Final Project',
@@ -543,7 +535,6 @@ course website.`,
   },
 
   'titanic-classifier': {
-    num:      '05',
     group:    'academic',
     title:    'Titanic Survival Classifier',
     sub:      'Binary Classification Analysis',
@@ -577,7 +568,6 @@ and a structured comparison of model performance across key metrics.`,
   },
 
   'dan_the.musicman': {
-    num:      '06',
     group:    'creative',
     title:    'Music Portfolio',
     sub:      'Production, Performance & Audience Growth',
