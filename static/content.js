@@ -154,86 +154,72 @@ const CONTENT = {
   //
   // current: true  → sets the row's dates in the accent colour, so a recruiter
   //                  can see what you're actively doing without parsing dates.
-  // tags:          → 2–4 short keywords per role. These are what a skim
-  //                  actually catches; the paragraph is for the second pass.
+  // line:          → ONE sentence (two at most): the most concrete fact about
+  //                  the role. The full bullets live in the resume PDF.
+  // project:       → OPTIONAL. A PROJECTS slug; adds a "Case study" link.
+  // url:           → OPTIONAL. Makes the organisation name a link.
   experience: [
     {
       current: true,
-      tags: ['Python', 'Game Theory', 'Simulation'],
       role: 'Undergraduate Research Assistant',
       org:  'CMU, Security Economics Research',
-      desc: `Analyzing an agent-based simulation modeling cybercriminal team formation
-             through game theory. Revamping core utility functions to improve pipeline
-             reliability and reduce technical debt across the simulation codebase.`,
+      line: `Analyzing an agent-based simulation modeling cybercriminal team formation
+             through game theory.`,
       year: 'June 2026–Present'
     },
     {
       current: true,
-      tags: ['Civic Leadership', 'Civic Data', 'Funded Project'],
       role: 'Scholar',
       org:  'Charpie Leadership Institute, CMU',
-      desc: `Selected for a two-semester civic leadership cohort with a funded project
+      url:  'https://www.cmu.edu/student-affairs/celd/leadership-development/charpie-leadership-institute.html',
+      line: `Selected for a two-semester civic leadership cohort with a funded project
              component. Scoping a community project built on Pittsburgh civic data.`,
       year: 'Aug 2026–Present'
     },
     {
-      tags: ['Product', 'Data Pipelines', 'Leaflet.js'],
       role: 'Product Manager Intern',
       org:  'Pittsburgh Tomorrow',
-      desc: `Developed LivePGH, an interactive Leaflet-map web app matching Pittsburgh
-             residents to neighborhoods that fit their needs. Engineered a data pipeline
-             that fetches, normalizes, and caches six civic data sources, and designed a
-             six-question matching quiz and weighted scoring algorithm alongside a tool for
-             comparing neighborhoods on cost, walkability, schools, and transit access.`,
+      line: `Developed LivePGH, an interactive Leaflet-map web app matching Pittsburgh
+             residents to neighborhoods that fit their needs.`,
+      project: 'livepgh',
       year: 'June–Aug 2026'
     },
     {
-      tags: ['HTML & CSS', 'JavaScript', 'Client Discovery'],
       role: 'Freelance Web Developer',
       org:  'Zab Hair Studio',
-      desc: `Translated client brand and business preferences into technical requirements
-             through a series of interviews, then designed and built the site from scratch,
-             including a centralized content architecture and platform-detecting video embeds.`,
+      line: `Designed and built the studio's site from scratch after a series of client
+             interviews.`,
+      project: 'zab-hair-studio',
       year: 'June 2026–Present'
     },
     {
-      tags: ['Human-Centered Design', 'User Research', 'Usability Testing'],
       role: 'Project Team Member',
       org:  'Design for America, CMU',
-      desc: `Devised three interventions (critique cards, a physical art yearbook template,
+      line: `Devised three interventions (critique cards, a physical art yearbook template,
              and a redesigned mailing system) to boost attendance in MCG Youth's afterschool
-             arts programs across four studios. Informed design decisions through expert
-             interviews, student surveys, and think-aloud usability testing.`,
+             arts programs across four studios.`,
       year: 'Sept 2025–May 2026'
     },
     {
-      tags: ['EdTech', 'Data-Informed Instruction', '+13% growth'],
       role: 'Literacy Instructor',
       org:  'AmeriCorps LitCorps',
-      desc: `Delivered 1:1 enrichment literacy instruction to 20 remedial elementary and
+      line: `Delivered 1:1 enrichment literacy instruction to 20 remedial elementary and
              middle-school students over 6-week periods, driving 13% average educational
-             growth via the BookNook platform. Differentiated instruction across diverse
-             reading levels using real-time BookNook data to pilot and modify strategies.`,
+             growth via the BookNook platform.`,
       year: 'Summers 2024 & 2025'
     },
     {
-      tags: ['Founded', '$7.5K AUM', '+12% TTM'],
       role: 'Founding Managing Director',
       org:  'Firm Foundation Fund',
-      desc: `Founded and managed the school's first student-run investment fund overseeing
-             $7,500 in assets, directing equity research, portfolio decisions, and analyst
-             operations across a team of student members. Generated a 12% trailing-twelve-month
-             return.`,
+      line: `Founded and managed the school's first student-run investment fund, overseeing
+             $7,500 in assets and generating a 12% trailing-twelve-month return.`,
       year: '2023–2025'
     },
     {
-      tags: ['Training', 'Workflow Design', '15+ staff'],
       role: 'Media Operations Intern',
       org:  'Pamoza International',
-      desc: `Trained 15+ staff members on video software and equipment, enabling
-             independent in-house content production. Built a centralized media workflow
-             designed for staff-led maintenance, removing dependence on continued outside
-             support.`,
+      line: `Trained 15+ staff members on video software and equipment, and built a simple
+             Google Drive organization flow that staff maintain themselves.`,
       year: '2023–2024'
     }
   ],

@@ -984,37 +984,30 @@ span.frame-bar { display: flex; }
 .exp-list { display: flex; flex-direction: column; }
 
 .exp-row {
-  position:              relative;
   display:               grid;
   grid-template-columns: 1fr 9rem;
   gap:                   0 2.25rem;
-  padding:               2.25rem .75rem 2.25rem 1rem;
+  padding:               1.4rem 0;
   border-bottom:         1px solid var(--b1);
-  transition:            background .4s var(--ease2);
 }
-
 .exp-row:first-child { border-top: 1px solid var(--b1); }
-.exp-row:hover { background: rgba(255, 255, 255, .016); }
 
-.exp-row::before {
-  content:          '';
-  position:         absolute;
-  left:             0;
-  top:              1.6rem;
-  bottom:           1.6rem;
-  width:            1px;
-  background:       var(--ac);
-  transform:        scaleY(0);
-  transform-origin: top;
-  transition:       transform .5s var(--ease);
+/* Role and organisation share a line; the one sentence sits under them. */
+.exp-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: .15rem .9rem; margin-bottom: .4rem; }
+.exp-role { font-family: var(--serif); font-weight: var(--dw); font-size: 1.4rem; line-height: 1.2; }
+.exp-org  { font-size: .82rem; font-weight: 600; color: var(--ac); }
+.exp-org a { color: inherit; text-decoration: underline; text-decoration-color: var(--acb); text-underline-offset: .22em; }
+.exp-org a:hover { text-decoration-color: var(--ac); }
+.exp-desc { font-size: .9rem; color: var(--mu); line-height: 1.7; max-width: 66ch; }
+.exp-more {
+  color:                 var(--tx);
+  font-weight:           600;
+  white-space:           nowrap;
+  text-decoration:       underline;
+  text-decoration-color: var(--b2);
+  text-underline-offset: .22em;
 }
-.exp-row:hover::before { transform: scaleY(1); }
-
-.exp-role { font-family: var(--serif);
-  font-weight: var(--dw); font-size: 1.55rem; line-height: 1.15; margin-bottom: .3rem; }
-.exp-org  { font-size: .8rem; font-weight: 600; color: var(--ac); margin-bottom: .9rem; letter-spacing: .01em; }
-.exp-desc { font-size: .875rem; color: var(--mu); line-height: 1.85; max-width: 620px; }
-.exp-tags { margin-top: .95rem; }
+.exp-more:hover { text-decoration-color: var(--ac); }
 
 /* Year column. Current roles read "— Present" already; the accent on the
    year does the rest. No badge, no pulsing dot. */
@@ -1811,8 +1804,8 @@ footer {
 
   .sk-g { grid-template-columns: 1fr; gap: 2.25rem; }
 
-  .exp-row { grid-template-columns: 1fr; padding: 1.75rem .5rem 1.75rem .85rem; }
-  .exp-yr  { text-align: left; padding-top: .95rem; }
+  .exp-row { grid-template-columns: 1fr; padding: 1.2rem 0; }
+  .exp-yr  { text-align: left; padding-top: .5rem; }
 
   .ab-g     { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
   .ab-photo { width: 120px; }

@@ -284,17 +284,22 @@ function metaLine(items, extraClass = '') {
 
 function renderExperience() {
   document.querySelector('.exp-list').innerHTML =
-    CONTENT.experience.map(e => `
+    CONTENT.experience.map(e => {
+      const org = e.url
+        ? `<a href="${e.url}" target="_blank" rel="noopener noreferrer">${e.org}</a>`
+        : e.org;
+      const more = e.project && PROJECTS[e.project]
+        ? ` <a class="exp-more" href="${projectHref(e.project)}">Case study</a>`
+        : '';
+      return `
       <div class="exp-row rv">
         <div>
-          <div class="exp-role">${e.role}</div>
-          <div class="exp-org">${e.org}</div>
-          <p class="exp-desc">${e.desc}</p>
-          ${metaLine(e.tags, 'exp-tags')}
+          <div class="exp-head"><span class="exp-role">${e.role}</span><span class="exp-org">${org}</span></div>
+          <p class="exp-desc">${e.line || e.desc || ''}${more}</p>
         </div>
         <span class="exp-yr${e.current ? ' is-current' : ''}">${e.year}</span>
-      </div>
-    `).join('');
+      </div>`;
+    }).join('');
 }
 
 /* ── PROJECT CARDS ──
