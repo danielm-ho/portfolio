@@ -344,9 +344,12 @@ const PROJECT_GROUPS = [
                          "I chose X over Y because Z." Leave it out entirely
                          and the block simply doesn't render — an empty or
                          vague one is worse than none.
-   resultStat          → the big pulled-out number. Appears BOTH on the grid
-                         card and in the detail-page sidebar, so the headline
-                         outcome is visible before the click.
+   resultStat          → OPTIONAL. The big pulled-out number. Appears BOTH on
+                         the grid card and in the detail-page sidebar. Only
+                         for a real outcome; leave it out before reaching for
+                         a filler count.
+   cardNote            → OPTIONAL. One line at the foot of the card when
+                         there is no resultStat, e.g. the decision in brief.
    stack               → full tech list on the detail page sidebar
    links               → surfaced in the detail-page hero, not buried in the
                          sidebar. Recruiters click through; a shipped thing
@@ -399,17 +402,22 @@ const PROJECTS = {
   /* ────────────────────────────────────────────────────────────────────
      LivePGH
 
-     ⚠️  DRAFTED FROM YOUR EXPERIENCE COPY — READ BEFORE PUBLISHING.
-     Everything below is rephrased from the Pittsburgh Tomorrow entry in
-     CONTENT.experience. Nothing here is invented, but nothing here has
-     been checked by you either.
+     STATUS (Nov 2026)
+     Confirmed by you: the build is finished and handed off, not public yet.
+     Still drafted from the Pittsburgh Tomorrow entry in CONTENT.experience
+     and not checked by you line by line: challenge, approach, result.
 
-     Screenshots are in from the local build (Aug 2026) — thumb + five
-     images below. Two things are still open:
-
-       links      → the build is local-only, so there's no URL yet. Add
-                    { label: 'Live site', url: '...' } the day it ships.
-       decision   → the trade-off block. See the note on it below.
+     decision   → states what the product does, taken from the Approach
+                  copy and from the note on LivePGH's own landing page (see
+                  static/files/livepgh-home.jpg). It is headed "What it
+                  won't do" because nothing here says whose call it was or
+                  what it cost.
+                  TODO(Daniel): if this was your decision, add one sentence
+                  on what leaving these out cost you, and delete the
+                  labels: { decision: ... } line so the block reads
+                  "Key decision".
+     links      → no public URL yet. Add { label: 'Live site', url: '...' }
+                  the day it launches.
   ──────────────────────────────────────────────────────────────────── */
   'livepgh': {
     group:    'applied',
@@ -446,13 +454,14 @@ tool that puts neighborhoods side by side on cost, walkability, schools and tran
 The front door gives users three ways in: match from the city they live in now, take the fit
 quiz, or just browse all 156 places. People arrive at this decision at very different stages,
 and forcing everyone through the same funnel loses the ones who only want to look around.
-Every price and rent is labeled an <em>informed estimate</em>, and the product publishes no
-neighborhood "safety score" and uses no demographic identity as a matching input.`,
-    // decision: ← THE MOST VALUABLE BLOCK ON THIS PAGE, and I can't write it
-    //   for you. One choice, and what you gave up for it. Candidates from
-    //   this project: why cache rather than fetch live; why six sources and
-    //   not more; why a quiz instead of filters; how you picked the scoring
-    //   weights. Two or three sentences. Uncomment and fill in.
+Every price and rent is labeled an <em>informed estimate</em>.`,
+    labels:   { decision: `What it won't do` },
+    decision: `LivePGH publishes no neighborhood "safety score" and uses no demographic identity
+as a matching input. Its own note to users gives the reason: steering people by demographics
+"would be discriminatory," so it matches on how you want to live.`,
+    // TODO(Daniel): other decisions worth a sentence each, if you want more
+    //   than one: why cache rather than fetch live; why six sources and not
+    //   more; why a quiz instead of filters; how you picked the scoring weights.
     result: `Over a summer internship I delivered the pipeline, the matching quiz, the
 comparison tool and the neighborhood pages: 156 places in all, covering every City of
 Pittsburgh neighborhood plus 67 Allegheny County suburbs, each with cost, commute, walkability
@@ -491,9 +500,10 @@ so the screenshots on this page are from the handed-off build.`,
     role:     'Freelance Web Developer',
     stack:    ['HTML', 'CSS', 'JavaScript', 'Content Architecture', 'Client Discovery'],
     cardDesc: `Designed and built a small business website from scratch for a local hair
-               studio, including a centralized content architecture and platform-detecting
-               video embeds, after interviewing the client to translate brand and business
+               studio, after interviewing the client to translate brand and business
                preferences into technical requirements.`,
+    // cardNote: one line at the foot of the card, in place of a result figure.
+    cardNote: `Built around one content.js file, so the owner edits the site himself.`,
     cardTags: ['HTML + CSS', 'JS', 'Freelance'],
     thumb:    './static/files/zab-hero.jpg',
     thumbPos: 'left center',   // which part of the image survives the card's crop
@@ -502,20 +512,18 @@ so the screenshots on this page are from the handed-off build.`,
     challenge: `A Newtown Square hair studio needed a website built from the ground up, with
 no existing technical requirements.`,
     approach: `I interviewed the client to turn his brand and business preferences into concrete
-technical requirements, then designed and built the site from scratch, including a centralized content
-architecture (so future edits don't require touching markup) and platform-detecting video
-embeds.`,
-    /* ⚠️  DRAFTED, NOT VERIFIED. This is my reading of the reasoning already
-       implied by your own copy ("so future edits don't require touching
-       markup", "the client can update independently"). Check that it's
-       actually how you thought about it, and rewrite freely. */
-//     decision: `Rather than hard-coding copy into the markup, I separated all editable content
-// into a single file the owner could open on her own. That cost more time up front and added a
-// layer of indirection to the codebase, but it meant routine changes — prices, hours, a new
-// photo — never require a developer.`,
+technical requirements, then designed and built the site from scratch. That includes video
+embeds that render YouTube, Instagram or TikTok from a single pasted link.`,
+    /* decision: built from your own sentence (Nov 2026): "I built a custom
+       content.js page so he could edit it himself." The second sentence is
+       from your Services caption.
+       TODO(Daniel): what did this cost you, or what did you choose it over?
+       One sentence turns this from a feature into a trade-off. */
+    decision: `I built the site around a custom content.js file so the owner could edit it
+himself. Every card, price and photo is read from that one file, so he can change an offering
+without touching markup.`,
     result: `Delivered a working, maintainable site the client can update independently. I continue
 to work with the studio as an ongoing freelance client.`,
-    resultStat: { value: 'Live', label: 'Shipped & maintained' },
     /* Screenshots from the live site (Aug 2026). The phone view is cropped
        to the phone's own width and shown in a phone frame. */
     media: {
@@ -553,9 +561,11 @@ to work with the studio as an ongoing freelance client.`,
     thumb: './static/files/monomuse-2.webp',
     summary: `A CMU coursework project pairing a four-page museum website redesign with a SQL
               funnel analysis, a usability memo, and a design summary.`,
-    // ⚠️ DRAFTED from the two screenshots and a one-line description. Check the
-    //   course name, what the funnel analysis concluded, and what the usability
-    //   memo recommended, then fill in decision: (what you changed and why).
+    // NOT VERIFIED (Nov 2026): this copy was drafted from the two screenshots
+    //   and a one-line description, and you haven't checked it.
+    // TODO(Daniel): confirm the course, what the funnel analysis concluded and
+    //   what the usability memo recommended, then add decision: (what you
+    //   changed and why).
     challenge: `MonoMuse, a fictional contemporary museum of art and technology, needed a
 website that moves visitors from learning about the museum to buying tickets.`,
     approach: `I designed four pages (Home, Explore, Exhibitions, and Buy Tickets) with a
@@ -565,7 +575,6 @@ sessions that reached the ticket overview and checkout pages.`,
     result: `Findings were written up in a usability memo and a design summary alongside the
 query results. Sessions that reached checkout visited about the same number of pages as all
 sessions (roughly 10), suggesting page count alone doesn't predict conversion.`,
-    resultStat: { value: '4', label: 'Pages redesigned' },
     media: {
       main: embedImage('./static/files/monomuse-2.webp',
                        'MonoMuse wireframes: Home, Explore, Exhibitions, and Buy Tickets pages'),
@@ -590,8 +599,8 @@ sessions (roughly 10), suggesting page count alone doesn't predict conversion.`,
     thumb: './static/files/swe-life-2.webp',
     summary: `A 1,300-line Python minigame collection with a progression system, an in-game
               shop and two original minigames, built solo for CMU 15-112.`,
-    // decision: ← what did you cut, or choose the harder path on? The
-    //   scrolling platformer and the slingshot physics were both optional;
+    // TODO(Daniel) decision: what did you cut, or choose the harder path on?
+    //   The scrolling platformer and the slingshot physics were both optional;
     //   why build them instead of more minigames? Two or three sentences.
     challenge: `A minigame collection built as the final project for CMU 15-112 (Fundamentals
 of Programming and Computer Science). The game follows a Software Engineer attempting to climb
@@ -625,10 +634,10 @@ course website.`,
     thumb: './static/files/titanic-main.webp',
     summary: `A four-way comparison of classification methods on the Titanic dataset, written
               up as a full RMarkdown report for CMU 36-202.`,
-    // decision: ← your own copy says you evaluated on "accuracy, precision
-    //   AND interpretability", which is a trade-off hiding in plain sight.
-    //   Which model did you land on, and what did you give up to pick it?
-    //   That one paragraph turns a common assignment into a judgement call.
+    // TODO(Daniel) decision: your own copy says you evaluated on "accuracy,
+    //   precision AND interpretability", which is a trade-off. Which model did
+    //   you land on, and what did you give up to pick it? The result block
+    //   below also says nothing about what you found.
     challenge: `A binary classification analysis on the Titanic dataset for CMU 36-202:
 Methods for Statistics and Data Science.`,
     approach: `Applied and compared four classification methods: Linear Discriminant
@@ -636,7 +645,6 @@ Analysis (LDA), Quadratic Discriminant Analysis (QDA), logistic regression, and
 classification trees. Each was evaluated on accuracy, precision, and interpretability.`,
     result: `Findings were communicated in a full RMarkdown report with clear visualizations
 and a structured comparison of model performance across key metrics.`,
-    resultStat: { value: '4', label: 'Methods compared' },
     media: {
       main: embedImage('./static/files/titanic-main.webp',
                        'RStudio showing the classification tree fitted to the Titanic data, with splits on gender, passenger class, fare and port of embarkation')
@@ -660,9 +668,8 @@ and a structured comparison of model performance across key metrics.`,
     thumb: './static/files/music-2.webp',
     summary: `Solo covers I arrange, record, mix and master myself, the most recent with 61
               tracks, and a student band I founded that has performed at CMU's Rose Ball.`,
-    // decision: ← optional here, but there is one worth telling: founding and
-    //   running a band is a coordination problem, not a musical one. What did
-    //   you decide about how the group works?
+    // TODO(Daniel) decision: optional here, but there is one worth telling.
+    //   What did you decide about how the band works?
     approach: `I founded Ottoman Empire, a student band at CMU that has performed at multiple
 campus events, including CMU's Rose Ball as one of two selected acts. I coordinate rehearsals,
 arrangements, and live execution across the group. Separately, I arrange, record, mix, and

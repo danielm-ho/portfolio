@@ -348,13 +348,14 @@ function buildCard(slug, p, i, wide) {
         <div class="proj-sub">${p.sub}</div>
         <p class="proj-desc">${p.cardDesc}</p>
         ${metaLine(p.cardTags)}
+        ${p.resultStat ? `
         <div class="proj-foot">
-          ${p.resultStat ? `
-            <span class="proj-stat">
-              <span class="proj-stat-v">${p.resultStat.value}</span>
-              <span class="proj-stat-l">${p.resultStat.label}</span>
-            </span>` : '<span></span>'}
-        </div>
+          <span class="proj-stat">
+            <span class="proj-stat-v">${p.resultStat.value}</span>
+            <span class="proj-stat-l">${p.resultStat.label}</span>
+          </span>
+        </div>` : (p.cardNote ? `
+        <div class="proj-foot"><p class="proj-note">${p.cardNote}</p></div>` : '')}
       </div>
     </a>`;
 }
