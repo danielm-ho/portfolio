@@ -543,7 +543,10 @@ to work with the studio as an ongoing freelance client.`,
         'Media: platform-detecting embeds that render YouTube, Instagram or TikTok from a single pasted link'
       ]
     },
-    links: [ { label: 'View Live Site', url: 'https://danielm-ho.github.io/Zab-Barber/' } ]
+    links: [
+      { label: 'View Live Site', url: 'https://danielm-ho.github.io/Zab-Barber/' },
+      { label: 'Source on GitHub', url: 'https://github.com/danielm-ho/Zab-Barber' }
+    ]
   },
 
   'monomuse': {
@@ -609,15 +612,19 @@ series of minigames.`,
     approach: `The project grew into a complex, 1300-line system featuring a progression
 system, an in-game shop with persistent upgrades, cross-stat debuffs, a slingshot minigame,
 and a vertically scrolling platformer. Built entirely in Python with the cmu_graphics library.`,
-    result: `This project received a 99/100 grade and a feature on CMU's Spring '26 15-112
-course website.`,
+    result: `This project received a 99/100 grade and is listed in the project gallery on
+CMU's Spring '26 15-112 course website.`,
     resultStat: { value: '99/100', label: 'Final grade' },
     media: {
       main: embedYouTube('i-ZC2HGeB9w', 'SWE Life demo'),
       secondary: ['./static/files/swe-life-1.webp', './static/files/swe-life-2.webp'],
       captions:  ['Sample of code', '"THE CLIMB" vertically scrolling platformer minigame']
     },
-    links: [{ label: 'Play Project', url: 'https://academy.cs.cmu.edu/sharing/oldLaceFish369828' }]
+    links: [
+      { label: 'Play Project', url: 'https://academy.cs.cmu.edu/sharing/oldLaceFish369828' },
+      { label: 'Listed in the 15-112 Spring 2026 gallery', url: 'https://www.cs.cmu.edu/~112-s26/gallery.html' },
+      { label: 'Source on GitHub', url: 'https://github.com/danielm-ho/SWE-Life' }
+    ]
   },
 
   'titanic-classifier': {
