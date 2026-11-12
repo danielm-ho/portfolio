@@ -330,7 +330,7 @@ function buildCardThumb(p) {
   }
 
   return `<div class="proj-thumb">
-    <img src="${p.thumb}" alt="" loading="lazy" decoding="async"
+    <img src="${p.thumb}" alt="" loading="lazy" decoding="async"${p.thumbPos ? ` style="object-position:${p.thumbPos}"` : ''}
          onerror="handleThumbError(this, ${JSON.stringify(thumbFallbackLabel(p.title)).replace(/"/g, '&quot;')})">
   </div>`;
 }
@@ -494,6 +494,17 @@ if (dlg) {
   dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
 }
 
+/* Tap a case-study screenshot to see it at full size. */
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.shot-zoom');
+  if (!btn) return;
+  const cap = btn.dataset.caption;
+  openViewer(
+    `<figure class="dlg-fig"><img src="${btn.dataset.zoom}" alt="${btn.dataset.alt}">` +
+    `${cap ? `<figcaption class="dlg-cap">${cap}</figcaption>` : ''}</figure>`,
+    'Enlarged image');
+});
+
 document.addEventListener('click', e => {
   const btn = e.target.closest('[data-reel]');
   if (!btn) return;
@@ -573,35 +584,51 @@ function renderProject(slug) {
        </div>`
     : '';
 
+  /* One screenshot: framed, captioned, and wrapped in a button so it can
+     be tapped (or focused and Enter-ed) to enlarge. */
+  function buildShot(src, alt, caption, frame, extraClass = '') {
+    const kind = ['browser', 'phone'].includes(frame) ? frame : 'plain';
+    const safeAlt = String(alt || caption || 'Project screenshot').replace(/"/g, '&quot;');
+    const safeCap = String(caption || '').replace(/"/g, '&quot;');
+    return `<figure class="shot shot--${kind} ${extraClass}">
+      <button type="button" class="shot-zoom" data-zoom="${src}" data-alt="${safeAlt}" data-caption="${safeCap}"
+              aria-label="Enlarge image: ${safeAlt}">
+        <span class="frame frame--${kind}">
+          ${kind === 'browser' ? '<span class="frame-bar" aria-hidden="true"><span></span></span>' : ''}
+          <img src="${src}" alt="${safeAlt}" loading="lazy" decoding="async"
+               onerror="this.closest('.shot').classList.add('shot--err')">
+        </span>
+      </button>
+      ${caption ? `<figcaption class="shot-cap">${caption}</figcaption>` : ''}
+    </figure>`;
+  }
+
   function buildSecondaryImages(media) {
     if (!media.secondary?.length) return '';
     return `<div class="m-grid">
-      ${media.secondary.map((src, i) => {
-        const cap = media.captions?.[i];
-        return `<figure class="m-figure">
-          <img src="${src}" alt="${cap || 'Project screenshot'}" loading="lazy"
-               onerror="this.closest('.m-figure').classList.add('m-figure--err')">
-          ${cap ? `<figcaption class="m-caption">${cap}</figcaption>` : ''}
-        </figure>`;
+      ${media.secondary.map((item, i) => {
+        const src   = typeof item === 'string' ? item : item.src;
+        const frame = (typeof item === 'object' && item.frame) || media.frame;
+        return buildShot(src, media.captions?.[i], media.captions?.[i], frame);
       }).join('')}
     </div>`;
   }
 
-  function buildMainMedia(main) {
+  function buildMainMedia(main, media) {
     if (typeof main === 'string') {
-      // Plain HTML (currently only the <img> case, e.g. Titanic Classifier).
-      // handleImgError() swaps a failed image for the same dashed-border
-      // placeholder used when a project has no media at all.
+      /* Raw HTML, kept for older entries. handleImgError() swaps a failed
+         image for the dashed placeholder. */
       return main.includes('<img')
         ? main.replace('<img', '<img onerror="handleImgError(this)" ')
         : main;
     }
+    if (main.kind === 'image') return buildShot(main.src, main.alt, '', media.frame, 'shot--main');
     return buildEmbedFacade(main); // embedYouTube()/embedIframe() descriptor
   }
 
   const mediaHTML = p.media
     ? `<div class="pd-media">
-         ${buildMainMedia(p.media.main)}
+         ${buildMainMedia(p.media.main, p.media)}
          ${buildSecondaryImages(p.media)}
        </div>`
     : `<div class="pd-media">

@@ -327,6 +327,8 @@ const PROJECT_GROUPS = [
    thumb               → image shown at the top of the grid card (optional —
                          projects without one get a generated monogram tile,
                          so a missing thumb never leaves a hole in the grid)
+   thumbPos            → OPTIONAL. Cards crop the image to fit; this says
+                         which part to keep, e.g. 'left center' or 'top'.
    summary             → ONE sentence, shown directly under the title on the
                          detail page and above the media. Without it a reader
                          hits a video or screenshot before they know what
@@ -357,12 +359,17 @@ const PROJECT_GROUPS = [
        or 'square' for a 1:1 video
      — optional fourth argument { poster: './static/files/x.webp', label: 'Play the reel' }
        sets the still image and button text shown before the embed loads
-   Image (main slot):
-     media.main = `<img src="./static/files/img.png"
-                      style="width:100%;border-radius:6px;border:1px solid var(--b2)" alt="...">`
+   Image (main slot):             media.main = embedImage('./static/files/img.png', 'Alt text')
 
-   secondary: array of image paths shown in a 2-col grid below main
+   frame:     how screenshots on this page are presented. 'browser' draws a
+              plain browser bar above each one (for web pages), 'plain' a
+              thin mat (photos, charts, code). Default 'plain'.
+   secondary: images shown in a 2-col grid. Each entry is a path, or
+              { src, frame } to override the frame for one image; 'phone'
+              sets a phone screenshot in a phone-shaped frame.
    captions:  array of captions aligned by index to secondary images
+
+   Every image on a project page can be tapped to enlarge.
 ─────────────────────────────────────────────────────────────────────── */
 
 /* embedYouTube()/embedIframe() build a small descriptor that script.js
@@ -371,6 +378,9 @@ const PROJECT_GROUPS = [
    calls them right at definition time. */
 function embedYouTube(videoId, title) {
   return { kind: 'youtube', videoId, title, poster: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` };
+}
+function embedImage(src, alt) {
+  return { kind: 'image', src, alt };
 }
 function embedIframe(src, title, ratio = '16x9', opts = {}) {
   return { kind: 'iframe', src, title, ratio, poster: opts.poster, label: opts.label };
@@ -442,9 +452,9 @@ and lifestyle detail. The build is finished and handed off. It has not launched 
 so the screenshots on this page are from the handed-off build.`,
     resultStat: { value: '156', label: 'Neighborhoods & suburbs covered' },
     media: {
-      main: `<img src="./static/files/livepgh-home.jpg"
-               style="width:100%;border-radius:6px;border:1px solid var(--b2)"
-               alt="LivePGH landing page: three ways to start finding a neighborhood">`,
+      frame: 'browser',
+      main: embedImage('./static/files/livepgh-home.jpg',
+                       'LivePGH landing page: three ways to start finding a neighborhood'),
       secondary: [
         './static/files/livepgh-matches.jpg',
         './static/files/livepgh-neighborhood.webp',
@@ -474,6 +484,7 @@ so the screenshots on this page are from the handed-off build.`,
                preferences into technical requirements.`,
     cardTags: ['HTML + CSS', 'JS', 'Freelance'],
     thumb:    './static/files/zab-hero.jpg',
+    thumbPos: 'left center',   // which part of the image survives the card's crop
     summary: `A small business website built from scratch for a Newtown Square hair studio,
               designed so the owner can maintain it without touching markup.`,
     challenge: `A Newtown Square hair studio needed a website built from the ground up, with
@@ -493,21 +504,16 @@ embeds.`,
     result: `Delivered a working, maintainable site the client can update independently. I continue
 to work with the studio as an ongoing freelance client.`,
     resultStat: { value: 'Live', label: 'Shipped & maintained' },
-    /* Screenshots from the live site (Aug 2026).
-       Note on the secondary grid: .m-figure img is locked to 16/9 with
-       object-fit:cover, so any shot that isn't already 16:9 gets
-       center-cropped. These four are pre-letterboxed to 16:9 on the page's
-       own background colour, which is why the phone view and the services
-       page read whole instead of losing their headers. Letterbox anything
-       you add here the same way. */
+    /* Screenshots from the live site (Aug 2026). The phone view is cropped
+       to the phone's own width and shown in a phone frame. */
     media: {
-      main: `<img src="./static/files/zab-hero.jpg"
-               style="width:100%;border-radius:6px;border:1px solid var(--b2)"
-               alt="Zab Hair Studio homepage: 'Sharp Every Time' headline, booking call-to-action, and a stat bar reading 7 years cutting and 15,000+ clients">`,
+      frame: 'browser',
+      main: embedImage('./static/files/zab-hero.jpg',
+                       `Zab Hair Studio homepage: 'Sharp Every Time' headline, booking call-to-action, and a stat bar reading 7 years cutting and 15,000+ clients`),
       secondary: [
         './static/files/zab-cuts.jpg',
         './static/files/zab-menu.jpg',
-        './static/files/zab-mobile.jpg',
+        { src: './static/files/zab-mobile-phone.webp', frame: 'phone' },
         './static/files/zab-media.jpg'
       ],
       captions: [
@@ -548,9 +554,8 @@ query results. Sessions that reached checkout visited about the same number of p
 sessions (roughly 10), suggesting page count alone doesn't predict conversion.`,
     resultStat: { value: '4', label: 'Pages redesigned' },
     media: {
-      main: `<img src="./static/files/monomuse-2.webp"
-               style="width:100%;border-radius:6px;border:1px solid var(--b2)"
-               alt="MonoMuse wireframes: Home, Explore, Exhibitions, and Buy Tickets pages">`,
+      main: embedImage('./static/files/monomuse-2.webp',
+                       'MonoMuse wireframes: Home, Explore, Exhibitions, and Buy Tickets pages'),
       secondary: ['./static/files/monomuse-1.webp'],
       captions:  ['SQL funnel query comparing average pages visited across all sessions, sessions reaching the ticket overview, and sessions reaching checkout']
     },
@@ -618,9 +623,8 @@ classification trees. Each was evaluated on accuracy, precision, and interpretab
 and a structured comparison of model performance across key metrics.`,
     resultStat: { value: '4', label: 'Methods compared' },
     media: {
-      main: `<img src="./static/files/titanic-main.webp"
-               style="width:100%;border-radius:6px;border:1px solid var(--b2)"
-               alt="Titanic classifier results">`
+      main: embedImage('./static/files/titanic-main.webp',
+                       'RStudio showing the classification tree fitted to the Titanic data, with splits on gender, passenger class, fare and port of embarkation')
     },
     links: [{ label: 'Full Analysis', url: 'https://drive.google.com/file/d/1Oqy27mSg0_LD5_mos973FJ4k9BlSCbNZ/view?usp=sharing' }]
   },
