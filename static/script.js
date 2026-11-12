@@ -552,7 +552,8 @@ function renderMusic() {
   if (!m) { sec.remove(); return; }
 
   sec.querySelector('.mb-media').innerHTML =
-    `<img src="${m.image}" alt="${m.imageAlt || ''}" loading="lazy" decoding="async">`;
+    `<img class="${m.imageNarrow ? 'mb-wide' : ''}" src="${m.image}" alt="${m.imageAlt || ''}" loading="lazy" decoding="async">` +
+    (m.imageNarrow ? `<img class="mb-narrow" src="${m.imageNarrow}" alt="${m.imageNarrowAlt || ''}" loading="lazy" decoding="async">` : '');
   sec.querySelector('.mb-title').textContent = m.title;
   sec.querySelector('.mb-lede').textContent  = m.lede;
   sec.querySelector('.mb-body').textContent  = m.body || '';

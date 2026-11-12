@@ -103,6 +103,10 @@ const CONTENT = {
     stat:  { value: '1M+', label: 'Instagram views' },
     image: './static/files/music-2.webp',
     imageAlt: 'Ottoman Empire playing at Rose Ball: six musicians on stage under purple light, with dancers in the foreground',
+    // imageNarrow: OPTIONAL. A portrait-shaped photo shown instead on phones,
+    // where the wide stage shot leaves everyone a few pixels tall.
+    imageNarrow: './static/files/music-stage-portrait.webp',
+    imageNarrowAlt: 'Daniel on stage in a suit, playing acoustic guitar under purple light',
     project: 'dan_the.musicman',
     reelLabel: 'Watch the reel',
     pageLabel: 'How the covers get made',

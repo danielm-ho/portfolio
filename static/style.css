@@ -453,11 +453,13 @@ h1.h-name {
 
 /* Portrait and statement share a line. */
 .h-say { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.1rem; }
+/* A real portrait, not an avatar: big enough to read the hoodie. */
 .h-face {
   flex:          0 0 auto;
-  width:         6.5rem;
-  height:        6.5rem;
-  border-radius: 50%;
+  width:         8.75rem;
+  height:        auto;
+  aspect-ratio:  4 / 5;
+  border-radius: 6px;
   object-fit:    cover;
   border:        1px solid var(--b2);
 }
@@ -1083,6 +1085,7 @@ span.frame-bar { display: flex; }
 
 .mb-media { position: absolute; inset: 0; z-index: -1; }
 .mb-media img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 30%; display: block; }
+.mb-media img.mb-narrow { display: none; }
 /* Scrim: dark where the text sits (left and bottom), clear over the stage. */
 .mb-media::after {
   content:    '';
@@ -1324,7 +1327,7 @@ span.frame-bar { display: flex; }
 .photo-frame {
   position:        relative;
   width:           100%;
-  aspect-ratio:    4 / 5;
+  aspect-ratio:    3 / 4;
   border:          1px solid var(--b2);
   border-radius:   var(--r);
   background:      var(--s1);
@@ -1339,10 +1342,7 @@ span.frame-bar { display: flex; }
   height:     100%;
   object-fit: cover;
   display:    block;
-  filter:     grayscale(.5) brightness(.92);
-  transition: filter .7s var(--ease);
 }
-.photo-frame:hover img { filter: grayscale(0) brightness(1); }
 
 /* Shown via .ph-fallback (added by the <img> onerror handler in
    index.html) when the headshot fails to load, instead of a broken-image
@@ -1905,7 +1905,7 @@ footer {
   h1.h-name { font-size: 23.5vw; }
   .hero-row { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
   .h-say  { gap: 1rem; margin-bottom: .9rem; }
-  .h-face { width: 4.25rem; height: 4.25rem; }
+  .h-face { width: 5.5rem; }
   .h-lede { max-width: none; font-size: 1.4rem; }
   .h-desc { margin-bottom: 1.25rem; }
   .h-cta  { width: 100%; }
@@ -1978,6 +1978,8 @@ footer {
   .music-band { display: block; min-height: 0; }
   .mb-media { position: static; }
   .mb-media img { aspect-ratio: 16 / 10; height: auto; object-position: center; }
+  .mb-media img.mb-wide { display: none; }
+  .mb-media img.mb-narrow { display: block; aspect-ratio: 4 / 5; object-position: center top; }
   .mb-media::after { display: none; }
   .mb-inner { padding: 2rem 1.5rem 2.75rem; }
   .mb-title { margin-bottom: 1.1rem; }
@@ -1991,7 +1993,7 @@ footer {
   .exp-yr  { text-align: left; padding-top: .5rem; }
 
   .ab-g     { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
-  .ab-photo { width: 120px; }
+  .ab-photo { width: 150px; }
   .ab-main  { gap: 2rem; }
   /* Facts sit two-up at phone width so the reference material costs half
      the scroll; long values (coursework) take the full row. */
