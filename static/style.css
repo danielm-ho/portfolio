@@ -134,17 +134,37 @@ button:focus-visible {
 @supports (view-transition-name: none) {
   #page-project.on { animation: none; }
 }
-/* Project pages are separate documents now (projects/<slug>/), so the
-   cross-fade between home and a case study uses cross-document view
-   transitions. Browsers without support just navigate normally. */
+/* ── THE ONE MOTION ─────────────────────────────────────────────────────
+   Opening a project: the card's picture grows into the picture at the top
+   of the project page, and shrinks back on the way home. It answers a tap
+   and shows where you went. Nothing else on the site animates on its own.
+
+   Project pages are separate documents (projects/<slug>/), so this uses
+   cross-document view transitions. script.js gives the tapped card's
+   image and the project page's lead image the same view-transition-name
+   ("project-media"). Browsers without support just navigate normally. */
 @media (prefers-reduced-motion: no-preference) {
   @view-transition { navigation: auto; }
 }
 ::view-transition-old(root),
 ::view-transition-new(root) {
+  animation-duration: .3s;
+  animation-timing-function: var(--ease);
+}
+::view-transition-group(project-media) {
   animation-duration: .5s;
   animation-timing-function: var(--ease);
 }
+/* The two pictures can differ in shape; let each fill the moving box
+   instead of being squashed into it. */
+::view-transition-old(project-media),
+::view-transition-new(project-media) {
+  height:     100%;
+  object-fit: cover;
+  object-position: top;
+}
+.pd-media .shot--main .frame,
+.pd-media .embed-facade { view-transition-name: project-media; }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*) { animation: none !important; }
 }
@@ -781,13 +801,7 @@ span.frame-bar { display: flex; }
   height:     100%;
   object-fit: cover;
   display:    block;
-  transition: clip-path 1.1s var(--ease);
 }
-
-/* Wipe reveal on scroll-in, instead of the same fade-up used everywhere
-   else. Unsplit from the generic .rv treatment on purpose. */
-.js-ready .proj-a .proj-thumb img { clip-path: inset(0 0 100% 0); }
-.js-ready .proj-a.v .proj-thumb img { clip-path: inset(0 0 0 0); }
 
 /* Generated tile for projects with no screenshot on file — a designed
    placeholder rather than an empty box, so the grid stays even. */
@@ -1677,31 +1691,12 @@ footer {
 .pd-next-a:hover .pd-next-title { color: var(--ac); }
 
 
-/* ── SCROLL REVEAL ──────────────────────────────────────────────────────
-   Elements are visible by default. script.js adds .js-ready to <html>
-   as its first action, which activates hiding + animated reveal.
-   If JS fails to run entirely, everything stays visible — no blank page.
-───────────────────────────────────────────────────────────────────────── */
-.js-ready .rv {
-  opacity:    0;
-  transform:  translateY(20px);
-  transition: opacity .8s var(--ease), transform .8s var(--ease);
-}
-
-.js-ready .rv.v  { opacity: 1; transform: none; }
-.js-ready .rv.d1 { transition-delay: .1s; }
-.js-ready .rv.d2 { transition-delay: .2s; }
-.js-ready .rv.d3 { transition-delay: .3s; }
-
-
 /* ── REDUCED MOTION ─────────────────────────────────────────────────────
    Under a reduced-motion preference the page arrives fully composed and
    stays still.
 ───────────────────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   #page-project.on { animation: none; }
-  .js-ready .rv { opacity: 1; transform: none; transition: none; }
-  .js-ready .proj-a .proj-thumb img { clip-path: none; }
   html { scroll-behavior: auto; }
 }
 
@@ -1876,6 +1871,5 @@ footer {
   .sec { padding: 1.5rem 0; page-break-inside: avoid; }
   .proj-row { grid-template-columns: 1fr 1fr; }
   .proj-a { break-inside: avoid; }
-  .js-ready .rv { opacity: 1 !important; transform: none !important; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .7em; color: #666; }
 }

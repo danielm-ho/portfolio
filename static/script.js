@@ -143,7 +143,7 @@ function applyRoute() {
     window.scrollTo({ top: savedScrollY, behavior: 'instant' });
     closeMobileMenu();
     resetHomeMeta();
-    setTimeout(() => { initScrollObserver(); initScrollSpy(); }, 50);
+    setTimeout(initScrollSpy, 50);
   }
   updateProgress();
 }
@@ -613,7 +613,7 @@ function renderProject(slug) {
         <span class="frame frame--${kind}">
           ${kind === 'browser' ? '<span class="frame-bar" aria-hidden="true"><span></span></span>' : ''}
           <span class="shot-img">
-            <img src="${src}" alt="${safeAlt}" loading="lazy" decoding="async"
+            <img src="${src}" alt="${safeAlt}" ${extraClass.includes('shot--main') ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"
                  onerror="this.closest('.shot').classList.add('shot--err')">
             ${callouts.map((c, i) =>
               `<span class="shot-pin" style="left:${c.x}%;top:${c.y}%" aria-hidden="true">${i + 1}</span>`).join('')}
@@ -1011,26 +1011,38 @@ window.addEventListener('resize', updateProgress, { passive: true });
 
 
 /* ══════════════════════════════════════════
-   SCROLL REVEAL
+   PROJECT TRANSITION
+   The one motion on the site: a card's picture grows into the picture at
+   the top of its project page (and back). The project page's lead image
+   always carries view-transition-name "project-media" (style.css). Here
+   the matching card on the homepage is given the same name at the two
+   moments it matters: when it is tapped, and when the visitor comes back
+   from that project. Only ever one element per page has the name.
 ══════════════════════════════════════════ */
-
-let scrollObserver;
-
-function initScrollObserver() {
-  if (scrollObserver) scrollObserver.disconnect();
-
-  scrollObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('v');
-        scrollObserver.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.07 });
-
-  document.querySelectorAll('#page-home .rv').forEach(el => scrollObserver.observe(el));
+function tagProjectMedia(slug) {
+  document.querySelectorAll('[data-vt]').forEach(el => { el.style.viewTransitionName = ''; el.removeAttribute('data-vt'); });
+  if (!slug) return;
+  const card = document.querySelector(`#page-home [data-slug="${CSS.escape(slug)}"]`);
+  const media = card?.querySelector('.proj-feature-media, .proj-thumb');
+  if (media) { media.style.viewTransitionName = 'project-media'; media.setAttribute('data-vt', ''); }
 }
 
+document.addEventListener('click', e => {
+  const card = e.target.closest('#page-home a[data-slug]');
+  if (card) tagProjectMedia(card.dataset.slug);
+}, true);
+
+/* Coming back from a project page: name the card for the project we just
+   left, before the incoming page is first shown. */
+window.addEventListener('pagereveal', e => {
+  if (!e.viewTransition || PAGE_PROJECT) return;
+  const from = window.navigation?.activation?.from?.url;
+  const m = from && new URL(from).pathname.match(/\/projects\/([^/]+)\/?$/);
+  if (m) {
+    tagProjectMedia(decodeURIComponent(m[1]));
+    e.viewTransition.finished.finally(() => tagProjectMedia(null));
+  }
+});
 
 /* ══════════════════════════════════════════
    SKIP LINK
@@ -1116,7 +1128,6 @@ renderContent();        // populate all text & cards from CONTENT / PROJECTS
 initCopyEmail();        // click-to-copy on the contact address
 initSkipLink();         // skip link that also works under a <base> tag
 applyRoute();           // first paint — no transition (nothing to transition from)
-initScrollObserver();   // start scroll-reveal animations
 initScrollSpy();        // nav highlights the section you're reading
 updateProgress();       // set the initial progress width / nav state
 initAnalytics();        // GoatCounter, only if SITE.goatcounter is set
