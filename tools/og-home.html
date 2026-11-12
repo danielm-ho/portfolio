@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!-- Source for static/og/og-home.jpg, the image LinkedIn, Slack and iMessage
+     show when the homepage is shared.
+
+     It reads the statement from static/content.js, the map from
+     static/pgh-map.js and the colours and fonts from static/style.css, so it
+     never drifts from the site.
+
+     To regenerate after changing any of those: serve the repo
+     (python3 -m http.server), open /tools/og-home.html in a browser window
+     exactly 1200 x 630, and save a screenshot as static/og/og-home.jpg. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex">
+<title>Link preview image</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../static/style.css">
+<style>
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: var(--bg); }
+  .og { box-sizing: border-box; width: 1200px; height: 630px; padding: 64px 0 60px 72px; display: grid; grid-template-columns: 560px 1fr; column-gap: 24px; align-items: center; color: var(--tx); }
+  .og-name { font-family: var(--serif); font-weight: 300; font-size: 92px; line-height: .95; letter-spacing: -.02em; margin: 0 0 30px; }
+  .og-lede { font-family: var(--serif); font-weight: 400; font-size: 39px; line-height: 1.22; margin: 0 0 34px; text-wrap: balance; }
+  .og-meta { font-family: var(--sans); font-size: 21px; line-height: 1.45; color: var(--mu); margin: 0; }
+  .og-map { width: 560px; margin-left: -6px; }
+  .og-map svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .og-map path { fill: none; stroke: var(--map-line); stroke-width: 1.4; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .og-map path.m { fill: var(--ac); stroke: var(--bg); stroke-width: 2; }
+  .og-map path.m[data-r="2"] { fill-opacity: .8; }
+  .og-map path.m[data-r="3"] { fill-opacity: .62; }
+  .og-map path.m[data-r="4"] { fill-opacity: .46; }
+</style>
+</head>
+<body>
+<div class="og">
+  <div>
+    <h1 class="og-name" id="name"></h1>
+    <p class="og-lede" id="lede"></p>
+    <p class="og-meta" id="meta"></p>
+  </div>
+  <div class="og-map" id="map"></div>
+</div>
+<script src="../static/content.js"></script>
+<script src="../static/pgh-map.js"></script>
+<script>
+  document.getElementById('name').textContent = SITE.name;
+  document.getElementById('lede').textContent = CONTENT.hero.statement.replace(/\s+/g, ' ');
+  document.getElementById('meta').textContent = `${SITE.university}, ${SITE.programShort}`;
+  const rank = new Map(CONTENT.hero.map.matches.map((m, i) => [m.hood, i + 1]));
+  const hoods = [...PGH_MAP.hoods].sort((a, b) => (rank.get(a.n) || 0) - (rank.get(b.n) || 0));
+  document.getElementById('map').innerHTML =
+    `<svg viewBox="-6 -6 ${PGH_MAP.w + 12} ${PGH_MAP.h + 12}">${hoods.map(h =>
+      `<path d="${h.d}"${rank.has(h.n) ? ` class="m" data-r="${rank.get(h.n)}"` : ''}/>`).join('')}</svg>`;
+</script>
+</body>
+</html>
