@@ -424,7 +424,7 @@ function buildFeature(slug, p) {
         <div class="frame frame--browser proj-feature-media">
           <div class="frame-bar" aria-hidden="true"><span></span></div>
           <div class="tour-stage">
-            ${tour.map((t, i) => `<img ${i === 0 ? `src="${t.src}"` : `data-src="${t.src}"`} alt="${(t.alt || '').replace(/"/g, '&quot;')}" class="${i === 0 ? 'on' : ''}" ${i === 0 ? 'loading="lazy"' : ''} decoding="async">`).join('')}
+            ${tour.map((t, i) => `<img ${i === 0 ? `src="${t.src}"` : `data-src="${t.src}"`} alt="${(t.alt || '').replace(/"/g, '&quot;')}" class="${i === 0 ? 'on' : ''}" ${i === 0 ? 'loading="lazy"' : 'aria-hidden="true"'} decoding="async">`).join('')}
           </div>
         </div>
         ${tour.length > 1 ? `
@@ -471,6 +471,8 @@ document.addEventListener('click', e => {
   tour.querySelectorAll('.tour-stage img').forEach((img, k) => {
     if (img.dataset.src) { img.src = img.dataset.src; img.removeAttribute('data-src'); }
     img.classList.toggle('on', k === i);
+    /* Only the screen on show is announced to screen readers. */
+    if (k === i) img.removeAttribute('aria-hidden'); else img.setAttribute('aria-hidden', 'true');
   });
   tour.querySelectorAll('.tour-tab').forEach((t, k) => t.setAttribute('aria-selected', k === i));
   const cap = tour.querySelector('.tour-cap');

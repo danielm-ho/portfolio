@@ -8,6 +8,29 @@ Everything here is on the branch `fable-overnight`. Nothing was pushed to `main`
 
 The list of copy I wrote is in the chat, as you asked, not here.
 
+`OPUS-TASKS.md` on this branch holds ready-to-paste prompts for the larger jobs
+that are left. Delete it before merging too.
+
+## Second pass, November 12 afternoon
+
+After you looked at the first version and sent https://lchsu5.github.io/liz/ as a
+reference, four more commits went in. The table further down is the overnight work.
+
+| Commit | What changed |
+|---|---|
+| `4a17792` | **Hero as a poster.** Your name spans the page, the Pittsburgh map is blown up behind it and runs off the edge, a portrait sits beside the statement. The map is now a working object: hover or tap any neighborhood for its name, and the four matches fill in order once on arrival. |
+| `9068b56` | **Things to click.** LivePGH has a four-screen tour inside its frame on the homepage and a "How it works" pipeline. The Zab page can load the real site inside its frame. The safety-score line left the homepage and appears once, on the LivePGH page, as your key decision. |
+| `88c5e2f` | **Length.** Skills is three lines, "Right now" is hidden, sections are tighter. Homepage is 7,537px on desktop and 9,786px on a phone. |
+| (this commit) | Screen-reader fix for the tour, this report, and `OPUS-TASKS.md`. |
+
+Settled since the first report: the 1M+ views belong to Ottoman Empire; the
+safety-score decision was yours; the paper theme stays.
+
+What that reference site does that yours still does not: it is about 3,400px
+long, and it opens on a full-bleed photograph. Both are in `OPUS-TASKS.md`
+(tasks 1 and 3), because the first needs a photo from you and the second needs
+you to approve what gets cut.
+
 ## What changed, one commit per idea
 
 Undo any single idea with `git revert <commit>`. The paper theme is last so it
@@ -54,7 +77,7 @@ In `static/content.js`, search for `TODO(Daniel)`. Each is a comment at the spot
 
 **Decisions (idea 1, unfinished)**
 
-1. **LivePGH.** Was "no safety score, no demographic matching" your call? If yes: one sentence on what leaving them out cost you, then delete the `labels: { decision: ... }` line so the block is headed "Key decision".
+1. **LivePGH.** The decision is marked as yours now. Still missing: one sentence on what leaving those out cost you, or a different decision if you think of a stronger one.
 2. **Zab.** One sentence: what did the content.js approach cost you, or what did you choose it over?
 3. **SWE Life.** What did you cut, or choose the harder path on? Two or three sentences in a `decision:` field.
 4. **Titanic.** Which model did you land on and what did you give up? The Result block also says nothing about what you found.
@@ -80,16 +103,12 @@ In `static/content.js`, search for `TODO(Daniel)`. Each is a comment at the spot
 Where your answers left room, the page has my best version. Here is a second one for each. Swap them in content.js.
 
 **Hero description** (`CONTENT.hero.desc`)
-- On the page: "Sophomore at Carnegie Mellon, studying Information Systems and Policy & Management. I chose IS after working with Pamoza International in Malawi, where I saw how much good accessible tools could do and how limited my technical skills still were."
-- Option B, puts the ask first: "Sophomore at Carnegie Mellon, studying Information Systems and Policy & Management. Looking for Summer 2027 internships in product, technology consulting, and civic or education tech."
+- On the page: "Information Systems and Policy & Management at Carnegie Mellon, Class of 2029."
+- Option B, puts the ask first: "Information Systems and Policy & Management at Carnegie Mellon. Looking for Summer 2027 internships in product, technology consulting, and civic or education tech."
 
 **About, first paragraph** (`CONTENT.about.bio[0]`)
 - On the page: "At Pamoza International in Malawi I built a simple Google Drive organization flow, and I wished I could have done much more. That work showed me how much good accessible tools could do, and how limited my technical skills still were. It is why I chose Information Systems."
 - Option B, your brief verbatim: "I chose Information Systems after doing nonprofit database work for Pamoza International in Malawi. That work showed me how much good accessible tools could do, and how limited my technical skills still were."
-
-**LivePGH pull statement label** (`PROJECTS.livepgh.pull.label` and `labels.decision`)
-- On the page: "What LivePGH won't do"
-- Option B, if the call was yours: "A decision I made"
 
 **Zab decision** (`PROJECTS['zab-hair-studio'].decision`)
 - On the page: "I built the site around a custom content.js file so the owner could edit it himself. Every card, price and photo is read from that one file, so he can change an offering without touching markup."
@@ -102,11 +121,11 @@ Where your answers left room, the page has my best version. Here is a second one
 ## Open questions
 
 1. **LivePGH count.** The copy says 156 places: every city neighborhood plus 67 suburbs, which implies 89. Your landing-page screenshot says "all 90", and the hero map caption says 90 because the city's boundary file has 90. I left 156 as written. Which is right?
-2. **1M+ views.** The hero and band section credit them to Ottoman Empire, as your brief does. The old card said "across both projects". Which is it?
+2. **1M+ views.** Settled: they are Ottoman Empire's.
 3. **Pamoza.** Your brief calls it "nonprofit database work", your resume a "centralized media workflow", and last night "a simple Google Drive organization flow". The site now uses the last one. Make sure the resume and site tell the same story.
 4. **SWE Life.** The site used to say "a feature on" the course website. I could verify that the gallery lists it, so it now says "listed in the project gallery". Change it back if the gallery is selective and "feature" is fair.
 5. **Music summary.** It said "60+ self-recorded arrangements". The body says the latest cover had 61 tracks, so I matched the body. If you have also made 60+ arrangements, say so and I got this wrong.
-6. **Paper theme.** Keep it, or revert `4c63f7a`? A middle option is to show the dark palette to visitors whose device is in dark mode; that is one CSS block.
+6. **Paper theme.** Settled: keep it.
 7. **MonoMuse.** Its GitHub Pages build (danielm-ho.github.io/67250_techproject_phaseb) is unstyled HTML, so I did not link it. Your call.
 8. **Experience lines.** You were going to pick the one fact per role. I picked. Check them.
 
